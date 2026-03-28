@@ -35,6 +35,7 @@ public sealed partial class ShellPage : Page
             "EventLog"  => NavEventLog,
             "Mappings"  => NavMappings,
             "Buttons"   => NavButtons,
+            "Arena"     => NavArena,
             "Profiles"  => NavProfiles,
             _ => NavDashboard
         };
@@ -49,6 +50,7 @@ public sealed partial class ShellPage : Page
             "EventLog"  => typeof(EventLogPage),
             "Mappings"  => typeof(MappingsPage),
             "Buttons"   => typeof(CommandButtonsPage),
+            "Arena"     => typeof(CreatureArenaPage),
             "Profiles"  => typeof(ProfilesPage),
             _ => typeof(DashboardPage)
         };

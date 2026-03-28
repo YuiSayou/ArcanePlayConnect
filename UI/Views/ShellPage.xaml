@@ -104,6 +104,17 @@
                         </StackPanel>
                     </Button>
 
+                    <Button x:Name="NavArena" Click="NavButton_Click" Tag="Arena"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                            Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <FontIcon Glyph="&#xEA18;" FontFamily="Segoe MDL2 Assets" FontSize="16"
+                                      Foreground="#FFFF3278" />
+                            <TextBlock Text="Creature Arena" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
                     <Button x:Name="NavProfiles" Click="NavButton_Click" Tag="Profiles"
                             HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
                             Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">

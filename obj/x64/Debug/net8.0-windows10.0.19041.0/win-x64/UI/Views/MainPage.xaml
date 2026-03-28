@@ -7,6 +7,7 @@
     xmlns:local="using:ArcanePlayConnect.UI.Views"
     xmlns:vm="using:ArcanePlayConnect.UI.ViewModels"
     xmlns:conv="using:ArcanePlayConnect.UI.Converters"
+    xmlns:controls="using:ArcanePlayConnect.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -517,9 +518,9 @@
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                            <TextBox x:ConnectionId='2'                                                                                            
-                                     Style="{StaticResource CyberpunkTextBoxStyle}" Width="250" FontSize="12"
-                                     PlaceholderText="Test command..." />
+                            <controls:CommandSuggestionBox x:ConnectionId='2' x:Name="TestCommandBox" Width="250"
+                                     PlaceholderText="Test command..."
+                                                                              />
                             <Button x:ConnectionId='3' Content="⚡ Test"                                                
                                     Style="{StaticResource CyberpunkButtonStyle}" FontSize="12" />
                         </StackPanel>

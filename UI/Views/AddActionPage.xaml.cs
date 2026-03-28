@@ -95,9 +95,8 @@ public sealed partial class AddActionPage : Page
 
     // ── Live command hint ───────────────────────────────────────────────────
 
-    private void CommandBox_TextChanged(object sender, TextChangedEventArgs e)
+    private void CommandBox_TextChanged(object sender, string text)
     {
-        var text = CommandBox.Text ?? string.Empty;
         UpdateCommandHint(text);
     }
 
@@ -249,7 +248,6 @@ public sealed partial class AddActionPage : Page
         if (e.ClickedItem is SavedCommand cmd)
         {
             CommandBox.Text = cmd.Command;
-            CommandBox.BorderBrush = new SolidColorBrush(ParseColor("#FF1A1A2E"));
         }
     }
 

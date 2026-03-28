@@ -115,7 +115,12 @@
                                     <Border CornerRadius="3" Padding="6,2"
                                             Visibility="{x:Bind local:CommandButtonsPage.BoolVis(UseNickname)}"
                                             Background="#FF0D1F0D">
-                                        <TextBlock Text="Uses Nickname" FontSize="9" Foreground="#FF00FF88" />
+                                        <TextBlock Text="TikTok Name" FontSize="9" Foreground="#FF00FF88" />
+                                    </Border>
+                                    <Border CornerRadius="3" Padding="6,2"
+                                            Visibility="{x:Bind local:CommandButtonsPage.BoolVis(SummonTrackCreature)}"
+                                            Background="#FF1F0D1A">
+                                        <TextBlock Text="Tracked" FontSize="9" Foreground="#FFFF3278" />
                                     </Border>
                                     <Border CornerRadius="3" Padding="6,2"
                                             Visibility="{x:Bind local:CommandButtonsPage.BoolVis(RunContinuously)}"
@@ -126,6 +131,12 @@
                                                 <Run Text="(" /><Run Text="{x:Bind IntervalSeconds}" /><Run Text="s)" />
                                             </TextBlock>
                                         </StackPanel>
+                                    </Border>
+                                    <Border CornerRadius="3" Padding="6,2"
+                                            Visibility="{x:Bind local:CommandButtonsPage.HasSummonEntity(SummonEntityType)}"
+                                            Background="#FF1A1A2E">
+                                        <TextBlock Text="{x:Bind SummonEntityType}" FontSize="9" FontFamily="Consolas"
+                                                   Foreground="#FF00C8FF" />
                                     </Border>
                                 </StackPanel>
 

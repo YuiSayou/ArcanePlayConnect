@@ -29,7 +29,7 @@
                 <TextBlock Text="Create reusable multi-command buttons for Minecraft control"
                            FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" />
             </StackPanel>
-            <Button x:ConnectionId='18' Grid.Column="1"                           
+            <Button x:ConnectionId='21' Grid.Column="1"                           
                     Style="{StaticResource CyberpunkAccentButtonStyle}" FontSize="12" Padding="16,8"
                     VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal" Spacing="8">
@@ -76,25 +76,25 @@
                                         <Border.Background>
                                             <SolidColorBrush Color="#FFFF9500" Opacity="0.15" />
                                         </Border.Background>
-                                        <FontIcon x:ConnectionId='17'                                                                   
+                                        <FontIcon x:ConnectionId='20'                                                                   
                                                   FontFamily="Segoe MDL2 Assets" FontSize="14"
                                                   Foreground="#FFFF9500" />
                                     </Border>
 
                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock x:ConnectionId='14'                      FontSize="14" FontWeight="SemiBold"
+                                        <TextBlock x:ConnectionId='17'                      FontSize="14" FontWeight="SemiBold"
                                                    Foreground="{StaticResource TextPrimaryBrush}"
                                                    TextTrimming="CharacterEllipsis" />
                                         <TextBlock FontSize="10" Foreground="{StaticResource TextSecondaryBrush}">
-                                            <Run x:ConnectionId='15'                                                                   />
+                                            <Run x:ConnectionId='18'                                                                   />
                                             <Run Text=" � " />
-                                            <Run x:ConnectionId='16'                                />
+                                            <Run x:ConnectionId='19'                                />
                                             <Run Text=" cmds" />
                                         </TextBlock>
                                     </StackPanel>
 
                                     <!-- Edit -->
-                                    <Button x:ConnectionId='12' Grid.Column="2"                                        
+                                    <Button x:ConnectionId='15' Grid.Column="2"                                        
                                             Background="Transparent" BorderThickness="0" Padding="6,4"
                                             ToolTipService.ToolTip="Edit button">
                                         <FontIcon Glyph="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="12"
@@ -102,7 +102,7 @@
                                     </Button>
 
                                     <!-- Delete -->
-                                    <Button x:ConnectionId='13' Grid.Column="3"                                          
+                                    <Button x:ConnectionId='16' Grid.Column="3"                                          
                                             Background="Transparent" BorderThickness="0" Padding="6,4"
                                             ToolTipService.ToolTip="Delete button">
                                         <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="12"
@@ -115,17 +115,28 @@
                                     <Border x:ConnectionId='9' CornerRadius="3" Padding="6,2"
                                                                                                                
                                             Background="#FF0D1F0D">
-                                        <TextBlock Text="Uses Nickname" FontSize="9" Foreground="#FF00FF88" />
+                                        <TextBlock Text="TikTok Name" FontSize="9" Foreground="#FF00FF88" />
                                     </Border>
                                     <Border x:ConnectionId='10' CornerRadius="3" Padding="6,2"
+                                                                                                                       
+                                            Background="#FF1F0D1A">
+                                        <TextBlock Text="Tracked" FontSize="9" Foreground="#FFFF3278" />
+                                    </Border>
+                                    <Border x:ConnectionId='11' CornerRadius="3" Padding="6,2"
                                                                                                                    
                                             Background="#FF1F0D1F">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
                                             <TextBlock Text="Continuous" FontSize="9" Foreground="#FFB400FF" />
                                             <TextBlock FontSize="9" Foreground="#FF8888AA">
-                                                <Run Text="(" /><Run x:ConnectionId='11'                                 /><Run Text="s)" />
+                                                <Run Text="(" /><Run x:ConnectionId='14'                                 /><Run Text="s)" />
                                             </TextBlock>
                                         </StackPanel>
+                                    </Border>
+                                    <Border x:ConnectionId='12' CornerRadius="3" Padding="6,2"
+                                                                                                                            
+                                            Background="#FF1A1A2E">
+                                        <TextBlock x:ConnectionId='13'                                  FontSize="9" FontFamily="Consolas"
+                                                   Foreground="#FF00C8FF" />
                                     </Border>
                                 </StackPanel>
 

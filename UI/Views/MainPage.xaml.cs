@@ -21,6 +21,9 @@ public sealed partial class MainPage : Page
 
         _previousLogCount = ViewModel.FilteredLogs.Count;
 
+        // Initialize the test command box with the ViewModel value
+        TestCommandBox.Text = ViewModel.TestCommandText;
+
         ViewModel.FilteredLogs.CollectionChanged += (s, e) =>
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
@@ -129,6 +132,11 @@ public sealed partial class MainPage : Page
     {
         if (sender is Button btn && btn.Tag is ActionMappingItem item)
             _ = ViewModel.TestMappingCommand.ExecuteAsync(item);
+    }
+
+    private void TestCommandBox_TextChanged(object sender, string text)
+    {
+        ViewModel.TestCommandText = text;
     }
 
     private void CloseProfileEditor_Click(object sender, RoutedEventArgs e)

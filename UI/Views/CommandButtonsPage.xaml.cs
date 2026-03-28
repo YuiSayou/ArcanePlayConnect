@@ -37,6 +37,9 @@ public sealed partial class CommandButtonsPage : Page
     public static Visibility BoolVis(bool value) =>
         value ? Visibility.Visible : Visibility.Collapsed;
 
+    public static Visibility HasSummonEntity(string entityType) =>
+        !string.IsNullOrWhiteSpace(entityType) ? Visibility.Visible : Visibility.Collapsed;
+
     private void CreateButton_Click(object sender, RoutedEventArgs e)
     {
         OpenEditor(null);
@@ -108,6 +111,12 @@ public sealed partial class CommandButtonsPage : Page
                 existing.UseNickname = result.UseNickname;
                 existing.RunContinuously = result.RunContinuously;
                 existing.IntervalSeconds = result.IntervalSeconds;
+                existing.SummonEntityType = result.SummonEntityType;
+                existing.SummonPosition = result.SummonPosition;
+                existing.SummonCustomHealth = result.SummonCustomHealth;
+                existing.SummonCustomAttack = result.SummonCustomAttack;
+                existing.SummonTrackCreature = result.SummonTrackCreature;
+                existing.SummonIsBoss = result.SummonIsBoss;
                 ViewModel.UpdateCommandButton(existing);
             }
             window.Close();

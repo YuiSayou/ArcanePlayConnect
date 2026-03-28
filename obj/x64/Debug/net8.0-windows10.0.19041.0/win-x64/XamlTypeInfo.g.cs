@@ -226,7 +226,7 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
         
         private void InitTypeTables()
         {
-            _typeNameTable = new string[66];
+            _typeNameTable = new string[72];
             _typeNameTable[0] = "Microsoft.UI.Xaml.Controls.XamlControlsResources";
             _typeNameTable[1] = "Microsoft.UI.Xaml.ResourceDictionary";
             _typeNameTable[2] = "Object";
@@ -244,57 +244,63 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
             _typeNameTable[14] = "Microsoft.UI.Windowing.AppWindowPresenterKind";
             _typeNameTable[15] = "WinUIEx.SystemBackdrop";
             _typeNameTable[16] = "ArcanePlayConnect.MainWindow";
-            _typeNameTable[17] = "ArcanePlayConnect.UI.Views.AddActionPage";
-            _typeNameTable[18] = "Microsoft.UI.Xaml.Controls.Page";
-            _typeNameTable[19] = "Microsoft.UI.Xaml.Controls.UserControl";
-            _typeNameTable[20] = "ArcanePlayConnect.UI.ViewModels.ActionMappingItem";
-            _typeNameTable[21] = "Microsoft.UI.Xaml.Controls.NumberBox";
-            _typeNameTable[22] = "Microsoft.UI.Xaml.Controls.Control";
-            _typeNameTable[23] = "Microsoft.UI.Xaml.Controls.NumberBoxSpinButtonPlacementMode";
-            _typeNameTable[24] = "Microsoft.UI.Xaml.DataTemplate";
-            _typeNameTable[25] = "Windows.Globalization.NumberFormatting.INumberFormatter2";
-            _typeNameTable[26] = "Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase";
-            _typeNameTable[27] = "Microsoft.UI.Xaml.Media.SolidColorBrush";
-            _typeNameTable[28] = "Microsoft.UI.Xaml.TextReadingOrder";
-            _typeNameTable[29] = "Microsoft.UI.Xaml.Controls.NumberBoxValidationMode";
-            _typeNameTable[30] = "ArcanePlayConnect.UI.Views.ButtonEditorPage";
-            _typeNameTable[31] = "ArcanePlayConnect.Core.Models.CommandButton";
-            _typeNameTable[32] = "Microsoft.UI.Xaml.Controls.ItemsRepeater";
-            _typeNameTable[33] = "Microsoft.UI.Xaml.FrameworkElement";
-            _typeNameTable[34] = "Microsoft.UI.Xaml.Controls.Layout";
-            _typeNameTable[35] = "Microsoft.UI.Xaml.DependencyObject";
-            _typeNameTable[36] = "Microsoft.UI.Xaml.Media.Brush";
-            _typeNameTable[37] = "Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider";
-            _typeNameTable[38] = "Microsoft.UI.Xaml.Controls.ItemsSourceView";
-            _typeNameTable[39] = "Microsoft.UI.Xaml.Controls.UniformGridLayout";
-            _typeNameTable[40] = "Microsoft.UI.Xaml.Controls.VirtualizingLayout";
-            _typeNameTable[41] = "Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsStretch";
-            _typeNameTable[42] = "Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsJustification";
-            _typeNameTable[43] = "Int32";
-            _typeNameTable[44] = "Microsoft.UI.Xaml.Controls.Orientation";
-            _typeNameTable[45] = "Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation";
-            _typeNameTable[46] = "Microsoft.UI.Xaml.Controls.StackLayout";
-            _typeNameTable[47] = "ArcanePlayConnect.UI.Views.CommandButtonsPage";
-            _typeNameTable[48] = "ArcanePlayConnect.UI.ViewModels.MainViewModel";
-            _typeNameTable[49] = "CommunityToolkit.Mvvm.ComponentModel.ObservableObject";
-            _typeNameTable[50] = "ArcanePlayConnect.UI.Converters.BoolToStatusBrushConverter";
-            _typeNameTable[51] = "ArcanePlayConnect.UI.Views.DashboardPage";
-            _typeNameTable[52] = "ArcanePlayConnect.UI.Converters.LogCategoryToBrushConverter";
-            _typeNameTable[53] = "ArcanePlayConnect.UI.Converters.LogCategoryToTagConverter";
-            _typeNameTable[54] = "ArcanePlayConnect.UI.Views.EventLogPage";
-            _typeNameTable[55] = "ArcanePlayConnect.UI.Converters.LogLevelToBrushConverter";
-            _typeNameTable[56] = "ArcanePlayConnect.UI.Converters.LogLevelToTagConverter";
-            _typeNameTable[57] = "ArcanePlayConnect.UI.Converters.BoolToVisibilityConverter";
-            _typeNameTable[58] = "ArcanePlayConnect.UI.Converters.InverseBoolConverter";
-            _typeNameTable[59] = "ArcanePlayConnect.UI.Converters.ActionTypeToBrushConverter";
-            _typeNameTable[60] = "ArcanePlayConnect.UI.Views.MainPage";
-            _typeNameTable[61] = "ArcanePlayConnect.UI.Views.MappingsPage";
-            _typeNameTable[62] = "ArcanePlayConnect.UI.Views.ProfilesPage";
-            _typeNameTable[63] = "ArcanePlayConnect.UI.Views.ShellPage";
-            _typeNameTable[64] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
-            _typeNameTable[65] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
+            _typeNameTable[17] = "ArcanePlayConnect.UI.Controls.CommandBuilderPanel";
+            _typeNameTable[18] = "Microsoft.UI.Xaml.Controls.UserControl";
+            _typeNameTable[19] = "ArcanePlayConnect.UI.Controls.CommandSuggestionBox";
+            _typeNameTable[20] = "Microsoft.UI.Xaml.Media.Brush";
+            _typeNameTable[21] = "ArcanePlayConnect.UI.Views.AddActionPage";
+            _typeNameTable[22] = "Microsoft.UI.Xaml.Controls.Page";
+            _typeNameTable[23] = "ArcanePlayConnect.UI.ViewModels.ActionMappingItem";
+            _typeNameTable[24] = "Microsoft.UI.Xaml.Controls.NumberBox";
+            _typeNameTable[25] = "Microsoft.UI.Xaml.Controls.Control";
+            _typeNameTable[26] = "Microsoft.UI.Xaml.Controls.NumberBoxSpinButtonPlacementMode";
+            _typeNameTable[27] = "Microsoft.UI.Xaml.DataTemplate";
+            _typeNameTable[28] = "Windows.Globalization.NumberFormatting.INumberFormatter2";
+            _typeNameTable[29] = "Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase";
+            _typeNameTable[30] = "Microsoft.UI.Xaml.Media.SolidColorBrush";
+            _typeNameTable[31] = "Microsoft.UI.Xaml.TextReadingOrder";
+            _typeNameTable[32] = "Microsoft.UI.Xaml.Controls.NumberBoxValidationMode";
+            _typeNameTable[33] = "ArcanePlayConnect.UI.Views.ButtonEditorPage";
+            _typeNameTable[34] = "ArcanePlayConnect.Core.Models.CommandButton";
+            _typeNameTable[35] = "Microsoft.UI.Xaml.Controls.ItemsRepeater";
+            _typeNameTable[36] = "Microsoft.UI.Xaml.FrameworkElement";
+            _typeNameTable[37] = "Microsoft.UI.Xaml.Controls.Layout";
+            _typeNameTable[38] = "Microsoft.UI.Xaml.DependencyObject";
+            _typeNameTable[39] = "Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider";
+            _typeNameTable[40] = "Microsoft.UI.Xaml.Controls.ItemsSourceView";
+            _typeNameTable[41] = "Microsoft.UI.Xaml.Controls.UniformGridLayout";
+            _typeNameTable[42] = "Microsoft.UI.Xaml.Controls.VirtualizingLayout";
+            _typeNameTable[43] = "Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsStretch";
+            _typeNameTable[44] = "Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsJustification";
+            _typeNameTable[45] = "Int32";
+            _typeNameTable[46] = "Microsoft.UI.Xaml.Controls.Orientation";
+            _typeNameTable[47] = "Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation";
+            _typeNameTable[48] = "Microsoft.UI.Xaml.Controls.StackLayout";
+            _typeNameTable[49] = "ArcanePlayConnect.UI.Views.CommandButtonsPage";
+            _typeNameTable[50] = "ArcanePlayConnect.UI.ViewModels.MainViewModel";
+            _typeNameTable[51] = "CommunityToolkit.Mvvm.ComponentModel.ObservableObject";
+            _typeNameTable[52] = "Microsoft.UI.Xaml.Controls.ProgressBar";
+            _typeNameTable[53] = "Microsoft.UI.Xaml.Controls.Primitives.RangeBase";
+            _typeNameTable[54] = "Microsoft.UI.Xaml.Controls.ProgressBarTemplateSettings";
+            _typeNameTable[55] = "ArcanePlayConnect.UI.Views.CreatureArenaPage";
+            _typeNameTable[56] = "ArcanePlayConnect.UI.Converters.BoolToStatusBrushConverter";
+            _typeNameTable[57] = "ArcanePlayConnect.UI.Views.DashboardPage";
+            _typeNameTable[58] = "ArcanePlayConnect.UI.Converters.LogCategoryToBrushConverter";
+            _typeNameTable[59] = "ArcanePlayConnect.UI.Converters.LogCategoryToTagConverter";
+            _typeNameTable[60] = "ArcanePlayConnect.UI.Views.EventLogPage";
+            _typeNameTable[61] = "ArcanePlayConnect.UI.Converters.LogLevelToBrushConverter";
+            _typeNameTable[62] = "ArcanePlayConnect.UI.Converters.LogLevelToTagConverter";
+            _typeNameTable[63] = "ArcanePlayConnect.UI.Converters.BoolToVisibilityConverter";
+            _typeNameTable[64] = "ArcanePlayConnect.UI.Converters.InverseBoolConverter";
+            _typeNameTable[65] = "ArcanePlayConnect.UI.Converters.ActionTypeToBrushConverter";
+            _typeNameTable[66] = "ArcanePlayConnect.UI.Views.MainPage";
+            _typeNameTable[67] = "ArcanePlayConnect.UI.Views.MappingsPage";
+            _typeNameTable[68] = "ArcanePlayConnect.UI.Views.ProfilesPage";
+            _typeNameTable[69] = "ArcanePlayConnect.UI.Views.ShellPage";
+            _typeNameTable[70] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
+            _typeNameTable[71] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
 
-            _typeTable = new global::System.Type[66];
+            _typeTable = new global::System.Type[72];
             _typeTable[0] = typeof(global::Microsoft.UI.Xaml.Controls.XamlControlsResources);
             _typeTable[1] = typeof(global::Microsoft.UI.Xaml.ResourceDictionary);
             _typeTable[2] = typeof(global::System.Object);
@@ -316,55 +322,61 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
             _typeTable[15] = typeof(global::WinUIEx.SystemBackdrop);
 #pragma warning restore 0618
             _typeTable[16] = typeof(global::ArcanePlayConnect.MainWindow);
-            _typeTable[17] = typeof(global::ArcanePlayConnect.UI.Views.AddActionPage);
-            _typeTable[18] = typeof(global::Microsoft.UI.Xaml.Controls.Page);
-            _typeTable[19] = typeof(global::Microsoft.UI.Xaml.Controls.UserControl);
-            _typeTable[20] = typeof(global::ArcanePlayConnect.UI.ViewModels.ActionMappingItem);
-            _typeTable[21] = typeof(global::Microsoft.UI.Xaml.Controls.NumberBox);
-            _typeTable[22] = typeof(global::Microsoft.UI.Xaml.Controls.Control);
-            _typeTable[23] = typeof(global::Microsoft.UI.Xaml.Controls.NumberBoxSpinButtonPlacementMode);
-            _typeTable[24] = typeof(global::Microsoft.UI.Xaml.DataTemplate);
-            _typeTable[25] = typeof(global::Windows.Globalization.NumberFormatting.INumberFormatter2);
-            _typeTable[26] = typeof(global::Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase);
-            _typeTable[27] = typeof(global::Microsoft.UI.Xaml.Media.SolidColorBrush);
-            _typeTable[28] = typeof(global::Microsoft.UI.Xaml.TextReadingOrder);
-            _typeTable[29] = typeof(global::Microsoft.UI.Xaml.Controls.NumberBoxValidationMode);
-            _typeTable[30] = typeof(global::ArcanePlayConnect.UI.Views.ButtonEditorPage);
-            _typeTable[31] = typeof(global::ArcanePlayConnect.Core.Models.CommandButton);
-            _typeTable[32] = typeof(global::Microsoft.UI.Xaml.Controls.ItemsRepeater);
-            _typeTable[33] = typeof(global::Microsoft.UI.Xaml.FrameworkElement);
-            _typeTable[34] = typeof(global::Microsoft.UI.Xaml.Controls.Layout);
-            _typeTable[35] = typeof(global::Microsoft.UI.Xaml.DependencyObject);
-            _typeTable[36] = typeof(global::Microsoft.UI.Xaml.Media.Brush);
-            _typeTable[37] = typeof(global::Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider);
-            _typeTable[38] = typeof(global::Microsoft.UI.Xaml.Controls.ItemsSourceView);
-            _typeTable[39] = typeof(global::Microsoft.UI.Xaml.Controls.UniformGridLayout);
-            _typeTable[40] = typeof(global::Microsoft.UI.Xaml.Controls.VirtualizingLayout);
-            _typeTable[41] = typeof(global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsStretch);
-            _typeTable[42] = typeof(global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsJustification);
-            _typeTable[43] = typeof(global::System.Int32);
-            _typeTable[44] = typeof(global::Microsoft.UI.Xaml.Controls.Orientation);
-            _typeTable[45] = typeof(global::Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation);
-            _typeTable[46] = typeof(global::Microsoft.UI.Xaml.Controls.StackLayout);
-            _typeTable[47] = typeof(global::ArcanePlayConnect.UI.Views.CommandButtonsPage);
-            _typeTable[48] = typeof(global::ArcanePlayConnect.UI.ViewModels.MainViewModel);
-            _typeTable[49] = typeof(global::CommunityToolkit.Mvvm.ComponentModel.ObservableObject);
-            _typeTable[50] = typeof(global::ArcanePlayConnect.UI.Converters.BoolToStatusBrushConverter);
-            _typeTable[51] = typeof(global::ArcanePlayConnect.UI.Views.DashboardPage);
-            _typeTable[52] = typeof(global::ArcanePlayConnect.UI.Converters.LogCategoryToBrushConverter);
-            _typeTable[53] = typeof(global::ArcanePlayConnect.UI.Converters.LogCategoryToTagConverter);
-            _typeTable[54] = typeof(global::ArcanePlayConnect.UI.Views.EventLogPage);
-            _typeTable[55] = typeof(global::ArcanePlayConnect.UI.Converters.LogLevelToBrushConverter);
-            _typeTable[56] = typeof(global::ArcanePlayConnect.UI.Converters.LogLevelToTagConverter);
-            _typeTable[57] = typeof(global::ArcanePlayConnect.UI.Converters.BoolToVisibilityConverter);
-            _typeTable[58] = typeof(global::ArcanePlayConnect.UI.Converters.InverseBoolConverter);
-            _typeTable[59] = typeof(global::ArcanePlayConnect.UI.Converters.ActionTypeToBrushConverter);
-            _typeTable[60] = typeof(global::ArcanePlayConnect.UI.Views.MainPage);
-            _typeTable[61] = typeof(global::ArcanePlayConnect.UI.Views.MappingsPage);
-            _typeTable[62] = typeof(global::ArcanePlayConnect.UI.Views.ProfilesPage);
-            _typeTable[63] = typeof(global::ArcanePlayConnect.UI.Views.ShellPage);
-            _typeTable[64] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
-            _typeTable[65] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
+            _typeTable[17] = typeof(global::ArcanePlayConnect.UI.Controls.CommandBuilderPanel);
+            _typeTable[18] = typeof(global::Microsoft.UI.Xaml.Controls.UserControl);
+            _typeTable[19] = typeof(global::ArcanePlayConnect.UI.Controls.CommandSuggestionBox);
+            _typeTable[20] = typeof(global::Microsoft.UI.Xaml.Media.Brush);
+            _typeTable[21] = typeof(global::ArcanePlayConnect.UI.Views.AddActionPage);
+            _typeTable[22] = typeof(global::Microsoft.UI.Xaml.Controls.Page);
+            _typeTable[23] = typeof(global::ArcanePlayConnect.UI.ViewModels.ActionMappingItem);
+            _typeTable[24] = typeof(global::Microsoft.UI.Xaml.Controls.NumberBox);
+            _typeTable[25] = typeof(global::Microsoft.UI.Xaml.Controls.Control);
+            _typeTable[26] = typeof(global::Microsoft.UI.Xaml.Controls.NumberBoxSpinButtonPlacementMode);
+            _typeTable[27] = typeof(global::Microsoft.UI.Xaml.DataTemplate);
+            _typeTable[28] = typeof(global::Windows.Globalization.NumberFormatting.INumberFormatter2);
+            _typeTable[29] = typeof(global::Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase);
+            _typeTable[30] = typeof(global::Microsoft.UI.Xaml.Media.SolidColorBrush);
+            _typeTable[31] = typeof(global::Microsoft.UI.Xaml.TextReadingOrder);
+            _typeTable[32] = typeof(global::Microsoft.UI.Xaml.Controls.NumberBoxValidationMode);
+            _typeTable[33] = typeof(global::ArcanePlayConnect.UI.Views.ButtonEditorPage);
+            _typeTable[34] = typeof(global::ArcanePlayConnect.Core.Models.CommandButton);
+            _typeTable[35] = typeof(global::Microsoft.UI.Xaml.Controls.ItemsRepeater);
+            _typeTable[36] = typeof(global::Microsoft.UI.Xaml.FrameworkElement);
+            _typeTable[37] = typeof(global::Microsoft.UI.Xaml.Controls.Layout);
+            _typeTable[38] = typeof(global::Microsoft.UI.Xaml.DependencyObject);
+            _typeTable[39] = typeof(global::Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider);
+            _typeTable[40] = typeof(global::Microsoft.UI.Xaml.Controls.ItemsSourceView);
+            _typeTable[41] = typeof(global::Microsoft.UI.Xaml.Controls.UniformGridLayout);
+            _typeTable[42] = typeof(global::Microsoft.UI.Xaml.Controls.VirtualizingLayout);
+            _typeTable[43] = typeof(global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsStretch);
+            _typeTable[44] = typeof(global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsJustification);
+            _typeTable[45] = typeof(global::System.Int32);
+            _typeTable[46] = typeof(global::Microsoft.UI.Xaml.Controls.Orientation);
+            _typeTable[47] = typeof(global::Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation);
+            _typeTable[48] = typeof(global::Microsoft.UI.Xaml.Controls.StackLayout);
+            _typeTable[49] = typeof(global::ArcanePlayConnect.UI.Views.CommandButtonsPage);
+            _typeTable[50] = typeof(global::ArcanePlayConnect.UI.ViewModels.MainViewModel);
+            _typeTable[51] = typeof(global::CommunityToolkit.Mvvm.ComponentModel.ObservableObject);
+            _typeTable[52] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressBar);
+            _typeTable[53] = typeof(global::Microsoft.UI.Xaml.Controls.Primitives.RangeBase);
+            _typeTable[54] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressBarTemplateSettings);
+            _typeTable[55] = typeof(global::ArcanePlayConnect.UI.Views.CreatureArenaPage);
+            _typeTable[56] = typeof(global::ArcanePlayConnect.UI.Converters.BoolToStatusBrushConverter);
+            _typeTable[57] = typeof(global::ArcanePlayConnect.UI.Views.DashboardPage);
+            _typeTable[58] = typeof(global::ArcanePlayConnect.UI.Converters.LogCategoryToBrushConverter);
+            _typeTable[59] = typeof(global::ArcanePlayConnect.UI.Converters.LogCategoryToTagConverter);
+            _typeTable[60] = typeof(global::ArcanePlayConnect.UI.Views.EventLogPage);
+            _typeTable[61] = typeof(global::ArcanePlayConnect.UI.Converters.LogLevelToBrushConverter);
+            _typeTable[62] = typeof(global::ArcanePlayConnect.UI.Converters.LogLevelToTagConverter);
+            _typeTable[63] = typeof(global::ArcanePlayConnect.UI.Converters.BoolToVisibilityConverter);
+            _typeTable[64] = typeof(global::ArcanePlayConnect.UI.Converters.InverseBoolConverter);
+            _typeTable[65] = typeof(global::ArcanePlayConnect.UI.Converters.ActionTypeToBrushConverter);
+            _typeTable[66] = typeof(global::ArcanePlayConnect.UI.Views.MainPage);
+            _typeTable[67] = typeof(global::ArcanePlayConnect.UI.Views.MappingsPage);
+            _typeTable[68] = typeof(global::ArcanePlayConnect.UI.Views.ProfilesPage);
+            _typeTable[69] = typeof(global::ArcanePlayConnect.UI.Views.ShellPage);
+            _typeTable[70] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
+            _typeTable[71] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
         }
 
         private int LookupTypeIndexByName(string typeName)
@@ -402,31 +414,35 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
         private object Activate_0_XamlControlsResources() { return new global::Microsoft.UI.Xaml.Controls.XamlControlsResources(); }
         private object Activate_4_WindowEx() { return new global::WinUIEx.WindowEx(); }
         private object Activate_16_MainWindow() { return new global::ArcanePlayConnect.MainWindow(); }
-        private object Activate_17_AddActionPage() { return new global::ArcanePlayConnect.UI.Views.AddActionPage(); }
-        private object Activate_20_ActionMappingItem() { return new global::ArcanePlayConnect.UI.ViewModels.ActionMappingItem(); }
-        private object Activate_21_NumberBox() { return new global::Microsoft.UI.Xaml.Controls.NumberBox(); }
-        private object Activate_31_CommandButton() { return new global::ArcanePlayConnect.Core.Models.CommandButton(); }
-        private object Activate_32_ItemsRepeater() { return new global::Microsoft.UI.Xaml.Controls.ItemsRepeater(); }
-        private object Activate_37_ItemCollectionTransitionProvider() { return new global::Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider(); }
-        private object Activate_39_UniformGridLayout() { return new global::Microsoft.UI.Xaml.Controls.UniformGridLayout(); }
-        private object Activate_40_VirtualizingLayout() { return new global::Microsoft.UI.Xaml.Controls.VirtualizingLayout(); }
-        private object Activate_46_StackLayout() { return new global::Microsoft.UI.Xaml.Controls.StackLayout(); }
-        private object Activate_47_CommandButtonsPage() { return new global::ArcanePlayConnect.UI.Views.CommandButtonsPage(); }
-        private object Activate_50_BoolToStatusBrushConverter() { return new global::ArcanePlayConnect.UI.Converters.BoolToStatusBrushConverter(); }
-        private object Activate_51_DashboardPage() { return new global::ArcanePlayConnect.UI.Views.DashboardPage(); }
-        private object Activate_52_LogCategoryToBrushConverter() { return new global::ArcanePlayConnect.UI.Converters.LogCategoryToBrushConverter(); }
-        private object Activate_53_LogCategoryToTagConverter() { return new global::ArcanePlayConnect.UI.Converters.LogCategoryToTagConverter(); }
-        private object Activate_54_EventLogPage() { return new global::ArcanePlayConnect.UI.Views.EventLogPage(); }
-        private object Activate_55_LogLevelToBrushConverter() { return new global::ArcanePlayConnect.UI.Converters.LogLevelToBrushConverter(); }
-        private object Activate_56_LogLevelToTagConverter() { return new global::ArcanePlayConnect.UI.Converters.LogLevelToTagConverter(); }
-        private object Activate_57_BoolToVisibilityConverter() { return new global::ArcanePlayConnect.UI.Converters.BoolToVisibilityConverter(); }
-        private object Activate_58_InverseBoolConverter() { return new global::ArcanePlayConnect.UI.Converters.InverseBoolConverter(); }
-        private object Activate_59_ActionTypeToBrushConverter() { return new global::ArcanePlayConnect.UI.Converters.ActionTypeToBrushConverter(); }
-        private object Activate_60_MainPage() { return new global::ArcanePlayConnect.UI.Views.MainPage(); }
-        private object Activate_61_MappingsPage() { return new global::ArcanePlayConnect.UI.Views.MappingsPage(); }
-        private object Activate_62_ProfilesPage() { return new global::ArcanePlayConnect.UI.Views.ProfilesPage(); }
-        private object Activate_63_ShellPage() { return new global::ArcanePlayConnect.UI.Views.ShellPage(); }
-        private object Activate_64_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
+        private object Activate_17_CommandBuilderPanel() { return new global::ArcanePlayConnect.UI.Controls.CommandBuilderPanel(); }
+        private object Activate_19_CommandSuggestionBox() { return new global::ArcanePlayConnect.UI.Controls.CommandSuggestionBox(); }
+        private object Activate_21_AddActionPage() { return new global::ArcanePlayConnect.UI.Views.AddActionPage(); }
+        private object Activate_23_ActionMappingItem() { return new global::ArcanePlayConnect.UI.ViewModels.ActionMappingItem(); }
+        private object Activate_24_NumberBox() { return new global::Microsoft.UI.Xaml.Controls.NumberBox(); }
+        private object Activate_34_CommandButton() { return new global::ArcanePlayConnect.Core.Models.CommandButton(); }
+        private object Activate_35_ItemsRepeater() { return new global::Microsoft.UI.Xaml.Controls.ItemsRepeater(); }
+        private object Activate_39_ItemCollectionTransitionProvider() { return new global::Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider(); }
+        private object Activate_41_UniformGridLayout() { return new global::Microsoft.UI.Xaml.Controls.UniformGridLayout(); }
+        private object Activate_42_VirtualizingLayout() { return new global::Microsoft.UI.Xaml.Controls.VirtualizingLayout(); }
+        private object Activate_48_StackLayout() { return new global::Microsoft.UI.Xaml.Controls.StackLayout(); }
+        private object Activate_49_CommandButtonsPage() { return new global::ArcanePlayConnect.UI.Views.CommandButtonsPage(); }
+        private object Activate_52_ProgressBar() { return new global::Microsoft.UI.Xaml.Controls.ProgressBar(); }
+        private object Activate_55_CreatureArenaPage() { return new global::ArcanePlayConnect.UI.Views.CreatureArenaPage(); }
+        private object Activate_56_BoolToStatusBrushConverter() { return new global::ArcanePlayConnect.UI.Converters.BoolToStatusBrushConverter(); }
+        private object Activate_57_DashboardPage() { return new global::ArcanePlayConnect.UI.Views.DashboardPage(); }
+        private object Activate_58_LogCategoryToBrushConverter() { return new global::ArcanePlayConnect.UI.Converters.LogCategoryToBrushConverter(); }
+        private object Activate_59_LogCategoryToTagConverter() { return new global::ArcanePlayConnect.UI.Converters.LogCategoryToTagConverter(); }
+        private object Activate_60_EventLogPage() { return new global::ArcanePlayConnect.UI.Views.EventLogPage(); }
+        private object Activate_61_LogLevelToBrushConverter() { return new global::ArcanePlayConnect.UI.Converters.LogLevelToBrushConverter(); }
+        private object Activate_62_LogLevelToTagConverter() { return new global::ArcanePlayConnect.UI.Converters.LogLevelToTagConverter(); }
+        private object Activate_63_BoolToVisibilityConverter() { return new global::ArcanePlayConnect.UI.Converters.BoolToVisibilityConverter(); }
+        private object Activate_64_InverseBoolConverter() { return new global::ArcanePlayConnect.UI.Converters.InverseBoolConverter(); }
+        private object Activate_65_ActionTypeToBrushConverter() { return new global::ArcanePlayConnect.UI.Converters.ActionTypeToBrushConverter(); }
+        private object Activate_66_MainPage() { return new global::ArcanePlayConnect.UI.Views.MainPage(); }
+        private object Activate_67_MappingsPage() { return new global::ArcanePlayConnect.UI.Views.MappingsPage(); }
+        private object Activate_68_ProfilesPage() { return new global::ArcanePlayConnect.UI.Views.ProfilesPage(); }
+        private object Activate_69_ShellPage() { return new global::ArcanePlayConnect.UI.Views.ShellPage(); }
+        private object Activate_70_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
         private void StaticInitializer_0_XamlControlsResources() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.XamlControlsResources).TypeHandle);
         private void StaticInitializer_4_WindowEx() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::WinUIEx.WindowEx).TypeHandle);
         private void StaticInitializer_8_AppWindow() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Windowing.AppWindow).TypeHandle);
@@ -442,43 +458,48 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
         private void StaticInitializer_15_SystemBackdrop() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::WinUIEx.SystemBackdrop).TypeHandle);
 #pragma warning restore 0618
         private void StaticInitializer_16_MainWindow() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.MainWindow).TypeHandle);
-        private void StaticInitializer_17_AddActionPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.AddActionPage).TypeHandle);
-        private void StaticInitializer_20_ActionMappingItem() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.ViewModels.ActionMappingItem).TypeHandle);
-        private void StaticInitializer_21_NumberBox() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NumberBox).TypeHandle);
-        private void StaticInitializer_23_NumberBoxSpinButtonPlacementMode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NumberBoxSpinButtonPlacementMode).TypeHandle);
-        private void StaticInitializer_25_INumberFormatter2() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Windows.Globalization.NumberFormatting.INumberFormatter2).TypeHandle);
-        private void StaticInitializer_29_NumberBoxValidationMode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NumberBoxValidationMode).TypeHandle);
-        private void StaticInitializer_30_ButtonEditorPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.ButtonEditorPage).TypeHandle);
-        private void StaticInitializer_31_CommandButton() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.Core.Models.CommandButton).TypeHandle);
-        private void StaticInitializer_32_ItemsRepeater() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ItemsRepeater).TypeHandle);
-        private void StaticInitializer_34_Layout() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.Layout).TypeHandle);
-        private void StaticInitializer_37_ItemCollectionTransitionProvider() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider).TypeHandle);
-        private void StaticInitializer_38_ItemsSourceView() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ItemsSourceView).TypeHandle);
-        private void StaticInitializer_39_UniformGridLayout() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.UniformGridLayout).TypeHandle);
-        private void StaticInitializer_40_VirtualizingLayout() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.VirtualizingLayout).TypeHandle);
-        private void StaticInitializer_41_UniformGridLayoutItemsStretch() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsStretch).TypeHandle);
-        private void StaticInitializer_42_UniformGridLayoutItemsJustification() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsJustification).TypeHandle);
-        private void StaticInitializer_45_IndexBasedLayoutOrientation() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation).TypeHandle);
-        private void StaticInitializer_46_StackLayout() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.StackLayout).TypeHandle);
-        private void StaticInitializer_47_CommandButtonsPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.CommandButtonsPage).TypeHandle);
-        private void StaticInitializer_48_MainViewModel() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.ViewModels.MainViewModel).TypeHandle);
-        private void StaticInitializer_49_ObservableObject() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::CommunityToolkit.Mvvm.ComponentModel.ObservableObject).TypeHandle);
-        private void StaticInitializer_50_BoolToStatusBrushConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.BoolToStatusBrushConverter).TypeHandle);
-        private void StaticInitializer_51_DashboardPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.DashboardPage).TypeHandle);
-        private void StaticInitializer_52_LogCategoryToBrushConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.LogCategoryToBrushConverter).TypeHandle);
-        private void StaticInitializer_53_LogCategoryToTagConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.LogCategoryToTagConverter).TypeHandle);
-        private void StaticInitializer_54_EventLogPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.EventLogPage).TypeHandle);
-        private void StaticInitializer_55_LogLevelToBrushConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.LogLevelToBrushConverter).TypeHandle);
-        private void StaticInitializer_56_LogLevelToTagConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.LogLevelToTagConverter).TypeHandle);
-        private void StaticInitializer_57_BoolToVisibilityConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.BoolToVisibilityConverter).TypeHandle);
-        private void StaticInitializer_58_InverseBoolConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.InverseBoolConverter).TypeHandle);
-        private void StaticInitializer_59_ActionTypeToBrushConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.ActionTypeToBrushConverter).TypeHandle);
-        private void StaticInitializer_60_MainPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.MainPage).TypeHandle);
-        private void StaticInitializer_61_MappingsPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.MappingsPage).TypeHandle);
-        private void StaticInitializer_62_ProfilesPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.ProfilesPage).TypeHandle);
-        private void StaticInitializer_63_ShellPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.ShellPage).TypeHandle);
-        private void StaticInitializer_64_TreeViewNode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode).TypeHandle);
-        private void StaticInitializer_65_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>).TypeHandle);
+        private void StaticInitializer_17_CommandBuilderPanel() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Controls.CommandBuilderPanel).TypeHandle);
+        private void StaticInitializer_19_CommandSuggestionBox() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Controls.CommandSuggestionBox).TypeHandle);
+        private void StaticInitializer_21_AddActionPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.AddActionPage).TypeHandle);
+        private void StaticInitializer_23_ActionMappingItem() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.ViewModels.ActionMappingItem).TypeHandle);
+        private void StaticInitializer_24_NumberBox() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NumberBox).TypeHandle);
+        private void StaticInitializer_26_NumberBoxSpinButtonPlacementMode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NumberBoxSpinButtonPlacementMode).TypeHandle);
+        private void StaticInitializer_28_INumberFormatter2() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Windows.Globalization.NumberFormatting.INumberFormatter2).TypeHandle);
+        private void StaticInitializer_32_NumberBoxValidationMode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.NumberBoxValidationMode).TypeHandle);
+        private void StaticInitializer_33_ButtonEditorPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.ButtonEditorPage).TypeHandle);
+        private void StaticInitializer_34_CommandButton() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.Core.Models.CommandButton).TypeHandle);
+        private void StaticInitializer_35_ItemsRepeater() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ItemsRepeater).TypeHandle);
+        private void StaticInitializer_37_Layout() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.Layout).TypeHandle);
+        private void StaticInitializer_39_ItemCollectionTransitionProvider() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider).TypeHandle);
+        private void StaticInitializer_40_ItemsSourceView() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ItemsSourceView).TypeHandle);
+        private void StaticInitializer_41_UniformGridLayout() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.UniformGridLayout).TypeHandle);
+        private void StaticInitializer_42_VirtualizingLayout() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.VirtualizingLayout).TypeHandle);
+        private void StaticInitializer_43_UniformGridLayoutItemsStretch() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsStretch).TypeHandle);
+        private void StaticInitializer_44_UniformGridLayoutItemsJustification() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsJustification).TypeHandle);
+        private void StaticInitializer_47_IndexBasedLayoutOrientation() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation).TypeHandle);
+        private void StaticInitializer_48_StackLayout() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.StackLayout).TypeHandle);
+        private void StaticInitializer_49_CommandButtonsPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.CommandButtonsPage).TypeHandle);
+        private void StaticInitializer_50_MainViewModel() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.ViewModels.MainViewModel).TypeHandle);
+        private void StaticInitializer_51_ObservableObject() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::CommunityToolkit.Mvvm.ComponentModel.ObservableObject).TypeHandle);
+        private void StaticInitializer_52_ProgressBar() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ProgressBar).TypeHandle);
+        private void StaticInitializer_54_ProgressBarTemplateSettings() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ProgressBarTemplateSettings).TypeHandle);
+        private void StaticInitializer_55_CreatureArenaPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.CreatureArenaPage).TypeHandle);
+        private void StaticInitializer_56_BoolToStatusBrushConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.BoolToStatusBrushConverter).TypeHandle);
+        private void StaticInitializer_57_DashboardPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.DashboardPage).TypeHandle);
+        private void StaticInitializer_58_LogCategoryToBrushConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.LogCategoryToBrushConverter).TypeHandle);
+        private void StaticInitializer_59_LogCategoryToTagConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.LogCategoryToTagConverter).TypeHandle);
+        private void StaticInitializer_60_EventLogPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.EventLogPage).TypeHandle);
+        private void StaticInitializer_61_LogLevelToBrushConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.LogLevelToBrushConverter).TypeHandle);
+        private void StaticInitializer_62_LogLevelToTagConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.LogLevelToTagConverter).TypeHandle);
+        private void StaticInitializer_63_BoolToVisibilityConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.BoolToVisibilityConverter).TypeHandle);
+        private void StaticInitializer_64_InverseBoolConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.InverseBoolConverter).TypeHandle);
+        private void StaticInitializer_65_ActionTypeToBrushConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.ActionTypeToBrushConverter).TypeHandle);
+        private void StaticInitializer_66_MainPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.MainPage).TypeHandle);
+        private void StaticInitializer_67_MappingsPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.MappingsPage).TypeHandle);
+        private void StaticInitializer_68_ProfilesPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.ProfilesPage).TypeHandle);
+        private void StaticInitializer_69_ShellPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.ShellPage).TypeHandle);
+        private void StaticInitializer_70_TreeViewNode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode).TypeHandle);
+        private void StaticInitializer_71_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>).TypeHandle);
         private void MapAdd_0_XamlControlsResources(object instance, object key, object item)
         {
             var collection = (global::System.Collections.Generic.IDictionary<global::System.Object, global::System.Object>)instance;
@@ -486,7 +507,7 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
             var newItem = (global::System.Object)item;
             collection.Add(newKey, newItem);
         }
-        private void VectorAdd_65_IList(object instance, object item)
+        private void VectorAdd_71_IList(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Microsoft.UI.Xaml.Controls.TreeViewNode>)instance;
             var newItem = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)item;
@@ -635,39 +656,63 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 17:   //  ArcanePlayConnect.UI.Views.AddActionPage
+            case 17:   //  ArcanePlayConnect.UI.Controls.CommandBuilderPanel
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.UserControl"));
+                userType.Activator = Activate_17_CommandBuilderPanel;
+                userType.StaticInitializer = StaticInitializer_17_CommandBuilderPanel;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 18:   //  Microsoft.UI.Xaml.Controls.UserControl
+                xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 19:   //  ArcanePlayConnect.UI.Controls.CommandSuggestionBox
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.UserControl"));
+                userType.Activator = Activate_19_CommandSuggestionBox;
+                userType.StaticInitializer = StaticInitializer_19_CommandSuggestionBox;
+                userType.AddMemberName("Text");
+                userType.AddMemberName("PlaceholderText");
+                userType.AddMemberName("BorderBrush");
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 20:   //  Microsoft.UI.Xaml.Media.Brush
+                xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 21:   //  ArcanePlayConnect.UI.Views.AddActionPage
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_17_AddActionPage;
-                userType.StaticInitializer = StaticInitializer_17_AddActionPage;
+                userType.Activator = Activate_21_AddActionPage;
+                userType.StaticInitializer = StaticInitializer_21_AddActionPage;
                 userType.AddMemberName("Result");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 18:   //  Microsoft.UI.Xaml.Controls.Page
+            case 22:   //  Microsoft.UI.Xaml.Controls.Page
                 xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 19:   //  Microsoft.UI.Xaml.Controls.UserControl
-                xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
-                break;
-
-            case 20:   //  ArcanePlayConnect.UI.ViewModels.ActionMappingItem
+            case 23:   //  ArcanePlayConnect.UI.ViewModels.ActionMappingItem
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.StaticInitializer = StaticInitializer_20_ActionMappingItem;
+                userType.StaticInitializer = StaticInitializer_23_ActionMappingItem;
                 userType.SetIsReturnTypeStub();
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 21:   //  Microsoft.UI.Xaml.Controls.NumberBox
+            case 24:   //  Microsoft.UI.Xaml.Controls.NumberBox
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Control"));
-                userType.Activator = Activate_21_NumberBox;
-                userType.StaticInitializer = StaticInitializer_21_NumberBox;
+                userType.Activator = Activate_24_NumberBox;
+                userType.StaticInitializer = StaticInitializer_24_NumberBox;
                 userType.AddMemberName("Value");
                 userType.AddMemberName("Minimum");
                 userType.AddMemberName("Maximum");
                 userType.AddMemberName("SpinButtonPlacementMode");
+                userType.AddMemberName("PlaceholderText");
                 userType.AddMemberName("AcceptsExpression");
                 userType.AddMemberName("Description");
                 userType.AddMemberName("Header");
@@ -675,7 +720,6 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
                 userType.AddMemberName("IsWrapEnabled");
                 userType.AddMemberName("LargeChange");
                 userType.AddMemberName("NumberFormatter");
-                userType.AddMemberName("PlaceholderText");
                 userType.AddMemberName("PreventKeyboardDisplayOnProgrammaticFocus");
                 userType.AddMemberName("SelectionFlyout");
                 userType.AddMemberName("SelectionHighlightColor");
@@ -686,70 +730,70 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 22:   //  Microsoft.UI.Xaml.Controls.Control
+            case 25:   //  Microsoft.UI.Xaml.Controls.Control
                 xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 23:   //  Microsoft.UI.Xaml.Controls.NumberBoxSpinButtonPlacementMode
+            case 26:   //  Microsoft.UI.Xaml.Controls.NumberBoxSpinButtonPlacementMode
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
-                userType.StaticInitializer = StaticInitializer_23_NumberBoxSpinButtonPlacementMode;
+                userType.StaticInitializer = StaticInitializer_26_NumberBoxSpinButtonPlacementMode;
                 userType.AddEnumValue("Hidden", global::Microsoft.UI.Xaml.Controls.NumberBoxSpinButtonPlacementMode.Hidden);
                 userType.AddEnumValue("Compact", global::Microsoft.UI.Xaml.Controls.NumberBoxSpinButtonPlacementMode.Compact);
                 userType.AddEnumValue("Inline", global::Microsoft.UI.Xaml.Controls.NumberBoxSpinButtonPlacementMode.Inline);
                 xamlType = userType;
                 break;
 
-            case 24:   //  Microsoft.UI.Xaml.DataTemplate
+            case 27:   //  Microsoft.UI.Xaml.DataTemplate
                 xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 25:   //  Windows.Globalization.NumberFormatting.INumberFormatter2
+            case 28:   //  Windows.Globalization.NumberFormatting.INumberFormatter2
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, null);
-                userType.StaticInitializer = StaticInitializer_25_INumberFormatter2;
+                userType.StaticInitializer = StaticInitializer_28_INumberFormatter2;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 26:   //  Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase
+            case 29:   //  Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase
                 xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 27:   //  Microsoft.UI.Xaml.Media.SolidColorBrush
+            case 30:   //  Microsoft.UI.Xaml.Media.SolidColorBrush
                 xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 28:   //  Microsoft.UI.Xaml.TextReadingOrder
+            case 31:   //  Microsoft.UI.Xaml.TextReadingOrder
                 xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 29:   //  Microsoft.UI.Xaml.Controls.NumberBoxValidationMode
+            case 32:   //  Microsoft.UI.Xaml.Controls.NumberBoxValidationMode
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
-                userType.StaticInitializer = StaticInitializer_29_NumberBoxValidationMode;
+                userType.StaticInitializer = StaticInitializer_32_NumberBoxValidationMode;
                 userType.AddEnumValue("InvalidInputOverwritten", global::Microsoft.UI.Xaml.Controls.NumberBoxValidationMode.InvalidInputOverwritten);
                 userType.AddEnumValue("Disabled", global::Microsoft.UI.Xaml.Controls.NumberBoxValidationMode.Disabled);
                 xamlType = userType;
                 break;
 
-            case 30:   //  ArcanePlayConnect.UI.Views.ButtonEditorPage
+            case 33:   //  ArcanePlayConnect.UI.Views.ButtonEditorPage
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.StaticInitializer = StaticInitializer_30_ButtonEditorPage;
+                userType.StaticInitializer = StaticInitializer_33_ButtonEditorPage;
                 userType.AddMemberName("Result");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 31:   //  ArcanePlayConnect.Core.Models.CommandButton
+            case 34:   //  ArcanePlayConnect.Core.Models.CommandButton
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.StaticInitializer = StaticInitializer_31_CommandButton;
+                userType.StaticInitializer = StaticInitializer_34_CommandButton;
                 userType.SetIsReturnTypeStub();
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 32:   //  Microsoft.UI.Xaml.Controls.ItemsRepeater
+            case 35:   //  Microsoft.UI.Xaml.Controls.ItemsRepeater
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.FrameworkElement"));
-                userType.Activator = Activate_32_ItemsRepeater;
-                userType.StaticInitializer = StaticInitializer_32_ItemsRepeater;
+                userType.Activator = Activate_35_ItemsRepeater;
+                userType.StaticInitializer = StaticInitializer_35_ItemsRepeater;
                 userType.SetContentPropertyName("Microsoft.UI.Xaml.Controls.ItemsRepeater.ItemTemplate");
                 userType.AddMemberName("ItemTemplate");
                 userType.AddMemberName("ItemsSource");
@@ -762,43 +806,39 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 33:   //  Microsoft.UI.Xaml.FrameworkElement
+            case 36:   //  Microsoft.UI.Xaml.FrameworkElement
                 xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 34:   //  Microsoft.UI.Xaml.Controls.Layout
+            case 37:   //  Microsoft.UI.Xaml.Controls.Layout
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
-                userType.StaticInitializer = StaticInitializer_34_Layout;
+                userType.StaticInitializer = StaticInitializer_37_Layout;
                 userType.AddMemberName("IndexBasedLayoutOrientation");
                 xamlType = userType;
                 break;
 
-            case 35:   //  Microsoft.UI.Xaml.DependencyObject
+            case 38:   //  Microsoft.UI.Xaml.DependencyObject
                 xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 36:   //  Microsoft.UI.Xaml.Media.Brush
-                xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
-                break;
-
-            case 37:   //  Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider
+            case 39:   //  Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.StaticInitializer = StaticInitializer_37_ItemCollectionTransitionProvider;
+                userType.StaticInitializer = StaticInitializer_39_ItemCollectionTransitionProvider;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 38:   //  Microsoft.UI.Xaml.Controls.ItemsSourceView
+            case 40:   //  Microsoft.UI.Xaml.Controls.ItemsSourceView
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.StaticInitializer = StaticInitializer_38_ItemsSourceView;
+                userType.StaticInitializer = StaticInitializer_40_ItemsSourceView;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 39:   //  Microsoft.UI.Xaml.Controls.UniformGridLayout
+            case 41:   //  Microsoft.UI.Xaml.Controls.UniformGridLayout
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.VirtualizingLayout"));
-                userType.Activator = Activate_39_UniformGridLayout;
-                userType.StaticInitializer = StaticInitializer_39_UniformGridLayout;
+                userType.Activator = Activate_41_UniformGridLayout;
+                userType.StaticInitializer = StaticInitializer_41_UniformGridLayout;
                 userType.AddMemberName("MinItemWidth");
                 userType.AddMemberName("MinItemHeight");
                 userType.AddMemberName("MinColumnSpacing");
@@ -810,25 +850,25 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 40:   //  Microsoft.UI.Xaml.Controls.VirtualizingLayout
+            case 42:   //  Microsoft.UI.Xaml.Controls.VirtualizingLayout
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Layout"));
-                userType.Activator = Activate_40_VirtualizingLayout;
-                userType.StaticInitializer = StaticInitializer_40_VirtualizingLayout;
+                userType.Activator = Activate_42_VirtualizingLayout;
+                userType.StaticInitializer = StaticInitializer_42_VirtualizingLayout;
                 xamlType = userType;
                 break;
 
-            case 41:   //  Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsStretch
+            case 43:   //  Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsStretch
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
-                userType.StaticInitializer = StaticInitializer_41_UniformGridLayoutItemsStretch;
+                userType.StaticInitializer = StaticInitializer_43_UniformGridLayoutItemsStretch;
                 userType.AddEnumValue("None", global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsStretch.None);
                 userType.AddEnumValue("Fill", global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsStretch.Fill);
                 userType.AddEnumValue("Uniform", global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsStretch.Uniform);
                 xamlType = userType;
                 break;
 
-            case 42:   //  Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsJustification
+            case 44:   //  Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsJustification
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
-                userType.StaticInitializer = StaticInitializer_42_UniformGridLayoutItemsJustification;
+                userType.StaticInitializer = StaticInitializer_44_UniformGridLayoutItemsJustification;
                 userType.AddEnumValue("Start", global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsJustification.Start);
                 userType.AddEnumValue("Center", global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsJustification.Center);
                 userType.AddEnumValue("End", global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsJustification.End);
@@ -838,177 +878,208 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 43:   //  Int32
+            case 45:   //  Int32
                 xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 44:   //  Microsoft.UI.Xaml.Controls.Orientation
+            case 46:   //  Microsoft.UI.Xaml.Controls.Orientation
                 xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 45:   //  Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation
+            case 47:   //  Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
-                userType.StaticInitializer = StaticInitializer_45_IndexBasedLayoutOrientation;
+                userType.StaticInitializer = StaticInitializer_47_IndexBasedLayoutOrientation;
                 userType.AddEnumValue("None", global::Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation.None);
                 userType.AddEnumValue("TopToBottom", global::Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation.TopToBottom);
                 userType.AddEnumValue("LeftToRight", global::Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation.LeftToRight);
                 xamlType = userType;
                 break;
 
-            case 46:   //  Microsoft.UI.Xaml.Controls.StackLayout
+            case 48:   //  Microsoft.UI.Xaml.Controls.StackLayout
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.VirtualizingLayout"));
-                userType.Activator = Activate_46_StackLayout;
-                userType.StaticInitializer = StaticInitializer_46_StackLayout;
+                userType.Activator = Activate_48_StackLayout;
+                userType.StaticInitializer = StaticInitializer_48_StackLayout;
                 userType.AddMemberName("Spacing");
                 userType.AddMemberName("Orientation");
                 xamlType = userType;
                 break;
 
-            case 47:   //  ArcanePlayConnect.UI.Views.CommandButtonsPage
+            case 49:   //  ArcanePlayConnect.UI.Views.CommandButtonsPage
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_47_CommandButtonsPage;
-                userType.StaticInitializer = StaticInitializer_47_CommandButtonsPage;
+                userType.Activator = Activate_49_CommandButtonsPage;
+                userType.StaticInitializer = StaticInitializer_49_CommandButtonsPage;
                 userType.AddMemberName("ViewModel");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 48:   //  ArcanePlayConnect.UI.ViewModels.MainViewModel
+            case 50:   //  ArcanePlayConnect.UI.ViewModels.MainViewModel
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("CommunityToolkit.Mvvm.ComponentModel.ObservableObject"));
-                userType.StaticInitializer = StaticInitializer_48_MainViewModel;
+                userType.StaticInitializer = StaticInitializer_50_MainViewModel;
                 userType.SetIsReturnTypeStub();
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 49:   //  CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+            case 51:   //  CommunityToolkit.Mvvm.ComponentModel.ObservableObject
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.StaticInitializer = StaticInitializer_49_ObservableObject;
+                userType.StaticInitializer = StaticInitializer_51_ObservableObject;
                 xamlType = userType;
                 break;
 
-            case 50:   //  ArcanePlayConnect.UI.Converters.BoolToStatusBrushConverter
-                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_50_BoolToStatusBrushConverter;
-                userType.StaticInitializer = StaticInitializer_50_BoolToStatusBrushConverter;
-                userType.SetIsLocalType();
+            case 52:   //  Microsoft.UI.Xaml.Controls.ProgressBar
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Primitives.RangeBase"));
+                userType.Activator = Activate_52_ProgressBar;
+                userType.StaticInitializer = StaticInitializer_52_ProgressBar;
+                userType.AddMemberName("IsIndeterminate");
+                userType.AddMemberName("ShowError");
+                userType.AddMemberName("ShowPaused");
+                userType.AddMemberName("TemplateSettings");
                 xamlType = userType;
                 break;
 
-            case 51:   //  ArcanePlayConnect.UI.Views.DashboardPage
-                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_51_DashboardPage;
-                userType.StaticInitializer = StaticInitializer_51_DashboardPage;
-                userType.AddMemberName("ViewModel");
-                userType.SetIsLocalType();
-                xamlType = userType;
+            case 53:   //  Microsoft.UI.Xaml.Controls.Primitives.RangeBase
+                xamlType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 52:   //  ArcanePlayConnect.UI.Converters.LogCategoryToBrushConverter
-                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_52_LogCategoryToBrushConverter;
-                userType.StaticInitializer = StaticInitializer_52_LogCategoryToBrushConverter;
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 53:   //  ArcanePlayConnect.UI.Converters.LogCategoryToTagConverter
-                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_53_LogCategoryToTagConverter;
-                userType.StaticInitializer = StaticInitializer_53_LogCategoryToTagConverter;
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 54:   //  ArcanePlayConnect.UI.Views.EventLogPage
-                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_54_EventLogPage;
-                userType.StaticInitializer = StaticInitializer_54_EventLogPage;
-                userType.AddMemberName("ViewModel");
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 55:   //  ArcanePlayConnect.UI.Converters.LogLevelToBrushConverter
-                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_55_LogLevelToBrushConverter;
-                userType.StaticInitializer = StaticInitializer_55_LogLevelToBrushConverter;
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 56:   //  ArcanePlayConnect.UI.Converters.LogLevelToTagConverter
-                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_56_LogLevelToTagConverter;
-                userType.StaticInitializer = StaticInitializer_56_LogLevelToTagConverter;
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 57:   //  ArcanePlayConnect.UI.Converters.BoolToVisibilityConverter
-                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_57_BoolToVisibilityConverter;
-                userType.StaticInitializer = StaticInitializer_57_BoolToVisibilityConverter;
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 58:   //  ArcanePlayConnect.UI.Converters.InverseBoolConverter
-                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_58_InverseBoolConverter;
-                userType.StaticInitializer = StaticInitializer_58_InverseBoolConverter;
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 59:   //  ArcanePlayConnect.UI.Converters.ActionTypeToBrushConverter
-                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_59_ActionTypeToBrushConverter;
-                userType.StaticInitializer = StaticInitializer_59_ActionTypeToBrushConverter;
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 60:   //  ArcanePlayConnect.UI.Views.MainPage
-                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_60_MainPage;
-                userType.StaticInitializer = StaticInitializer_60_MainPage;
-                userType.AddMemberName("ViewModel");
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 61:   //  ArcanePlayConnect.UI.Views.MappingsPage
-                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_61_MappingsPage;
-                userType.StaticInitializer = StaticInitializer_61_MappingsPage;
-                userType.AddMemberName("ViewModel");
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 62:   //  ArcanePlayConnect.UI.Views.ProfilesPage
-                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_62_ProfilesPage;
-                userType.StaticInitializer = StaticInitializer_62_ProfilesPage;
-                userType.AddMemberName("ViewModel");
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 63:   //  ArcanePlayConnect.UI.Views.ShellPage
-                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_63_ShellPage;
-                userType.StaticInitializer = StaticInitializer_63_ShellPage;
-                userType.AddMemberName("ViewModel");
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 64:   //  Microsoft.UI.Xaml.Controls.TreeViewNode
+            case 54:   //  Microsoft.UI.Xaml.Controls.ProgressBarTemplateSettings
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
-                userType.Activator = Activate_64_TreeViewNode;
-                userType.StaticInitializer = StaticInitializer_64_TreeViewNode;
+                userType.StaticInitializer = StaticInitializer_54_ProgressBarTemplateSettings;
+                userType.SetIsReturnTypeStub();
+                xamlType = userType;
+                break;
+
+            case 55:   //  ArcanePlayConnect.UI.Views.CreatureArenaPage
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_55_CreatureArenaPage;
+                userType.StaticInitializer = StaticInitializer_55_CreatureArenaPage;
+                userType.AddMemberName("ViewModel");
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 56:   //  ArcanePlayConnect.UI.Converters.BoolToStatusBrushConverter
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.Activator = Activate_56_BoolToStatusBrushConverter;
+                userType.StaticInitializer = StaticInitializer_56_BoolToStatusBrushConverter;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 57:   //  ArcanePlayConnect.UI.Views.DashboardPage
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_57_DashboardPage;
+                userType.StaticInitializer = StaticInitializer_57_DashboardPage;
+                userType.AddMemberName("ViewModel");
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 58:   //  ArcanePlayConnect.UI.Converters.LogCategoryToBrushConverter
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.Activator = Activate_58_LogCategoryToBrushConverter;
+                userType.StaticInitializer = StaticInitializer_58_LogCategoryToBrushConverter;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 59:   //  ArcanePlayConnect.UI.Converters.LogCategoryToTagConverter
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.Activator = Activate_59_LogCategoryToTagConverter;
+                userType.StaticInitializer = StaticInitializer_59_LogCategoryToTagConverter;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 60:   //  ArcanePlayConnect.UI.Views.EventLogPage
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_60_EventLogPage;
+                userType.StaticInitializer = StaticInitializer_60_EventLogPage;
+                userType.AddMemberName("ViewModel");
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 61:   //  ArcanePlayConnect.UI.Converters.LogLevelToBrushConverter
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.Activator = Activate_61_LogLevelToBrushConverter;
+                userType.StaticInitializer = StaticInitializer_61_LogLevelToBrushConverter;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 62:   //  ArcanePlayConnect.UI.Converters.LogLevelToTagConverter
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.Activator = Activate_62_LogLevelToTagConverter;
+                userType.StaticInitializer = StaticInitializer_62_LogLevelToTagConverter;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 63:   //  ArcanePlayConnect.UI.Converters.BoolToVisibilityConverter
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.Activator = Activate_63_BoolToVisibilityConverter;
+                userType.StaticInitializer = StaticInitializer_63_BoolToVisibilityConverter;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 64:   //  ArcanePlayConnect.UI.Converters.InverseBoolConverter
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.Activator = Activate_64_InverseBoolConverter;
+                userType.StaticInitializer = StaticInitializer_64_InverseBoolConverter;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 65:   //  ArcanePlayConnect.UI.Converters.ActionTypeToBrushConverter
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.Activator = Activate_65_ActionTypeToBrushConverter;
+                userType.StaticInitializer = StaticInitializer_65_ActionTypeToBrushConverter;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 66:   //  ArcanePlayConnect.UI.Views.MainPage
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_66_MainPage;
+                userType.StaticInitializer = StaticInitializer_66_MainPage;
+                userType.AddMemberName("ViewModel");
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 67:   //  ArcanePlayConnect.UI.Views.MappingsPage
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_67_MappingsPage;
+                userType.StaticInitializer = StaticInitializer_67_MappingsPage;
+                userType.AddMemberName("ViewModel");
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 68:   //  ArcanePlayConnect.UI.Views.ProfilesPage
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_68_ProfilesPage;
+                userType.StaticInitializer = StaticInitializer_68_ProfilesPage;
+                userType.AddMemberName("ViewModel");
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 69:   //  ArcanePlayConnect.UI.Views.ShellPage
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_69_ShellPage;
+                userType.StaticInitializer = StaticInitializer_69_ShellPage;
+                userType.AddMemberName("ViewModel");
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 70:   //  Microsoft.UI.Xaml.Controls.TreeViewNode
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
+                userType.Activator = Activate_70_TreeViewNode;
+                userType.StaticInitializer = StaticInitializer_70_TreeViewNode;
                 userType.AddMemberName("Children");
                 userType.AddMemberName("Content");
                 userType.AddMemberName("Depth");
@@ -1020,10 +1091,10 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 65:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
+            case 71:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, null);
-                userType.StaticInitializer = StaticInitializer_65_IList;
-                userType.CollectionAdd = VectorAdd_65_IList;
+                userType.StaticInitializer = StaticInitializer_71_IList;
+                userType.CollectionAdd = VectorAdd_71_IList;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
@@ -1312,467 +1383,537 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
             that.Backdrop = (global::WinUIEx.SystemBackdrop)Value;
         }
 #pragma warning restore 0618
-        private object get_23_AddActionPage_Result(object instance)
+        private object get_23_CommandSuggestionBox_Text(object instance)
+        {
+            var that = (global::ArcanePlayConnect.UI.Controls.CommandSuggestionBox)instance;
+            return that.Text;
+        }
+        private void set_23_CommandSuggestionBox_Text(object instance, object Value)
+        {
+            var that = (global::ArcanePlayConnect.UI.Controls.CommandSuggestionBox)instance;
+            that.Text = (global::System.String)Value;
+        }
+        private object get_24_CommandSuggestionBox_PlaceholderText(object instance)
+        {
+            var that = (global::ArcanePlayConnect.UI.Controls.CommandSuggestionBox)instance;
+            return that.PlaceholderText;
+        }
+        private void set_24_CommandSuggestionBox_PlaceholderText(object instance, object Value)
+        {
+            var that = (global::ArcanePlayConnect.UI.Controls.CommandSuggestionBox)instance;
+            that.PlaceholderText = (global::System.String)Value;
+        }
+        private object get_25_CommandSuggestionBox_BorderBrush(object instance)
+        {
+            var that = (global::ArcanePlayConnect.UI.Controls.CommandSuggestionBox)instance;
+            return that.BorderBrush;
+        }
+        private void set_25_CommandSuggestionBox_BorderBrush(object instance, object Value)
+        {
+            var that = (global::ArcanePlayConnect.UI.Controls.CommandSuggestionBox)instance;
+            that.BorderBrush = (global::Microsoft.UI.Xaml.Media.Brush)Value;
+        }
+        private object get_26_AddActionPage_Result(object instance)
         {
             var that = (global::ArcanePlayConnect.UI.Views.AddActionPage)instance;
             return that.Result;
         }
-        private object get_24_NumberBox_Value(object instance)
+        private object get_27_NumberBox_Value(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             return that.Value;
         }
-        private void set_24_NumberBox_Value(object instance, object Value)
+        private void set_27_NumberBox_Value(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             that.Value = (global::System.Double)Value;
         }
-        private object get_25_NumberBox_Minimum(object instance)
+        private object get_28_NumberBox_Minimum(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             return that.Minimum;
         }
-        private void set_25_NumberBox_Minimum(object instance, object Value)
+        private void set_28_NumberBox_Minimum(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             that.Minimum = (global::System.Double)Value;
         }
-        private object get_26_NumberBox_Maximum(object instance)
+        private object get_29_NumberBox_Maximum(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             return that.Maximum;
         }
-        private void set_26_NumberBox_Maximum(object instance, object Value)
+        private void set_29_NumberBox_Maximum(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             that.Maximum = (global::System.Double)Value;
         }
-        private object get_27_NumberBox_SpinButtonPlacementMode(object instance)
+        private object get_30_NumberBox_SpinButtonPlacementMode(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             return that.SpinButtonPlacementMode;
         }
-        private void set_27_NumberBox_SpinButtonPlacementMode(object instance, object Value)
+        private void set_30_NumberBox_SpinButtonPlacementMode(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             that.SpinButtonPlacementMode = (global::Microsoft.UI.Xaml.Controls.NumberBoxSpinButtonPlacementMode)Value;
         }
-        private object get_28_NumberBox_AcceptsExpression(object instance)
-        {
-            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
-            return that.AcceptsExpression;
-        }
-        private void set_28_NumberBox_AcceptsExpression(object instance, object Value)
-        {
-            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
-            that.AcceptsExpression = (global::System.Boolean)Value;
-        }
-        private object get_29_NumberBox_Description(object instance)
-        {
-            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
-            return that.Description;
-        }
-        private void set_29_NumberBox_Description(object instance, object Value)
-        {
-            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
-            that.Description = (global::System.Object)Value;
-        }
-        private object get_30_NumberBox_Header(object instance)
-        {
-            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
-            return that.Header;
-        }
-        private void set_30_NumberBox_Header(object instance, object Value)
-        {
-            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
-            that.Header = (global::System.Object)Value;
-        }
-        private object get_31_NumberBox_HeaderTemplate(object instance)
-        {
-            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
-            return that.HeaderTemplate;
-        }
-        private void set_31_NumberBox_HeaderTemplate(object instance, object Value)
-        {
-            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
-            that.HeaderTemplate = (global::Microsoft.UI.Xaml.DataTemplate)Value;
-        }
-        private object get_32_NumberBox_IsWrapEnabled(object instance)
-        {
-            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
-            return that.IsWrapEnabled;
-        }
-        private void set_32_NumberBox_IsWrapEnabled(object instance, object Value)
-        {
-            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
-            that.IsWrapEnabled = (global::System.Boolean)Value;
-        }
-        private object get_33_NumberBox_LargeChange(object instance)
-        {
-            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
-            return that.LargeChange;
-        }
-        private void set_33_NumberBox_LargeChange(object instance, object Value)
-        {
-            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
-            that.LargeChange = (global::System.Double)Value;
-        }
-        private object get_34_NumberBox_NumberFormatter(object instance)
-        {
-            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
-            return that.NumberFormatter;
-        }
-        private void set_34_NumberBox_NumberFormatter(object instance, object Value)
-        {
-            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
-            that.NumberFormatter = (global::Windows.Globalization.NumberFormatting.INumberFormatter2)Value;
-        }
-        private object get_35_NumberBox_PlaceholderText(object instance)
+        private object get_31_NumberBox_PlaceholderText(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             return that.PlaceholderText;
         }
-        private void set_35_NumberBox_PlaceholderText(object instance, object Value)
+        private void set_31_NumberBox_PlaceholderText(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             that.PlaceholderText = (global::System.String)Value;
         }
-        private object get_36_NumberBox_PreventKeyboardDisplayOnProgrammaticFocus(object instance)
+        private object get_32_NumberBox_AcceptsExpression(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
+            return that.AcceptsExpression;
+        }
+        private void set_32_NumberBox_AcceptsExpression(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
+            that.AcceptsExpression = (global::System.Boolean)Value;
+        }
+        private object get_33_NumberBox_Description(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
+            return that.Description;
+        }
+        private void set_33_NumberBox_Description(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
+            that.Description = (global::System.Object)Value;
+        }
+        private object get_34_NumberBox_Header(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
+            return that.Header;
+        }
+        private void set_34_NumberBox_Header(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
+            that.Header = (global::System.Object)Value;
+        }
+        private object get_35_NumberBox_HeaderTemplate(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
+            return that.HeaderTemplate;
+        }
+        private void set_35_NumberBox_HeaderTemplate(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
+            that.HeaderTemplate = (global::Microsoft.UI.Xaml.DataTemplate)Value;
+        }
+        private object get_36_NumberBox_IsWrapEnabled(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
+            return that.IsWrapEnabled;
+        }
+        private void set_36_NumberBox_IsWrapEnabled(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
+            that.IsWrapEnabled = (global::System.Boolean)Value;
+        }
+        private object get_37_NumberBox_LargeChange(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
+            return that.LargeChange;
+        }
+        private void set_37_NumberBox_LargeChange(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
+            that.LargeChange = (global::System.Double)Value;
+        }
+        private object get_38_NumberBox_NumberFormatter(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
+            return that.NumberFormatter;
+        }
+        private void set_38_NumberBox_NumberFormatter(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
+            that.NumberFormatter = (global::Windows.Globalization.NumberFormatting.INumberFormatter2)Value;
+        }
+        private object get_39_NumberBox_PreventKeyboardDisplayOnProgrammaticFocus(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             return that.PreventKeyboardDisplayOnProgrammaticFocus;
         }
-        private void set_36_NumberBox_PreventKeyboardDisplayOnProgrammaticFocus(object instance, object Value)
+        private void set_39_NumberBox_PreventKeyboardDisplayOnProgrammaticFocus(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             that.PreventKeyboardDisplayOnProgrammaticFocus = (global::System.Boolean)Value;
         }
-        private object get_37_NumberBox_SelectionFlyout(object instance)
+        private object get_40_NumberBox_SelectionFlyout(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             return that.SelectionFlyout;
         }
-        private void set_37_NumberBox_SelectionFlyout(object instance, object Value)
+        private void set_40_NumberBox_SelectionFlyout(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             that.SelectionFlyout = (global::Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase)Value;
         }
-        private object get_38_NumberBox_SelectionHighlightColor(object instance)
+        private object get_41_NumberBox_SelectionHighlightColor(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             return that.SelectionHighlightColor;
         }
-        private void set_38_NumberBox_SelectionHighlightColor(object instance, object Value)
+        private void set_41_NumberBox_SelectionHighlightColor(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             that.SelectionHighlightColor = (global::Microsoft.UI.Xaml.Media.SolidColorBrush)Value;
         }
-        private object get_39_NumberBox_SmallChange(object instance)
+        private object get_42_NumberBox_SmallChange(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             return that.SmallChange;
         }
-        private void set_39_NumberBox_SmallChange(object instance, object Value)
+        private void set_42_NumberBox_SmallChange(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             that.SmallChange = (global::System.Double)Value;
         }
-        private object get_40_NumberBox_Text(object instance)
+        private object get_43_NumberBox_Text(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             return that.Text;
         }
-        private void set_40_NumberBox_Text(object instance, object Value)
+        private void set_43_NumberBox_Text(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             that.Text = (global::System.String)Value;
         }
-        private object get_41_NumberBox_TextReadingOrder(object instance)
+        private object get_44_NumberBox_TextReadingOrder(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             return that.TextReadingOrder;
         }
-        private void set_41_NumberBox_TextReadingOrder(object instance, object Value)
+        private void set_44_NumberBox_TextReadingOrder(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             that.TextReadingOrder = (global::Microsoft.UI.Xaml.TextReadingOrder)Value;
         }
-        private object get_42_NumberBox_ValidationMode(object instance)
+        private object get_45_NumberBox_ValidationMode(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             return that.ValidationMode;
         }
-        private void set_42_NumberBox_ValidationMode(object instance, object Value)
+        private void set_45_NumberBox_ValidationMode(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.NumberBox)instance;
             that.ValidationMode = (global::Microsoft.UI.Xaml.Controls.NumberBoxValidationMode)Value;
         }
-        private object get_43_ButtonEditorPage_Result(object instance)
+        private object get_46_ButtonEditorPage_Result(object instance)
         {
             var that = (global::ArcanePlayConnect.UI.Views.ButtonEditorPage)instance;
             return that.Result;
         }
-        private object get_44_ItemsRepeater_ItemTemplate(object instance)
+        private object get_47_ItemsRepeater_ItemTemplate(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             return that.ItemTemplate;
         }
-        private void set_44_ItemsRepeater_ItemTemplate(object instance, object Value)
+        private void set_47_ItemsRepeater_ItemTemplate(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             that.ItemTemplate = (global::System.Object)Value;
         }
-        private object get_45_ItemsRepeater_ItemsSource(object instance)
+        private object get_48_ItemsRepeater_ItemsSource(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             return that.ItemsSource;
         }
-        private void set_45_ItemsRepeater_ItemsSource(object instance, object Value)
+        private void set_48_ItemsRepeater_ItemsSource(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             that.ItemsSource = (global::System.Object)Value;
         }
-        private object get_46_ItemsRepeater_Layout(object instance)
+        private object get_49_ItemsRepeater_Layout(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             return that.Layout;
         }
-        private void set_46_ItemsRepeater_Layout(object instance, object Value)
+        private void set_49_ItemsRepeater_Layout(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             that.Layout = (global::Microsoft.UI.Xaml.Controls.Layout)Value;
         }
-        private object get_47_ItemsRepeater_Background(object instance)
+        private object get_50_ItemsRepeater_Background(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             return that.Background;
         }
-        private void set_47_ItemsRepeater_Background(object instance, object Value)
+        private void set_50_ItemsRepeater_Background(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             that.Background = (global::Microsoft.UI.Xaml.Media.Brush)Value;
         }
-        private object get_48_ItemsRepeater_HorizontalCacheLength(object instance)
+        private object get_51_ItemsRepeater_HorizontalCacheLength(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             return that.HorizontalCacheLength;
         }
-        private void set_48_ItemsRepeater_HorizontalCacheLength(object instance, object Value)
+        private void set_51_ItemsRepeater_HorizontalCacheLength(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             that.HorizontalCacheLength = (global::System.Double)Value;
         }
-        private object get_49_ItemsRepeater_ItemTransitionProvider(object instance)
+        private object get_52_ItemsRepeater_ItemTransitionProvider(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             return that.ItemTransitionProvider;
         }
-        private void set_49_ItemsRepeater_ItemTransitionProvider(object instance, object Value)
+        private void set_52_ItemsRepeater_ItemTransitionProvider(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             that.ItemTransitionProvider = (global::Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider)Value;
         }
-        private object get_50_ItemsRepeater_ItemsSourceView(object instance)
+        private object get_53_ItemsRepeater_ItemsSourceView(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             return that.ItemsSourceView;
         }
-        private object get_51_ItemsRepeater_VerticalCacheLength(object instance)
+        private object get_54_ItemsRepeater_VerticalCacheLength(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             return that.VerticalCacheLength;
         }
-        private void set_51_ItemsRepeater_VerticalCacheLength(object instance, object Value)
+        private void set_54_ItemsRepeater_VerticalCacheLength(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
             that.VerticalCacheLength = (global::System.Double)Value;
         }
-        private object get_52_UniformGridLayout_MinItemWidth(object instance)
+        private object get_55_UniformGridLayout_MinItemWidth(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             return that.MinItemWidth;
         }
-        private void set_52_UniformGridLayout_MinItemWidth(object instance, object Value)
+        private void set_55_UniformGridLayout_MinItemWidth(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             that.MinItemWidth = (global::System.Double)Value;
         }
-        private object get_53_UniformGridLayout_MinItemHeight(object instance)
+        private object get_56_UniformGridLayout_MinItemHeight(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             return that.MinItemHeight;
         }
-        private void set_53_UniformGridLayout_MinItemHeight(object instance, object Value)
+        private void set_56_UniformGridLayout_MinItemHeight(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             that.MinItemHeight = (global::System.Double)Value;
         }
-        private object get_54_UniformGridLayout_MinColumnSpacing(object instance)
+        private object get_57_UniformGridLayout_MinColumnSpacing(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             return that.MinColumnSpacing;
         }
-        private void set_54_UniformGridLayout_MinColumnSpacing(object instance, object Value)
+        private void set_57_UniformGridLayout_MinColumnSpacing(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             that.MinColumnSpacing = (global::System.Double)Value;
         }
-        private object get_55_UniformGridLayout_MinRowSpacing(object instance)
+        private object get_58_UniformGridLayout_MinRowSpacing(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             return that.MinRowSpacing;
         }
-        private void set_55_UniformGridLayout_MinRowSpacing(object instance, object Value)
+        private void set_58_UniformGridLayout_MinRowSpacing(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             that.MinRowSpacing = (global::System.Double)Value;
         }
-        private object get_56_UniformGridLayout_ItemsStretch(object instance)
+        private object get_59_UniformGridLayout_ItemsStretch(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             return that.ItemsStretch;
         }
-        private void set_56_UniformGridLayout_ItemsStretch(object instance, object Value)
+        private void set_59_UniformGridLayout_ItemsStretch(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             that.ItemsStretch = (global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsStretch)Value;
         }
-        private object get_57_UniformGridLayout_ItemsJustification(object instance)
+        private object get_60_UniformGridLayout_ItemsJustification(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             return that.ItemsJustification;
         }
-        private void set_57_UniformGridLayout_ItemsJustification(object instance, object Value)
+        private void set_60_UniformGridLayout_ItemsJustification(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             that.ItemsJustification = (global::Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsJustification)Value;
         }
-        private object get_58_UniformGridLayout_MaximumRowsOrColumns(object instance)
+        private object get_61_UniformGridLayout_MaximumRowsOrColumns(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             return that.MaximumRowsOrColumns;
         }
-        private void set_58_UniformGridLayout_MaximumRowsOrColumns(object instance, object Value)
+        private void set_61_UniformGridLayout_MaximumRowsOrColumns(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             that.MaximumRowsOrColumns = (global::System.Int32)Value;
         }
-        private object get_59_UniformGridLayout_Orientation(object instance)
+        private object get_62_UniformGridLayout_Orientation(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             return that.Orientation;
         }
-        private void set_59_UniformGridLayout_Orientation(object instance, object Value)
+        private void set_62_UniformGridLayout_Orientation(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.UniformGridLayout)instance;
             that.Orientation = (global::Microsoft.UI.Xaml.Controls.Orientation)Value;
         }
-        private object get_60_Layout_IndexBasedLayoutOrientation(object instance)
+        private object get_63_Layout_IndexBasedLayoutOrientation(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.Layout)instance;
             return that.IndexBasedLayoutOrientation;
         }
-        private object get_61_StackLayout_Spacing(object instance)
+        private object get_64_StackLayout_Spacing(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.StackLayout)instance;
             return that.Spacing;
         }
-        private void set_61_StackLayout_Spacing(object instance, object Value)
+        private void set_64_StackLayout_Spacing(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.StackLayout)instance;
             that.Spacing = (global::System.Double)Value;
         }
-        private object get_62_StackLayout_Orientation(object instance)
+        private object get_65_StackLayout_Orientation(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.StackLayout)instance;
             return that.Orientation;
         }
-        private void set_62_StackLayout_Orientation(object instance, object Value)
+        private void set_65_StackLayout_Orientation(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.StackLayout)instance;
             that.Orientation = (global::Microsoft.UI.Xaml.Controls.Orientation)Value;
         }
-        private object get_63_CommandButtonsPage_ViewModel(object instance)
+        private object get_66_CommandButtonsPage_ViewModel(object instance)
         {
             var that = (global::ArcanePlayConnect.UI.Views.CommandButtonsPage)instance;
             return that.ViewModel;
         }
-        private object get_64_DashboardPage_ViewModel(object instance)
+        private object get_67_ProgressBar_IsIndeterminate(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressBar)instance;
+            return that.IsIndeterminate;
+        }
+        private void set_67_ProgressBar_IsIndeterminate(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressBar)instance;
+            that.IsIndeterminate = (global::System.Boolean)Value;
+        }
+        private object get_68_ProgressBar_ShowError(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressBar)instance;
+            return that.ShowError;
+        }
+        private void set_68_ProgressBar_ShowError(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressBar)instance;
+            that.ShowError = (global::System.Boolean)Value;
+        }
+        private object get_69_ProgressBar_ShowPaused(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressBar)instance;
+            return that.ShowPaused;
+        }
+        private void set_69_ProgressBar_ShowPaused(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressBar)instance;
+            that.ShowPaused = (global::System.Boolean)Value;
+        }
+        private object get_70_ProgressBar_TemplateSettings(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressBar)instance;
+            return that.TemplateSettings;
+        }
+        private object get_71_CreatureArenaPage_ViewModel(object instance)
+        {
+            var that = (global::ArcanePlayConnect.UI.Views.CreatureArenaPage)instance;
+            return that.ViewModel;
+        }
+        private object get_72_DashboardPage_ViewModel(object instance)
         {
             var that = (global::ArcanePlayConnect.UI.Views.DashboardPage)instance;
             return that.ViewModel;
         }
-        private object get_65_EventLogPage_ViewModel(object instance)
+        private object get_73_EventLogPage_ViewModel(object instance)
         {
             var that = (global::ArcanePlayConnect.UI.Views.EventLogPage)instance;
             return that.ViewModel;
         }
-        private object get_66_MainPage_ViewModel(object instance)
+        private object get_74_MainPage_ViewModel(object instance)
         {
             var that = (global::ArcanePlayConnect.UI.Views.MainPage)instance;
             return that.ViewModel;
         }
-        private object get_67_MappingsPage_ViewModel(object instance)
+        private object get_75_MappingsPage_ViewModel(object instance)
         {
             var that = (global::ArcanePlayConnect.UI.Views.MappingsPage)instance;
             return that.ViewModel;
         }
-        private object get_68_ProfilesPage_ViewModel(object instance)
+        private object get_76_ProfilesPage_ViewModel(object instance)
         {
             var that = (global::ArcanePlayConnect.UI.Views.ProfilesPage)instance;
             return that.ViewModel;
         }
-        private object get_69_ShellPage_ViewModel(object instance)
+        private object get_77_ShellPage_ViewModel(object instance)
         {
             var that = (global::ArcanePlayConnect.UI.Views.ShellPage)instance;
             return that.ViewModel;
         }
-        private object get_70_TreeViewNode_Children(object instance)
+        private object get_78_TreeViewNode_Children(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Children;
         }
-        private object get_71_TreeViewNode_Content(object instance)
+        private object get_79_TreeViewNode_Content(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Content;
         }
-        private void set_71_TreeViewNode_Content(object instance, object Value)
+        private void set_79_TreeViewNode_Content(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.Content = (global::System.Object)Value;
         }
-        private object get_72_TreeViewNode_Depth(object instance)
+        private object get_80_TreeViewNode_Depth(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Depth;
         }
-        private object get_73_TreeViewNode_HasChildren(object instance)
+        private object get_81_TreeViewNode_HasChildren(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.HasChildren;
         }
-        private object get_74_TreeViewNode_HasUnrealizedChildren(object instance)
+        private object get_82_TreeViewNode_HasUnrealizedChildren(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.HasUnrealizedChildren;
         }
-        private void set_74_TreeViewNode_HasUnrealizedChildren(object instance, object Value)
+        private void set_82_TreeViewNode_HasUnrealizedChildren(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.HasUnrealizedChildren = (global::System.Boolean)Value;
         }
-        private object get_75_TreeViewNode_IsExpanded(object instance)
+        private object get_83_TreeViewNode_IsExpanded(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.IsExpanded;
         }
-        private void set_75_TreeViewNode_IsExpanded(object instance, object Value)
+        private void set_83_TreeViewNode_IsExpanded(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.IsExpanded = (global::System.Boolean)Value;
         }
-        private object get_76_TreeViewNode_Parent(object instance)
+        private object get_84_TreeViewNode_Parent(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Parent;
@@ -1924,368 +2065,420 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
                 xamlMember.Getter = get_22_WindowEx_Backdrop;
                 xamlMember.Setter = set_22_WindowEx_Backdrop;
                 break;
+            case "ArcanePlayConnect.UI.Controls.CommandSuggestionBox.Text":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Controls.CommandSuggestionBox");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Text", "String");
+                xamlMember.Getter = get_23_CommandSuggestionBox_Text;
+                xamlMember.Setter = set_23_CommandSuggestionBox_Text;
+                break;
+            case "ArcanePlayConnect.UI.Controls.CommandSuggestionBox.PlaceholderText":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Controls.CommandSuggestionBox");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "PlaceholderText", "String");
+                xamlMember.Getter = get_24_CommandSuggestionBox_PlaceholderText;
+                xamlMember.Setter = set_24_CommandSuggestionBox_PlaceholderText;
+                break;
+            case "ArcanePlayConnect.UI.Controls.CommandSuggestionBox.BorderBrush":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Controls.CommandSuggestionBox");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "BorderBrush", "Microsoft.UI.Xaml.Media.Brush");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_25_CommandSuggestionBox_BorderBrush;
+                xamlMember.Setter = set_25_CommandSuggestionBox_BorderBrush;
+                break;
             case "ArcanePlayConnect.UI.Views.AddActionPage.Result":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Views.AddActionPage");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Result", "ArcanePlayConnect.UI.ViewModels.ActionMappingItem");
-                xamlMember.Getter = get_23_AddActionPage_Result;
+                xamlMember.Getter = get_26_AddActionPage_Result;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.NumberBox.Value":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Value", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_24_NumberBox_Value;
-                xamlMember.Setter = set_24_NumberBox_Value;
+                xamlMember.Getter = get_27_NumberBox_Value;
+                xamlMember.Setter = set_27_NumberBox_Value;
                 break;
             case "Microsoft.UI.Xaml.Controls.NumberBox.Minimum":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Minimum", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_25_NumberBox_Minimum;
-                xamlMember.Setter = set_25_NumberBox_Minimum;
+                xamlMember.Getter = get_28_NumberBox_Minimum;
+                xamlMember.Setter = set_28_NumberBox_Minimum;
                 break;
             case "Microsoft.UI.Xaml.Controls.NumberBox.Maximum":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Maximum", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_26_NumberBox_Maximum;
-                xamlMember.Setter = set_26_NumberBox_Maximum;
+                xamlMember.Getter = get_29_NumberBox_Maximum;
+                xamlMember.Setter = set_29_NumberBox_Maximum;
                 break;
             case "Microsoft.UI.Xaml.Controls.NumberBox.SpinButtonPlacementMode":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "SpinButtonPlacementMode", "Microsoft.UI.Xaml.Controls.NumberBoxSpinButtonPlacementMode");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_27_NumberBox_SpinButtonPlacementMode;
-                xamlMember.Setter = set_27_NumberBox_SpinButtonPlacementMode;
-                break;
-            case "Microsoft.UI.Xaml.Controls.NumberBox.AcceptsExpression":
-                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
-                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "AcceptsExpression", "Boolean");
-                xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_28_NumberBox_AcceptsExpression;
-                xamlMember.Setter = set_28_NumberBox_AcceptsExpression;
-                break;
-            case "Microsoft.UI.Xaml.Controls.NumberBox.Description":
-                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
-                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Description", "Object");
-                xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_29_NumberBox_Description;
-                xamlMember.Setter = set_29_NumberBox_Description;
-                break;
-            case "Microsoft.UI.Xaml.Controls.NumberBox.Header":
-                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
-                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Header", "Object");
-                xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_30_NumberBox_Header;
-                xamlMember.Setter = set_30_NumberBox_Header;
-                break;
-            case "Microsoft.UI.Xaml.Controls.NumberBox.HeaderTemplate":
-                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
-                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "HeaderTemplate", "Microsoft.UI.Xaml.DataTemplate");
-                xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_31_NumberBox_HeaderTemplate;
-                xamlMember.Setter = set_31_NumberBox_HeaderTemplate;
-                break;
-            case "Microsoft.UI.Xaml.Controls.NumberBox.IsWrapEnabled":
-                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
-                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "IsWrapEnabled", "Boolean");
-                xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_32_NumberBox_IsWrapEnabled;
-                xamlMember.Setter = set_32_NumberBox_IsWrapEnabled;
-                break;
-            case "Microsoft.UI.Xaml.Controls.NumberBox.LargeChange":
-                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
-                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "LargeChange", "Double");
-                xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_33_NumberBox_LargeChange;
-                xamlMember.Setter = set_33_NumberBox_LargeChange;
-                break;
-            case "Microsoft.UI.Xaml.Controls.NumberBox.NumberFormatter":
-                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
-                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "NumberFormatter", "Windows.Globalization.NumberFormatting.INumberFormatter2");
-                xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_34_NumberBox_NumberFormatter;
-                xamlMember.Setter = set_34_NumberBox_NumberFormatter;
+                xamlMember.Getter = get_30_NumberBox_SpinButtonPlacementMode;
+                xamlMember.Setter = set_30_NumberBox_SpinButtonPlacementMode;
                 break;
             case "Microsoft.UI.Xaml.Controls.NumberBox.PlaceholderText":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "PlaceholderText", "String");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_35_NumberBox_PlaceholderText;
-                xamlMember.Setter = set_35_NumberBox_PlaceholderText;
+                xamlMember.Getter = get_31_NumberBox_PlaceholderText;
+                xamlMember.Setter = set_31_NumberBox_PlaceholderText;
+                break;
+            case "Microsoft.UI.Xaml.Controls.NumberBox.AcceptsExpression":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "AcceptsExpression", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_32_NumberBox_AcceptsExpression;
+                xamlMember.Setter = set_32_NumberBox_AcceptsExpression;
+                break;
+            case "Microsoft.UI.Xaml.Controls.NumberBox.Description":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Description", "Object");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_33_NumberBox_Description;
+                xamlMember.Setter = set_33_NumberBox_Description;
+                break;
+            case "Microsoft.UI.Xaml.Controls.NumberBox.Header":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Header", "Object");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_34_NumberBox_Header;
+                xamlMember.Setter = set_34_NumberBox_Header;
+                break;
+            case "Microsoft.UI.Xaml.Controls.NumberBox.HeaderTemplate":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "HeaderTemplate", "Microsoft.UI.Xaml.DataTemplate");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_35_NumberBox_HeaderTemplate;
+                xamlMember.Setter = set_35_NumberBox_HeaderTemplate;
+                break;
+            case "Microsoft.UI.Xaml.Controls.NumberBox.IsWrapEnabled":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "IsWrapEnabled", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_36_NumberBox_IsWrapEnabled;
+                xamlMember.Setter = set_36_NumberBox_IsWrapEnabled;
+                break;
+            case "Microsoft.UI.Xaml.Controls.NumberBox.LargeChange":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "LargeChange", "Double");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_37_NumberBox_LargeChange;
+                xamlMember.Setter = set_37_NumberBox_LargeChange;
+                break;
+            case "Microsoft.UI.Xaml.Controls.NumberBox.NumberFormatter":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "NumberFormatter", "Windows.Globalization.NumberFormatting.INumberFormatter2");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_38_NumberBox_NumberFormatter;
+                xamlMember.Setter = set_38_NumberBox_NumberFormatter;
                 break;
             case "Microsoft.UI.Xaml.Controls.NumberBox.PreventKeyboardDisplayOnProgrammaticFocus":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "PreventKeyboardDisplayOnProgrammaticFocus", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_36_NumberBox_PreventKeyboardDisplayOnProgrammaticFocus;
-                xamlMember.Setter = set_36_NumberBox_PreventKeyboardDisplayOnProgrammaticFocus;
+                xamlMember.Getter = get_39_NumberBox_PreventKeyboardDisplayOnProgrammaticFocus;
+                xamlMember.Setter = set_39_NumberBox_PreventKeyboardDisplayOnProgrammaticFocus;
                 break;
             case "Microsoft.UI.Xaml.Controls.NumberBox.SelectionFlyout":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "SelectionFlyout", "Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_37_NumberBox_SelectionFlyout;
-                xamlMember.Setter = set_37_NumberBox_SelectionFlyout;
+                xamlMember.Getter = get_40_NumberBox_SelectionFlyout;
+                xamlMember.Setter = set_40_NumberBox_SelectionFlyout;
                 break;
             case "Microsoft.UI.Xaml.Controls.NumberBox.SelectionHighlightColor":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "SelectionHighlightColor", "Microsoft.UI.Xaml.Media.SolidColorBrush");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_38_NumberBox_SelectionHighlightColor;
-                xamlMember.Setter = set_38_NumberBox_SelectionHighlightColor;
+                xamlMember.Getter = get_41_NumberBox_SelectionHighlightColor;
+                xamlMember.Setter = set_41_NumberBox_SelectionHighlightColor;
                 break;
             case "Microsoft.UI.Xaml.Controls.NumberBox.SmallChange":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "SmallChange", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_39_NumberBox_SmallChange;
-                xamlMember.Setter = set_39_NumberBox_SmallChange;
+                xamlMember.Getter = get_42_NumberBox_SmallChange;
+                xamlMember.Setter = set_42_NumberBox_SmallChange;
                 break;
             case "Microsoft.UI.Xaml.Controls.NumberBox.Text":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Text", "String");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_40_NumberBox_Text;
-                xamlMember.Setter = set_40_NumberBox_Text;
+                xamlMember.Getter = get_43_NumberBox_Text;
+                xamlMember.Setter = set_43_NumberBox_Text;
                 break;
             case "Microsoft.UI.Xaml.Controls.NumberBox.TextReadingOrder":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "TextReadingOrder", "Microsoft.UI.Xaml.TextReadingOrder");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_41_NumberBox_TextReadingOrder;
-                xamlMember.Setter = set_41_NumberBox_TextReadingOrder;
+                xamlMember.Getter = get_44_NumberBox_TextReadingOrder;
+                xamlMember.Setter = set_44_NumberBox_TextReadingOrder;
                 break;
             case "Microsoft.UI.Xaml.Controls.NumberBox.ValidationMode":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.NumberBox");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ValidationMode", "Microsoft.UI.Xaml.Controls.NumberBoxValidationMode");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_42_NumberBox_ValidationMode;
-                xamlMember.Setter = set_42_NumberBox_ValidationMode;
+                xamlMember.Getter = get_45_NumberBox_ValidationMode;
+                xamlMember.Setter = set_45_NumberBox_ValidationMode;
                 break;
             case "ArcanePlayConnect.UI.Views.ButtonEditorPage.Result":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Views.ButtonEditorPage");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Result", "ArcanePlayConnect.Core.Models.CommandButton");
-                xamlMember.Getter = get_43_ButtonEditorPage_Result;
+                xamlMember.Getter = get_46_ButtonEditorPage_Result;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.ItemsRepeater.ItemTemplate":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ItemTemplate", "Object");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_44_ItemsRepeater_ItemTemplate;
-                xamlMember.Setter = set_44_ItemsRepeater_ItemTemplate;
+                xamlMember.Getter = get_47_ItemsRepeater_ItemTemplate;
+                xamlMember.Setter = set_47_ItemsRepeater_ItemTemplate;
                 break;
             case "Microsoft.UI.Xaml.Controls.ItemsRepeater.ItemsSource":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ItemsSource", "Object");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_45_ItemsRepeater_ItemsSource;
-                xamlMember.Setter = set_45_ItemsRepeater_ItemsSource;
+                xamlMember.Getter = get_48_ItemsRepeater_ItemsSource;
+                xamlMember.Setter = set_48_ItemsRepeater_ItemsSource;
                 break;
             case "Microsoft.UI.Xaml.Controls.ItemsRepeater.Layout":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Layout", "Microsoft.UI.Xaml.Controls.Layout");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_46_ItemsRepeater_Layout;
-                xamlMember.Setter = set_46_ItemsRepeater_Layout;
+                xamlMember.Getter = get_49_ItemsRepeater_Layout;
+                xamlMember.Setter = set_49_ItemsRepeater_Layout;
                 break;
             case "Microsoft.UI.Xaml.Controls.ItemsRepeater.Background":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Background", "Microsoft.UI.Xaml.Media.Brush");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_47_ItemsRepeater_Background;
-                xamlMember.Setter = set_47_ItemsRepeater_Background;
+                xamlMember.Getter = get_50_ItemsRepeater_Background;
+                xamlMember.Setter = set_50_ItemsRepeater_Background;
                 break;
             case "Microsoft.UI.Xaml.Controls.ItemsRepeater.HorizontalCacheLength":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "HorizontalCacheLength", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_48_ItemsRepeater_HorizontalCacheLength;
-                xamlMember.Setter = set_48_ItemsRepeater_HorizontalCacheLength;
+                xamlMember.Getter = get_51_ItemsRepeater_HorizontalCacheLength;
+                xamlMember.Setter = set_51_ItemsRepeater_HorizontalCacheLength;
                 break;
             case "Microsoft.UI.Xaml.Controls.ItemsRepeater.ItemTransitionProvider":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ItemTransitionProvider", "Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_49_ItemsRepeater_ItemTransitionProvider;
-                xamlMember.Setter = set_49_ItemsRepeater_ItemTransitionProvider;
+                xamlMember.Getter = get_52_ItemsRepeater_ItemTransitionProvider;
+                xamlMember.Setter = set_52_ItemsRepeater_ItemTransitionProvider;
                 break;
             case "Microsoft.UI.Xaml.Controls.ItemsRepeater.ItemsSourceView":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ItemsSourceView", "Microsoft.UI.Xaml.Controls.ItemsSourceView");
-                xamlMember.Getter = get_50_ItemsRepeater_ItemsSourceView;
+                xamlMember.Getter = get_53_ItemsRepeater_ItemsSourceView;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.ItemsRepeater.VerticalCacheLength":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "VerticalCacheLength", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_51_ItemsRepeater_VerticalCacheLength;
-                xamlMember.Setter = set_51_ItemsRepeater_VerticalCacheLength;
+                xamlMember.Getter = get_54_ItemsRepeater_VerticalCacheLength;
+                xamlMember.Setter = set_54_ItemsRepeater_VerticalCacheLength;
                 break;
             case "Microsoft.UI.Xaml.Controls.UniformGridLayout.MinItemWidth":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.UniformGridLayout");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "MinItemWidth", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_52_UniformGridLayout_MinItemWidth;
-                xamlMember.Setter = set_52_UniformGridLayout_MinItemWidth;
+                xamlMember.Getter = get_55_UniformGridLayout_MinItemWidth;
+                xamlMember.Setter = set_55_UniformGridLayout_MinItemWidth;
                 break;
             case "Microsoft.UI.Xaml.Controls.UniformGridLayout.MinItemHeight":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.UniformGridLayout");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "MinItemHeight", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_53_UniformGridLayout_MinItemHeight;
-                xamlMember.Setter = set_53_UniformGridLayout_MinItemHeight;
+                xamlMember.Getter = get_56_UniformGridLayout_MinItemHeight;
+                xamlMember.Setter = set_56_UniformGridLayout_MinItemHeight;
                 break;
             case "Microsoft.UI.Xaml.Controls.UniformGridLayout.MinColumnSpacing":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.UniformGridLayout");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "MinColumnSpacing", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_54_UniformGridLayout_MinColumnSpacing;
-                xamlMember.Setter = set_54_UniformGridLayout_MinColumnSpacing;
+                xamlMember.Getter = get_57_UniformGridLayout_MinColumnSpacing;
+                xamlMember.Setter = set_57_UniformGridLayout_MinColumnSpacing;
                 break;
             case "Microsoft.UI.Xaml.Controls.UniformGridLayout.MinRowSpacing":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.UniformGridLayout");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "MinRowSpacing", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_55_UniformGridLayout_MinRowSpacing;
-                xamlMember.Setter = set_55_UniformGridLayout_MinRowSpacing;
+                xamlMember.Getter = get_58_UniformGridLayout_MinRowSpacing;
+                xamlMember.Setter = set_58_UniformGridLayout_MinRowSpacing;
                 break;
             case "Microsoft.UI.Xaml.Controls.UniformGridLayout.ItemsStretch":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.UniformGridLayout");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ItemsStretch", "Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsStretch");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_56_UniformGridLayout_ItemsStretch;
-                xamlMember.Setter = set_56_UniformGridLayout_ItemsStretch;
+                xamlMember.Getter = get_59_UniformGridLayout_ItemsStretch;
+                xamlMember.Setter = set_59_UniformGridLayout_ItemsStretch;
                 break;
             case "Microsoft.UI.Xaml.Controls.UniformGridLayout.ItemsJustification":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.UniformGridLayout");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ItemsJustification", "Microsoft.UI.Xaml.Controls.UniformGridLayoutItemsJustification");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_57_UniformGridLayout_ItemsJustification;
-                xamlMember.Setter = set_57_UniformGridLayout_ItemsJustification;
+                xamlMember.Getter = get_60_UniformGridLayout_ItemsJustification;
+                xamlMember.Setter = set_60_UniformGridLayout_ItemsJustification;
                 break;
             case "Microsoft.UI.Xaml.Controls.UniformGridLayout.MaximumRowsOrColumns":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.UniformGridLayout");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "MaximumRowsOrColumns", "Int32");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_58_UniformGridLayout_MaximumRowsOrColumns;
-                xamlMember.Setter = set_58_UniformGridLayout_MaximumRowsOrColumns;
+                xamlMember.Getter = get_61_UniformGridLayout_MaximumRowsOrColumns;
+                xamlMember.Setter = set_61_UniformGridLayout_MaximumRowsOrColumns;
                 break;
             case "Microsoft.UI.Xaml.Controls.UniformGridLayout.Orientation":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.UniformGridLayout");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Orientation", "Microsoft.UI.Xaml.Controls.Orientation");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_59_UniformGridLayout_Orientation;
-                xamlMember.Setter = set_59_UniformGridLayout_Orientation;
+                xamlMember.Getter = get_62_UniformGridLayout_Orientation;
+                xamlMember.Setter = set_62_UniformGridLayout_Orientation;
                 break;
             case "Microsoft.UI.Xaml.Controls.Layout.IndexBasedLayoutOrientation":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Layout");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "IndexBasedLayoutOrientation", "Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation");
-                xamlMember.Getter = get_60_Layout_IndexBasedLayoutOrientation;
+                xamlMember.Getter = get_63_Layout_IndexBasedLayoutOrientation;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.StackLayout.Spacing":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.StackLayout");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Spacing", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_61_StackLayout_Spacing;
-                xamlMember.Setter = set_61_StackLayout_Spacing;
+                xamlMember.Getter = get_64_StackLayout_Spacing;
+                xamlMember.Setter = set_64_StackLayout_Spacing;
                 break;
             case "Microsoft.UI.Xaml.Controls.StackLayout.Orientation":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.StackLayout");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Orientation", "Microsoft.UI.Xaml.Controls.Orientation");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_62_StackLayout_Orientation;
-                xamlMember.Setter = set_62_StackLayout_Orientation;
+                xamlMember.Getter = get_65_StackLayout_Orientation;
+                xamlMember.Setter = set_65_StackLayout_Orientation;
                 break;
             case "ArcanePlayConnect.UI.Views.CommandButtonsPage.ViewModel":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Views.CommandButtonsPage");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ViewModel", "ArcanePlayConnect.UI.ViewModels.MainViewModel");
-                xamlMember.Getter = get_63_CommandButtonsPage_ViewModel;
+                xamlMember.Getter = get_66_CommandButtonsPage_ViewModel;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressBar.IsIndeterminate":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressBar");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "IsIndeterminate", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_67_ProgressBar_IsIndeterminate;
+                xamlMember.Setter = set_67_ProgressBar_IsIndeterminate;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressBar.ShowError":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressBar");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ShowError", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_68_ProgressBar_ShowError;
+                xamlMember.Setter = set_68_ProgressBar_ShowError;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressBar.ShowPaused":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressBar");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ShowPaused", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_69_ProgressBar_ShowPaused;
+                xamlMember.Setter = set_69_ProgressBar_ShowPaused;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressBar.TemplateSettings":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressBar");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "TemplateSettings", "Microsoft.UI.Xaml.Controls.ProgressBarTemplateSettings");
+                xamlMember.Getter = get_70_ProgressBar_TemplateSettings;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "ArcanePlayConnect.UI.Views.CreatureArenaPage.ViewModel":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Views.CreatureArenaPage");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ViewModel", "ArcanePlayConnect.UI.ViewModels.MainViewModel");
+                xamlMember.Getter = get_71_CreatureArenaPage_ViewModel;
                 xamlMember.SetIsReadOnly();
                 break;
             case "ArcanePlayConnect.UI.Views.DashboardPage.ViewModel":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Views.DashboardPage");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ViewModel", "ArcanePlayConnect.UI.ViewModels.MainViewModel");
-                xamlMember.Getter = get_64_DashboardPage_ViewModel;
+                xamlMember.Getter = get_72_DashboardPage_ViewModel;
                 xamlMember.SetIsReadOnly();
                 break;
             case "ArcanePlayConnect.UI.Views.EventLogPage.ViewModel":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Views.EventLogPage");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ViewModel", "ArcanePlayConnect.UI.ViewModels.MainViewModel");
-                xamlMember.Getter = get_65_EventLogPage_ViewModel;
+                xamlMember.Getter = get_73_EventLogPage_ViewModel;
                 xamlMember.SetIsReadOnly();
                 break;
             case "ArcanePlayConnect.UI.Views.MainPage.ViewModel":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Views.MainPage");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ViewModel", "ArcanePlayConnect.UI.ViewModels.MainViewModel");
-                xamlMember.Getter = get_66_MainPage_ViewModel;
+                xamlMember.Getter = get_74_MainPage_ViewModel;
                 xamlMember.SetIsReadOnly();
                 break;
             case "ArcanePlayConnect.UI.Views.MappingsPage.ViewModel":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Views.MappingsPage");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ViewModel", "ArcanePlayConnect.UI.ViewModels.MainViewModel");
-                xamlMember.Getter = get_67_MappingsPage_ViewModel;
+                xamlMember.Getter = get_75_MappingsPage_ViewModel;
                 xamlMember.SetIsReadOnly();
                 break;
             case "ArcanePlayConnect.UI.Views.ProfilesPage.ViewModel":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Views.ProfilesPage");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ViewModel", "ArcanePlayConnect.UI.ViewModels.MainViewModel");
-                xamlMember.Getter = get_68_ProfilesPage_ViewModel;
+                xamlMember.Getter = get_76_ProfilesPage_ViewModel;
                 xamlMember.SetIsReadOnly();
                 break;
             case "ArcanePlayConnect.UI.Views.ShellPage.ViewModel":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Views.ShellPage");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ViewModel", "ArcanePlayConnect.UI.ViewModels.MainViewModel");
-                xamlMember.Getter = get_69_ShellPage_ViewModel;
+                xamlMember.Getter = get_77_ShellPage_ViewModel;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Children":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Children", "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>");
-                xamlMember.Getter = get_70_TreeViewNode_Children;
+                xamlMember.Getter = get_78_TreeViewNode_Children;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Content":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Content", "Object");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_71_TreeViewNode_Content;
-                xamlMember.Setter = set_71_TreeViewNode_Content;
+                xamlMember.Getter = get_79_TreeViewNode_Content;
+                xamlMember.Setter = set_79_TreeViewNode_Content;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Depth":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Depth", "Int32");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_72_TreeViewNode_Depth;
+                xamlMember.Getter = get_80_TreeViewNode_Depth;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.HasChildren":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "HasChildren", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_73_TreeViewNode_HasChildren;
+                xamlMember.Getter = get_81_TreeViewNode_HasChildren;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.HasUnrealizedChildren":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "HasUnrealizedChildren", "Boolean");
-                xamlMember.Getter = get_74_TreeViewNode_HasUnrealizedChildren;
-                xamlMember.Setter = set_74_TreeViewNode_HasUnrealizedChildren;
+                xamlMember.Getter = get_82_TreeViewNode_HasUnrealizedChildren;
+                xamlMember.Setter = set_82_TreeViewNode_HasUnrealizedChildren;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.IsExpanded":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "IsExpanded", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_75_TreeViewNode_IsExpanded;
-                xamlMember.Setter = set_75_TreeViewNode_IsExpanded;
+                xamlMember.Getter = get_83_TreeViewNode_IsExpanded;
+                xamlMember.Setter = set_83_TreeViewNode_IsExpanded;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Parent":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Parent", "Microsoft.UI.Xaml.Controls.TreeViewNode");
-                xamlMember.Getter = get_76_TreeViewNode_Parent;
+                xamlMember.Getter = get_84_TreeViewNode_Parent;
                 xamlMember.SetIsReadOnly();
                 break;
             }

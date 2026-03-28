@@ -3,6 +3,7 @@
     x:Class="ArcanePlayConnect.UI.Views.ButtonEditorPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:ArcanePlayConnect.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -77,26 +78,159 @@
                 </Grid>
             </StackPanel>
 
-            <!-- Options panel -->
-            <Border x:Name="OptionsPanel" Background="#FF12121E" CornerRadius="6" Padding="14,12">
-                <StackPanel Spacing="10">
-                    <TextBlock Text="OPTIONS" FontSize="10" FontWeight="Bold"
-                               Foreground="#FF8888AA" CharacterSpacing="120" />
+            <!-- ═══ SUMMON BUILDER (only visible for Summon type) ═══ -->
+            <Border x:Name="SummonBuilderPanel" Background="#FF12121E" CornerRadius="6" Padding="14,12">
+                <StackPanel Spacing="12">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xEA18;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="#FFFF3278" />
+                        <TextBlock Text="SUMMON SETTINGS" FontSize="10" FontWeight="Bold"
+                                   Foreground="#FFFF3278" CharacterSpacing="120" VerticalAlignment="Center" />
+                    </StackPanel>
 
-                    <!-- Summon: Use Nickname -->
-                    <StackPanel x:Name="NicknameOption" Orientation="Horizontal" Spacing="12">
-                        <ToggleSwitch x:Name="UseNicknameToggle" IsOn="True" MinWidth="0"
-                                      OnContent="" OffContent="" />
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="Use Nickname from TikFinity" FontSize="12"
-                                       Foreground="#FFE0E0FF" />
-                            <TextBlock Text="Substitute {nickname} and {username} from the triggering event"
-                                       FontSize="9" Foreground="#FF8888AA" TextWrapping="Wrap" />
+                    <!-- Entity Type Picker -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="CREATURE TYPE" FontSize="9" FontWeight="Bold"
+                                   Foreground="#FF8888AA" CharacterSpacing="100" />
+                        <AutoSuggestBox x:Name="EntityTypeBox"
+                                        PlaceholderText="Search entity (e.g. zombie, skeleton)..."
+                                        Background="#FF0D0D1A" Foreground="#FF00FF88"
+                                        FontSize="12" FontFamily="Consolas"
+                                        QueryIcon="Find"
+                                        TextChanged="EntityTypeBox_TextChanged"
+                                        SuggestionChosen="EntityTypeBox_SuggestionChosen" />
+                    </StackPanel>
+
+                    <!-- Position -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="SPAWN POSITION" FontSize="9" FontWeight="Bold"
+                                   Foreground="#FF8888AA" CharacterSpacing="100" />
+                        <Grid ColumnSpacing="6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="PositionBox" Text="~ ~ ~"
+                                     Background="#FF0D0D1A" Foreground="#FF00C8FF"
+                                     BorderBrush="#FF1A1A2E" BorderThickness="1"
+                                     Padding="10,7" CornerRadius="4" FontSize="12" FontFamily="Consolas" />
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4">
+                                <Button Content="~ ~ ~" Click="PositionPreset_Click" Tag="~ ~ ~"
+                                        Background="#FF1A1A2E" Foreground="#FF00C8FF"
+                                        BorderThickness="0" Padding="8,6" CornerRadius="3" FontSize="9" FontFamily="Consolas" />
+                                <Button Content="~ ~1 ~" Click="PositionPreset_Click" Tag="~ ~1 ~"
+                                        Background="#FF1A1A2E" Foreground="#FF00C8FF"
+                                        BorderThickness="0" Padding="8,6" CornerRadius="3" FontSize="9" FontFamily="Consolas" />
+                                <Button Content="~ ~2 ~" Click="PositionPreset_Click" Tag="~ ~2 ~"
+                                        Background="#FF1A1A2E" Foreground="#FF00C8FF"
+                                        BorderThickness="0" Padding="8,6" CornerRadius="3" FontSize="9" FontFamily="Consolas" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- Custom HP -->
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Spacing="4">
+                            <TextBlock Text="CUSTOM HP (0 = default)" FontSize="9" FontWeight="Bold"
+                                       Foreground="#FF8888AA" CharacterSpacing="100" />
+                            <NumberBox x:Name="CustomHealthBox" Value="0" Minimum="0" Maximum="2048"
+                                       SpinButtonPlacementMode="Compact" FontSize="12"
+                                       PlaceholderText="e.g. 100"
+                                       Background="#FF0D0D1A" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Spacing="4">
+                            <TextBlock Text="CUSTOM ATTACK (0 = default)" FontSize="9" FontWeight="Bold"
+                                       Foreground="#FF8888AA" CharacterSpacing="100" />
+                            <NumberBox x:Name="CustomAttackBox" Value="0" Minimum="0" Maximum="2048"
+                                       SpinButtonPlacementMode="Compact" FontSize="12"
+                                       PlaceholderText="e.g. 10"
+                                       Background="#FF0D0D1A" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- HP/Attack presets -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="QUICK PRESETS" FontSize="9" FontWeight="Bold"
+                                   Foreground="#FF8888AA" CharacterSpacing="100" />
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <Button Content="Weak (10 HP, 2 ATK)" Click="StatPreset_Click" Tag="10,2"
+                                    Background="#FF1A1A2E" Foreground="#FF00FF88"
+                                    BorderThickness="0" Padding="8,5" CornerRadius="3" FontSize="9" />
+                            <Button Content="Normal (20 HP, 5 ATK)" Click="StatPreset_Click" Tag="20,5"
+                                    Background="#FF1A1A2E" Foreground="#FFFF9500"
+                                    BorderThickness="0" Padding="8,5" CornerRadius="3" FontSize="9" />
+                            <Button Content="Boss (100 HP, 15 ATK)" Click="StatPreset_Click" Tag="100,15"
+                                    Background="#FF1A1A2E" Foreground="#FFFF3278"
+                                    BorderThickness="0" Padding="8,5" CornerRadius="3" FontSize="9" />
+                            <Button Content="Tank (500 HP, 3 ATK)" Click="StatPreset_Click" Tag="500,3"
+                                    Background="#FF1A1A2E" Foreground="#FFB400FF"
+                                    BorderThickness="0" Padding="8,5" CornerRadius="3" FontSize="9" />
                         </StackPanel>
                     </StackPanel>
 
-                    <!-- HealthCheck: Run Continuously -->
-                    <StackPanel x:Name="ContinuousOption" Visibility="Collapsed" Spacing="8">
+                    <!-- Toggles -->
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                            <ToggleSwitch x:Name="UseNicknameToggle" IsOn="True" MinWidth="0"
+                                          OnContent="" OffContent="" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="Use TikTok Name" FontSize="11" Foreground="#FFE0E0FF" />
+                                <TextBlock Text="Name creature after viewer" FontSize="8" Foreground="#FF8888AA" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                            <ToggleSwitch x:Name="TrackCreatureToggle" IsOn="True" MinWidth="0"
+                                          OnContent="" OffContent="" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="Track in Arena" FontSize="11" Foreground="#FFE0E0FF" />
+                                <TextBlock Text="Add viewer tag + tracking" FontSize="8" Foreground="#FF8888AA" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Boss toggle -->
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <ToggleSwitch x:Name="BossToggle" IsOn="False" MinWidth="0"
+                                      OnContent="" OffContent="" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Boss Creature" FontSize="11" Foreground="#FFFF3278" FontWeight="SemiBold" />
+                            <TextBlock Text="Can be summoned infinitely (no one-per-viewer limit)" FontSize="8" Foreground="#FF8888AA" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Summon Preview -->
+                    <Border Background="#FF0D0D1A" CornerRadius="4" Padding="10,6"
+                            BorderBrush="#FF1A1A2E" BorderThickness="1">
+                        <StackPanel Spacing="2">
+                            <TextBlock Text="SUMMON PREVIEW" FontSize="8" FontWeight="Bold"
+                                       Foreground="#FF8888AA" CharacterSpacing="120" />
+                            <TextBlock x:Name="SummonPreviewText" FontSize="10" FontFamily="Consolas"
+                                       Foreground="#FF00FF88" TextWrapping="Wrap"
+                                       Text="summon minecraft:zombie ~ ~ ~" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- ═══ HEALTH CHECK OPTIONS (only visible for HealthCheck type) ═══ -->
+            <Border x:Name="HealthCheckPanel" Background="#FF12121E" CornerRadius="6" Padding="14,12"
+                    Visibility="Collapsed">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="HEALTH CHECK OPTIONS" FontSize="10" FontWeight="Bold"
+                               Foreground="#FF8888AA" CharacterSpacing="120" />
+
+                    <StackPanel x:Name="ContinuousOption" Spacing="8">
                         <StackPanel Orientation="Horizontal" Spacing="12">
                             <ToggleSwitch x:Name="ContinuousToggle" IsOn="False" MinWidth="0"
                                           OnContent="" OffContent=""
@@ -120,14 +254,15 @@
                 </StackPanel>
             </Border>
 
-            <!-- Commands list -->
+            <!-- Additional Commands list -->
             <StackPanel Spacing="5">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="COMMANDS (executed in order)" FontSize="10" FontWeight="Bold"
+                    <TextBlock x:Name="CommandsLabel" Grid.Column="0" Text="ADDITIONAL COMMANDS (optional, run after summon)"
+                               FontSize="10" FontWeight="Bold"
                                Foreground="#FF8888AA" CharacterSpacing="120" VerticalAlignment="Center" />
                     <TextBlock Grid.Column="1" Text="Drag to reorder" FontSize="9"
                                Foreground="#FF00FF88" VerticalAlignment="Center" />
@@ -136,7 +271,7 @@
                 <ListView x:Name="CommandsList" CanReorderItems="True" AllowDrop="True"
                           ReorderMode="Enabled"
                           Background="#FF12121E"
-                          MinHeight="80" MaxHeight="200"
+                          MinHeight="60" MaxHeight="160"
                           Padding="4"
                           CornerRadius="6">
                     <ListView.ItemContainerStyle>
@@ -176,11 +311,8 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="NewCommandBox" Grid.Column="0"
-                             PlaceholderText="Enter RCON command..."
-                             Background="#FF12121E" Foreground="#FF00FF88"
-                             BorderBrush="#FF1A1A2E" BorderThickness="1"
-                             Padding="10,8" CornerRadius="4" FontSize="12" FontFamily="Consolas" />
+                    <controls:CommandSuggestionBox x:Name="NewCommandBox" Grid.Column="0"
+                             PlaceholderText="Enter RCON command... (use {tag} for creature's tag)" />
                     <Button Grid.Column="1" Click="AddCommand_Click"
                             Background="#FF1E1E36" Foreground="#FF00FF88"
                             BorderBrush="#FF00FF88" BorderThickness="1"
@@ -191,6 +323,10 @@
                         </StackPanel>
                     </Button>
                 </Grid>
+
+                <!-- {tag} hint for summon type -->
+                <TextBlock x:Name="TagHint" FontSize="9" Foreground="#FF8888AA" TextWrapping="Wrap"
+                           Text="💡 Use {tag} in commands to reference this creature's tracking tag. Example: effect give @e[tag={tag}] minecraft:speed 30" />
             </StackPanel>
 
             <!-- Action buttons -->

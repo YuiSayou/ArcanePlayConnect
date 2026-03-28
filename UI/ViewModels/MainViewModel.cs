@@ -24,6 +24,7 @@ public partial class MainViewModel : ObservableObject
     private readonly ProfileService _profileService;
     private readonly EventProcessor _eventProcessor;
     private readonly CommandButtonExecutor _buttonExecutor;
+    private readonly CreatureTrackerService _creatureTracker;
 
     public ObservableCollection<LogEntry> FilteredLogs { get; } = new();
     public ObservableCollection<Profile> Profiles { get; } = new();
@@ -102,6 +103,7 @@ public partial class MainViewModel : ObservableObject
     public ObservableCollection<ActionMappingItem> CurrentMappings { get; } = new();
 
     public CommandButtonExecutor ButtonExecutor => _buttonExecutor;
+    public CreatureTrackerService CreatureTracker => _creatureTracker;
 
     public event Action? AddActionRequested;
     public event Action<SavedCommand>? SaveCommandRequested;
@@ -113,7 +115,8 @@ public partial class MainViewModel : ObservableObject
         _rconService = new RconService(_logger);
         _profileService = new ProfileService(_logger);
         _buttonExecutor = new CommandButtonExecutor(_rconService, _logger);
-        _eventProcessor = new EventProcessor(_rconService, _logger, _buttonExecutor);
+        _creatureTracker = new CreatureTrackerService(_rconService, _logger);
+        _eventProcessor = new EventProcessor(_rconService, _logger, _buttonExecutor, _creatureTracker);
 
         _webhookService.EventReceived += OnWebhookEvent;
         _webhookService.StatusChanged += OnWebhookStatusChanged;
@@ -389,7 +392,7 @@ public partial class MainViewModel : ObservableObject
             if (button != null)
             {
                 _logger.LogInfo($"[TEST] {item.TriggerDisplay} \u2192 Button '{button.Name}'", LogCategory.System);
-                await _buttonExecutor.ExecuteAsync(button, "TestPlayer", "testplayer");
+                await ExecuteCommandButton(button, "TestPlayer", "testplayer");
             }
             else
             {
@@ -435,7 +438,60 @@ public partial class MainViewModel : ObservableObject
 
     public async Task ExecuteCommandButton(CommandButton button, string nickname = "", string username = "")
     {
+        // For Summon-type buttons with structured settings, route through creature tracker
+        if (button.ButtonType == CommandButtonType.Summon &&
+            !string.IsNullOrEmpty(button.SummonEntityType))
+        {
+            await ExecuteSummonButtonAsync(button, nickname, username);
+            return;
+        }
+
+        // All other buttons go through the standard executor
         await _buttonExecutor.ExecuteAsync(button, nickname, username);
+    }
+
+    /// <summary>
+    /// Executes a Summon button: summons the creature via tracker, then runs additional commands.
+    /// </summary>
+    private async Task ExecuteSummonButtonAsync(CommandButton button, string nickname, string username)
+    {
+        if (!_rconService.IsConnected)
+        {
+            _logger.LogWarning("RCON not connected. Cannot execute summon button.", LogCategory.System);
+            return;
+        }
+
+        // Use defaults for manual Execute clicks when no viewer info is available
+        var nick = string.IsNullOrWhiteSpace(nickname) ? "TestPlayer" : nickname;
+        var user = string.IsNullOrWhiteSpace(username) ? "testplayer" : username;
+
+        // Summon the creature via tracker with custom HP/attack
+        var creature = await _creatureTracker.SummonCreatureAsync(
+            nick,
+            user,
+            button.SummonEntityType,
+            button.SummonPosition,
+            extraNbt: "",
+            customHealth: button.SummonCustomHealth,
+            customAttackDamage: button.SummonCustomAttack,
+            isBoss: button.SummonIsBoss);
+
+        if (creature == null) return; // blocked or failed
+
+        // Execute any additional commands in the button
+        foreach (var template in button.Commands)
+        {
+            if (string.IsNullOrWhiteSpace(template)) continue;
+
+            var cmd = template;
+            if (button.UseNickname)
+                cmd = EventProcessor.BuildCommand(template, nick, user);
+
+            // Replace {tag} with the creature's tracking tag for command chaining
+            cmd = cmd.Replace("{tag}", creature.TrackingId);
+
+            await _rconService.SendCommand(cmd);
+        }
     }
 
     private void SyncAndSaveButtons()

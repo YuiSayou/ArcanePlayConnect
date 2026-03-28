@@ -26,6 +26,24 @@ public class CommandButton
     /// <summary>When true, {nickname} and {username} are substituted from the triggering event.</summary>
     public bool UseNickname { get; set; } = true;
 
+    /// <summary>Entity type to summon, e.g. "minecraft:zombie".</summary>
+    public string SummonEntityType { get; set; } = string.Empty;
+
+    /// <summary>Position for the summon command (e.g. "~ ~ ~").</summary>
+    public string SummonPosition { get; set; } = "~ ~ ~";
+
+    /// <summary>Custom max health for the summoned creature. 0 = use entity default.</summary>
+    public float SummonCustomHealth { get; set; }
+
+    /// <summary>Custom attack damage for the summoned creature. 0 = use entity default.</summary>
+    public float SummonCustomAttack { get; set; }
+
+    /// <summary>When true, the creature is tracked in the Creature Arena with a viewer tag.</summary>
+    public bool SummonTrackCreature { get; set; } = true;
+
+    /// <summary>When true, this is a boss creature that can be summoned infinitely (no one-per-viewer limit).</summary>
+    public bool SummonIsBoss { get; set; }
+
     // ?? HealthCheck options ??
     /// <summary>When true the command sequence runs repeatedly at IntervalSeconds.</summary>
     public bool RunContinuously { get; set; }

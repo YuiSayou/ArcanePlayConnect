@@ -1,9 +1,12 @@
 App.xbf
 MainWindow.xbf
+UI\Controls\CommandBuilderPanel.xbf
+UI\Controls\CommandSuggestionBox.xbf
 UI\Themes\CyberpunkTheme.xbf
 UI\Views\AddActionPage.xbf
 UI\Views\ButtonEditorPage.xbf
 UI\Views\CommandButtonsPage.xbf
+UI\Views\CreatureArenaPage.xbf
 UI\Views\DashboardPage.xbf
 UI\Views\EventLogPage.xbf
 UI\Views\MainPage.xbf

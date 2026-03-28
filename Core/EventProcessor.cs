@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ArcanePlayConnect.Core.Models;
 using ArcanePlayConnect.Services;
@@ -11,27 +12,19 @@ public class EventProcessor
     private readonly RconService _rcon;
     private readonly LoggingService _logger;
     private readonly CommandButtonExecutor _buttonExecutor;
+    private readonly CreatureTrackerService _creatureTracker;
 
-    public EventProcessor(RconService rcon, LoggingService logger, CommandButtonExecutor buttonExecutor)
+    public EventProcessor(RconService rcon, LoggingService logger, CommandButtonExecutor buttonExecutor, CreatureTrackerService creatureTracker)
     {
         _rcon = rcon;
         _logger = logger;
         _buttonExecutor = buttonExecutor;
+        _creatureTracker = creatureTracker;
     }
 
-    /// <summary>
-    /// Escapes a player nickname so it is safe to embed inside a Minecraft JSON text
-    /// component (e.g. CustomName NBT).  Only backslash and double-quote need escaping.
-    /// </summary>
     public static string EscapeJson(string input) =>
         input.Replace("\\", "\\\\").Replace("\"", "\\\"");
 
-    /// <summary>
-    /// Prepares a stored command template for sending to RCON:
-    ///   1. Replaces {nickname} and {safe} with the NBT-escaped display name.
-    ///   2. Replaces {username} with the raw TikTok username (safe for selector use).
-    ///   3. Collapses {{ -> { and }} -> }.
-    /// </summary>
     public static string BuildCommand(string template, string nickname, string username = "")
     {
         var safeNickname = nickname
@@ -48,6 +41,66 @@ public class EventProcessor
         cmd = cmd.Replace("{{", "{").Replace("}}", "}");
 
         return cmd;
+    }
+
+    /// <summary>
+    /// Checks whether a command is a summon command and extracts its components.
+    /// </summary>
+    public static bool TryParseSummonCommand(string command, out string entityType, out string position, out string extraNbt)
+    {
+        entityType = "";
+        position = "";
+        extraNbt = "";
+
+        // Strip leading slash
+        var cmd = command.TrimStart('/').Trim();
+
+        // Handle "execute ... run summon ..." — extract from "run summon" onward
+        var runIdx = cmd.IndexOf("run summon", StringComparison.OrdinalIgnoreCase);
+        if (runIdx >= 0)
+            cmd = cmd[(runIdx + 4)..].Trim(); // skip "run "
+
+        if (!cmd.StartsWith("summon ", StringComparison.OrdinalIgnoreCase))
+            return false;
+
+        // Remove "summon "
+        cmd = cmd[7..].Trim();
+
+        // Extract entity type (first word)
+        var spaceIdx = cmd.IndexOf(' ');
+        if (spaceIdx < 0)
+        {
+            entityType = cmd;
+            position = "~ ~ ~";
+            return true;
+        }
+
+        entityType = cmd[..spaceIdx];
+        var rest = cmd[(spaceIdx + 1)..].Trim();
+
+        // Try to find position (3 coordinate tokens) followed by optional NBT
+        var posMatch = Regex.Match(rest,
+            @"^([~^]?-?\d*\.?\d*)\s+([~^]?-?\d*\.?\d*)\s+([~^]?-?\d*\.?\d*)(?:\s+(\{.*))?$");
+
+        if (posMatch.Success)
+        {
+            position = $"{posMatch.Groups[1].Value} {posMatch.Groups[2].Value} {posMatch.Groups[3].Value}";
+            if (posMatch.Groups[4].Success)
+                extraNbt = posMatch.Groups[4].Value;
+            return true;
+        }
+
+        // Check if rest starts with NBT directly (no position)
+        if (rest.StartsWith('{'))
+        {
+            position = "~ ~ ~";
+            extraNbt = rest;
+            return true;
+        }
+
+        // Couldn't parse position, treat all as position
+        position = rest;
+        return true;
     }
 
     public async Task ProcessEvent(WebhookEvent evt, Profile? activeProfile)
@@ -118,7 +171,6 @@ public class EventProcessor
 
             fired = true;
 
-            // Check if this mapping triggers a button
             if (!string.IsNullOrEmpty(mapping.TargetButtonId))
             {
                 var button = activeProfile.CommandButtons
@@ -127,7 +179,22 @@ public class EventProcessor
                 if (button != null)
                 {
                     _logger.LogInfo($"Firing [{mapping.TriggerType}:{mapping.TriggerKey}] \u2192 Button '{button.Name}'", LogCategory.System);
-                    await _buttonExecutor.ExecuteAsync(button, evt.Nickname, evt.Username);
+
+                    if (button.ButtonType == CommandButtonType.Summon && button.SummonTrackCreature &&
+                        !string.IsNullOrEmpty(button.SummonEntityType))
+                    {
+                        // Use the structured summon path — routes through creature tracker
+                        await ExecuteSummonButton(button, evt.Nickname, evt.Username);
+                    }
+                    else if (button.ButtonType == CommandButtonType.Summon)
+                    {
+                        // Legacy summon button — scan commands for summon patterns
+                        await ExecuteButtonWithCreatureTracking(button, evt.Nickname, evt.Username);
+                    }
+                    else
+                    {
+                        await _buttonExecutor.ExecuteAsync(button, evt.Nickname, evt.Username);
+                    }
                 }
                 else
                 {
@@ -138,7 +205,15 @@ public class EventProcessor
             {
                 var command = BuildCommand(mapping.Command, evt.Nickname, evt.Username);
                 _logger.LogInfo($"Firing [{mapping.TriggerType}:{mapping.TriggerKey}] \u2192 {command}", LogCategory.System);
-                await _rcon.SendCommand(command);
+
+                if (TryParseSummonCommand(command, out var entityType, out var position, out var nbt))
+                {
+                    await _creatureTracker.SummonCreatureAsync(evt.Nickname, evt.Username, entityType, position, nbt);
+                }
+                else
+                {
+                    await _rcon.SendCommand(command);
+                }
             }
         }
 
@@ -150,6 +225,70 @@ public class EventProcessor
                 (evt.EventType == WebhookEventType.Chat   ? $"/\"{evt.Comment}\"" : string.Empty) +
                 (evt.EventType == WebhookEventType.Like   ? $" \u00d7{evt.LikeCount}" : string.Empty),
                 LogCategory.System);
+        }
+    }
+
+    /// <summary>
+    /// Executes a Summon button that has structured summon settings (entity type, position, HP, attack).
+    /// Routes through CreatureTrackerService for proper tracking.
+    /// Also runs any additional commands in the button's command list.
+    /// </summary>
+    private async Task ExecuteSummonButton(CommandButton button, string nickname, string username)
+    {
+        if (!_rcon.IsConnected) return;
+
+        // Summon the creature via tracker with custom HP/attack
+        var creature = await _creatureTracker.SummonCreatureAsync(
+            nickname,
+            username,
+            button.SummonEntityType,
+            button.SummonPosition,
+            extraNbt: "",
+            customHealth: button.SummonCustomHealth,
+            customAttackDamage: button.SummonCustomAttack,
+            isBoss: button.SummonIsBoss);
+
+        if (creature == null) return; // blocked or failed
+
+        // Execute any additional commands in the button
+        foreach (var template in button.Commands)
+        {
+            if (string.IsNullOrWhiteSpace(template)) continue;
+
+            var cmd = template;
+            if (button.UseNickname)
+                cmd = BuildCommand(template, nickname, username);
+
+            // Replace {tag} with the creature's tracking tag for command chaining
+            cmd = cmd.Replace("{tag}", creature.TrackingId);
+
+            await _rcon.SendCommand(cmd);
+        }
+    }
+
+    /// <summary>
+    /// Fallback: Executes a Summon-type button's commands, scanning for summon patterns.
+    /// </summary>
+    private async Task ExecuteButtonWithCreatureTracking(CommandButton button, string nickname, string username)
+    {
+        if (!_rcon.IsConnected) return;
+
+        foreach (var template in button.Commands)
+        {
+            if (string.IsNullOrWhiteSpace(template)) continue;
+
+            var cmd = template;
+            if (button.UseNickname)
+                cmd = BuildCommand(template, nickname, username);
+
+            if (TryParseSummonCommand(cmd, out var entityType, out var position, out var nbt))
+            {
+                await _creatureTracker.SummonCreatureAsync(nickname, username, entityType, position, nbt);
+            }
+            else
+            {
+                await _rcon.SendCommand(cmd);
+            }
         }
     }
 }

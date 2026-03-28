@@ -29,21 +29,21 @@
     <AppXManifest Include="C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2026-03-28T14:02:42.883</Modified>
+      <Modified>2026-03-28T20:55:38.410</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\ArcanePlayConnect.runtimeconfig.json">
       <PackagePath>ArcanePlayConnect.runtimeconfig.json</PackagePath>
-      <Modified>2026-03-27T18:50:43.781</Modified>
+      <Modified>2026-03-28T15:10:30.056</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\apphost.exe">
       <PackagePath>ArcanePlayConnect.exe</PackagePath>
-      <Modified>2026-03-28T14:02:42.305</Modified>
+      <Modified>2026-03-28T20:55:38.137</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\ArcanePlayConnect.dll">
       <PackagePath>ArcanePlayConnect.dll</PackagePath>
-      <Modified>2026-03-28T14:02:42.262</Modified>
+      <Modified>2026-03-28T20:55:38.132</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Isekaig0ds\.nuget\packages\microsoft.netcore.app.runtime.win-x64\8.0.22\runtimes\win-x64\lib\net8.0\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -935,7 +935,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\ArcanePlayConnect.deps.json">
       <PackagePath>ArcanePlayConnect.deps.json</PackagePath>
-      <Modified>2026-03-27T18:50:43.738</Modified>
+      <Modified>2026-03-28T19:57:43.838</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Isekaig0ds\.nuget\packages\winuiex\2.9.0\lib\net8.0-windows10.0.19041\WinUIEx.pri">
       <PackagePath>WinUIEx.pri</PackagePath>
@@ -975,7 +975,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2026-03-27T19:01:26.196</Modified>
+      <Modified>2026-03-28T20:22:44.123</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
