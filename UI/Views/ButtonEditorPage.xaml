@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="ArcanePlayConnect.UI.Views.ButtonEditorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="#FF0A0A14">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Padding="24,20,24,28" Spacing="14" MaxWidth="580">
+
+            <!-- Header -->
+            <StackPanel Spacing="4">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xE946;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                              Foreground="#FFFF9500" VerticalAlignment="Center" />
+                    <TextBlock x:Name="HeaderText" Text="CREATE COMMAND BUTTON" FontSize="15" FontWeight="Bold"
+                               Foreground="#FFFF9500" CharacterSpacing="100" VerticalAlignment="Center" />
+                </StackPanel>
+                <Border Height="2" CornerRadius="1" Margin="0,6,0,0">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#FFFF9500" Offset="0" />
+                            <GradientStop Color="#FFFF3278" Offset="1" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+            </StackPanel>
+
+            <!-- Button Name -->
+            <StackPanel Spacing="5">
+                <TextBlock Text="BUTTON NAME" FontSize="10" FontWeight="Bold"
+                           Foreground="#FF8888AA" CharacterSpacing="120" />
+                <TextBox x:Name="NameBox" PlaceholderText="e.g. Spawn Zombie Army"
+                         Background="#FF12121E" Foreground="#FFE0E0FF"
+                         BorderBrush="#FF1A1A2E" BorderThickness="1"
+                         Padding="10,8" CornerRadius="4" FontSize="13" />
+            </StackPanel>
+
+            <!-- Button Type -->
+            <StackPanel Spacing="5">
+                <TextBlock Text="BUTTON TYPE" FontSize="10" FontWeight="Bold"
+                           Foreground="#FF8888AA" CharacterSpacing="120" />
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border x:Name="SummonTypeBtn" Grid.Column="0" CornerRadius="6" Padding="12,10"
+                            Background="#FF1E1E36" BorderThickness="2" BorderBrush="#FFFF9500"
+                            PointerPressed="TypeBtn_PointerPressed" Tag="Summon">
+                        <StackPanel Spacing="4" HorizontalAlignment="Center">
+                            <FontIcon x:Name="SummonIcon" Glyph="&#xEA18;" FontFamily="Segoe MDL2 Assets"
+                                      FontSize="20" HorizontalAlignment="Center" Foreground="#FFFF9500" />
+                            <TextBlock x:Name="SummonLabel" Text="SUMMON" FontSize="10" FontWeight="Bold"
+                                       Foreground="#FFFF9500" HorizontalAlignment="Center" CharacterSpacing="100" />
+                            <TextBlock Text="Spawn entities on events" FontSize="9"
+                                       Foreground="#FF8888AA" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border x:Name="HealthCheckTypeBtn" Grid.Column="1" CornerRadius="6" Padding="12,10"
+                            Background="#FF16162A" BorderThickness="2" BorderBrush="#FF1A1A2E"
+                            PointerPressed="TypeBtn_PointerPressed" Tag="HealthCheck">
+                        <StackPanel Spacing="4" HorizontalAlignment="Center">
+                            <FontIcon x:Name="HealthIcon" Glyph="&#xE95E;" FontFamily="Segoe MDL2 Assets"
+                                      FontSize="20" HorizontalAlignment="Center" Foreground="#FF8888AA" />
+                            <TextBlock x:Name="HealthLabel" Text="HEALTH CHECK" FontSize="10" FontWeight="Bold"
+                                       Foreground="#FF8888AA" HorizontalAlignment="Center" CharacterSpacing="100" />
+                            <TextBlock Text="Monitor or maintain server" FontSize="9"
+                                       Foreground="#FF8888AA" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </StackPanel>
+
+            <!-- Options panel -->
+            <Border x:Name="OptionsPanel" Background="#FF12121E" CornerRadius="6" Padding="14,12">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="OPTIONS" FontSize="10" FontWeight="Bold"
+                               Foreground="#FF8888AA" CharacterSpacing="120" />
+
+                    <!-- Summon: Use Nickname -->
+                    <StackPanel x:Name="NicknameOption" Orientation="Horizontal" Spacing="12">
+                        <ToggleSwitch x:Name="UseNicknameToggle" IsOn="True" MinWidth="0"
+                                      OnContent="" OffContent="" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Use Nickname from TikFinity" FontSize="12"
+                                       Foreground="#FFE0E0FF" />
+                            <TextBlock Text="Substitute {nickname} and {username} from the triggering event"
+                                       FontSize="9" Foreground="#FF8888AA" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- HealthCheck: Run Continuously -->
+                    <StackPanel x:Name="ContinuousOption" Visibility="Collapsed" Spacing="8">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <ToggleSwitch x:Name="ContinuousToggle" IsOn="False" MinWidth="0"
+                                          OnContent="" OffContent=""
+                                          Toggled="ContinuousToggle_Toggled" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="Run Continuously" FontSize="12"
+                                           Foreground="#FFE0E0FF" />
+                                <TextBlock Text="Repeat the command sequence at a set interval"
+                                           FontSize="9" Foreground="#FF8888AA" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel x:Name="IntervalPanel" Visibility="Collapsed" Orientation="Horizontal" Spacing="8"
+                                    Margin="48,0,0,0">
+                            <TextBlock Text="Every" FontSize="12" Foreground="#FF8888AA" VerticalAlignment="Center" />
+                            <NumberBox x:Name="IntervalBox" Value="30" Minimum="1" Maximum="3600"
+                                       SpinButtonPlacementMode="Compact" FontSize="12" Width="100" />
+                            <TextBlock Text="seconds" FontSize="12" Foreground="#FF8888AA" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Commands list -->
+            <StackPanel Spacing="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="COMMANDS (executed in order)" FontSize="10" FontWeight="Bold"
+                               Foreground="#FF8888AA" CharacterSpacing="120" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1" Text="Drag to reorder" FontSize="9"
+                               Foreground="#FF00FF88" VerticalAlignment="Center" />
+                </Grid>
+
+                <ListView x:Name="CommandsList" CanReorderItems="True" AllowDrop="True"
+                          ReorderMode="Enabled"
+                          Background="#FF12121E"
+                          MinHeight="80" MaxHeight="200"
+                          Padding="4"
+                          CornerRadius="6">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0,1" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <Grid Background="#FF1E1E36" CornerRadius="4" Padding="10,8" ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon Grid.Column="0" Glyph="&#xE76F;" FontFamily="Segoe MDL2 Assets"
+                                          FontSize="10" Foreground="#FF8888AA" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" Text="{x:Bind}" FontSize="11" FontFamily="Consolas"
+                                           Foreground="#FF00FF88" VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis" />
+                                <Button Grid.Column="2" Click="RemoveCommand_Click" Tag="{x:Bind}"
+                                        Background="Transparent" BorderThickness="0" Padding="4,2"
+                                        VerticalAlignment="Center">
+                                    <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                                              Foreground="#FFFF3278" />
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <!-- Add command row -->
+                <Grid ColumnSpacing="8" Margin="0,4,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="NewCommandBox" Grid.Column="0"
+                             PlaceholderText="Enter RCON command..."
+                             Background="#FF12121E" Foreground="#FF00FF88"
+                             BorderBrush="#FF1A1A2E" BorderThickness="1"
+                             Padding="10,8" CornerRadius="4" FontSize="12" FontFamily="Consolas" />
+                    <Button Grid.Column="1" Click="AddCommand_Click"
+                            Background="#FF1E1E36" Foreground="#FF00FF88"
+                            BorderBrush="#FF00FF88" BorderThickness="1"
+                            CornerRadius="4" FontWeight="SemiBold" FontSize="11" Padding="12,8">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon Glyph="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="10" />
+                            <TextBlock Text="Add" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </StackPanel>
+
+            <!-- Action buttons -->
+            <Grid ColumnSpacing="10" Margin="0,8,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Cancel" Click="Cancel_Click"
+                        HorizontalAlignment="Stretch" Padding="0,10"
+                        Background="#FF1E1E36" Foreground="#FFFF3278"
+                        BorderBrush="#FFFF3278" BorderThickness="1"
+                        CornerRadius="4" FontWeight="SemiBold" FontSize="13" />
+                <Button Grid.Column="1" Click="Save_Click"
+                        HorizontalAlignment="Stretch" Padding="0,10"
+                        CornerRadius="4" FontWeight="Bold" FontSize="13"
+                        Foreground="White" BorderThickness="0">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#FFFF9500" Offset="0" />
+                            <GradientStop Color="#FFFF3278" Offset="1" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE74E;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                  Foreground="White" />
+                        <TextBlock Text="Save Button" Foreground="White" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
