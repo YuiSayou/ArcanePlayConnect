@@ -44,6 +44,7 @@ public sealed partial class ButtonEditorPage : Page
             UseNicknameToggle.IsOn = existing.UseNickname;
             TrackCreatureToggle.IsOn = existing.SummonTrackCreature;
             BossToggle.IsOn = existing.SummonIsBoss;
+            BossNameBox.Text = existing.SummonBossName;
             ContinuousToggle.IsOn = existing.RunContinuously;
             IntervalBox.Value = existing.IntervalSeconds;
 
@@ -60,6 +61,7 @@ public sealed partial class ButtonEditorPage : Page
         }
 
         ApplyTypeSelection(_selectedType);
+        UpdateBossNameVisibility();
         UpdateSummonPreview();
     }
 
@@ -120,6 +122,16 @@ public sealed partial class ButtonEditorPage : Page
     }
 
     // ?? Summon builder events ???????????????????????????????????????????????
+
+    private void BossToggle_Toggled(object sender, RoutedEventArgs e)
+    {
+        UpdateBossNameVisibility();
+    }
+
+    private void UpdateBossNameVisibility()
+    {
+        BossNamePanel.Visibility = BossToggle.IsOn ? Visibility.Visible : Visibility.Collapsed;
+    }
 
     private void EntityTypeBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
@@ -256,6 +268,7 @@ public sealed partial class ButtonEditorPage : Page
                 SummonCustomAttack = (float)CustomAttackBox.Value,
                 SummonTrackCreature = TrackCreatureToggle.IsOn,
                 SummonIsBoss = BossToggle.IsOn,
+                SummonBossName = BossToggle.IsOn ? (BossNameBox.Text?.Trim() ?? string.Empty) : string.Empty,
             };
         }
         else

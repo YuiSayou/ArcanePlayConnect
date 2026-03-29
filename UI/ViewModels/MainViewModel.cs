@@ -25,6 +25,7 @@ public partial class MainViewModel : ObservableObject
     private readonly EventProcessor _eventProcessor;
     private readonly CommandButtonExecutor _buttonExecutor;
     private readonly CreatureTrackerService _creatureTracker;
+    private readonly OverlayServerService _overlayServer;
 
     public ObservableCollection<LogEntry> FilteredLogs { get; } = new();
     public ObservableCollection<Profile> Profiles { get; } = new();
@@ -104,6 +105,7 @@ public partial class MainViewModel : ObservableObject
 
     public CommandButtonExecutor ButtonExecutor => _buttonExecutor;
     public CreatureTrackerService CreatureTracker => _creatureTracker;
+    public OverlayServerService OverlayServer => _overlayServer;
 
     public event Action? AddActionRequested;
     public event Action<SavedCommand>? SaveCommandRequested;
@@ -116,6 +118,7 @@ public partial class MainViewModel : ObservableObject
         _profileService = new ProfileService(_logger);
         _buttonExecutor = new CommandButtonExecutor(_rconService, _logger);
         _creatureTracker = new CreatureTrackerService(_rconService, _logger);
+        _overlayServer = new OverlayServerService(_logger, _creatureTracker);
         _eventProcessor = new EventProcessor(_rconService, _logger, _buttonExecutor, _creatureTracker);
 
         _webhookService.EventReceived += OnWebhookEvent;
@@ -474,7 +477,8 @@ public partial class MainViewModel : ObservableObject
             extraNbt: "",
             customHealth: button.SummonCustomHealth,
             customAttackDamage: button.SummonCustomAttack,
-            isBoss: button.SummonIsBoss);
+            isBoss: button.SummonIsBoss,
+            bossName: button.SummonBossName);
 
         if (creature == null) return; // blocked or failed
 

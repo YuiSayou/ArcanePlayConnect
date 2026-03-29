@@ -61,13 +61,16 @@ public class CreatureTrackerService
     {
         lock (_allLock)
         {
-            // Group all creatures by owner username and aggregate scores
+            // Group all non-boss creatures by owner username and aggregate scores
             var grouped = _allCreatures
+                .Where(c => !c.IsBoss)
                 .GroupBy(c => c.OwnerUsername, StringComparer.OrdinalIgnoreCase)
                 .Select(g => new AggregatedLeaderboardEntry
                 {
                     OwnerNickname = g.First().OwnerNickname,
                     OwnerUsername = g.Key,
+                    OwnerProfilePictureUrl = g.Select(c => c.OwnerProfilePictureUrl)
+                                              .FirstOrDefault(url => !string.IsNullOrEmpty(url)) ?? string.Empty,
                     TotalDamageDealt = g.Sum(c => c.DamageDealt),
                     TotalKills = g.Sum(c => c.KillCount),
                     CreatureCount = g.Count(),
@@ -107,7 +110,9 @@ public class CreatureTrackerService
         string extraNbt = "",
         float customHealth = 0,
         float customAttackDamage = 0,
-        bool isBoss = false)
+        bool isBoss = false,
+        string ownerProfilePictureUrl = "",
+        string bossName = "")
     {
         if (!_rcon.IsConnected)
         {
@@ -126,6 +131,7 @@ public class CreatureTrackerService
         {
             OwnerNickname = ownerNickname,
             OwnerUsername = ownerUsername,
+            OwnerProfilePictureUrl = ownerProfilePictureUrl,
             EntityType = entityType,
             EntityDisplayName = FormatEntityName(entityType),
             IsBoss = isBoss,
@@ -133,12 +139,14 @@ public class CreatureTrackerService
 
         var tag = creature.TrackingId;
 
-        // ?? Build the display name ??
+        // Build the display name: use boss name if provided, otherwise viewer nickname
         var safeNick = ownerNickname
             .Replace("\\", "")
             .Replace("\"", "")
             .Replace("'", "");
-        var displayName = safeNick;
+        var displayName = isBoss && !string.IsNullOrWhiteSpace(bossName)
+            ? bossName.Replace("\\", "").Replace("\"", "").Replace("'", "")
+            : safeNick;
 
         // ?? Step 1: Summon with Tags, CustomName, and basic NBT ??
         var nbtParts = new List<string>

@@ -332,3 +332,8 @@ C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\obj\x64\Deb
 C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\UI\Views\CreatureArenaPage.g.cs
 C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\UI\Views\CreatureArenaPage.xaml
 C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\UI\Views\CreatureArenaPage.xbf
+C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\UI\Views\OverlaysPage.xbf
+C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\UI\Views\OverlaysPage.g.i.cs
+C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\UI\Views\OverlaysPage.g.cs
+C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\UI\Views\OverlaysPage.xaml
+C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\UI\Views\OverlaysPage.xbf

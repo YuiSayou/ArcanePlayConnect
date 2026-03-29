@@ -6,8 +6,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using ArcanePlayConnect.Core;
 using ArcanePlayConnect.Core.Models;
+using ArcanePlayConnect.Services;
 using ArcanePlayConnect.UI.ViewModels;
 
 namespace ArcanePlayConnect.UI.Views;
@@ -29,6 +31,9 @@ public sealed partial class AddActionPage : Page
         InitializeComponent();
         ApplyTypeSelection(ActionTriggerType.Gift);
         ApplyActionMode(false);
+
+        // Preload gift images in background
+        _ = GiftImageService.PreloadAllAsync();
     }
 
     public void LoadSavedCommands(IEnumerable<SavedCommand> commands)
@@ -193,18 +198,29 @@ public sealed partial class AddActionPage : Page
         else
         {
             TriggerKeyPanel.Visibility = Visibility.Visible;
-            TriggerKeyLabel.Text = type switch
+
+            if (type == ActionTriggerType.Gift)
             {
-                ActionTriggerType.Gift => "GIFT NAME",
-                ActionTriggerType.Like => "MIN LIKES (leave empty for any)",
-                _                      => "KEYWORD (leave empty to match all chat)"
-            };
-            TriggerKeyBox.PlaceholderText = type switch
+                TriggerKeyLabel.Text = "GIFT NAME";
+                GiftSuggestBox.Visibility = Visibility.Visible;
+                TriggerKeyBox.Visibility = Visibility.Collapsed;
+            }
+            else
             {
-                ActionTriggerType.Gift => "e.g. Rose",
-                ActionTriggerType.Like => "e.g. 10 (trigger when \u226510 likes sent)",
-                _                      => "e.g. !spawn (optional)"
-            };
+                GiftSuggestBox.Visibility = Visibility.Collapsed;
+                TriggerKeyBox.Visibility = Visibility.Visible;
+
+                TriggerKeyLabel.Text = type switch
+                {
+                    ActionTriggerType.Like => "MIN LIKES (leave empty for any)",
+                    _                      => "KEYWORD (leave empty to match all chat)"
+                };
+                TriggerKeyBox.PlaceholderText = type switch
+                {
+                    ActionTriggerType.Like => "e.g. 10 (trigger when \u226510 likes sent)",
+                    _                      => "e.g. !spawn (optional)"
+                };
+            }
         }
     }
 
@@ -300,11 +316,14 @@ public sealed partial class AddActionPage : Page
 
     private void Add_Click(object sender, RoutedEventArgs e)
     {
-        var triggerKey = TriggerKeyBox.Text?.Trim() ?? string.Empty;
+        // Get trigger key from the correct input control
+        var triggerKey = _selectedType == ActionTriggerType.Gift
+            ? GiftSuggestBox.Text?.Trim() ?? string.Empty
+            : TriggerKeyBox.Text?.Trim() ?? string.Empty;
 
         if (_selectedType == ActionTriggerType.Gift && string.IsNullOrWhiteSpace(triggerKey))
         {
-            TriggerKeyBox.BorderBrush = new SolidColorBrush(ParseColor("#FFFF3278"));
+            GiftSuggestBox.BorderBrush = new SolidColorBrush(ParseColor("#FFFF3278"));
             return;
         }
 
@@ -348,5 +367,41 @@ public sealed partial class AddActionPage : Page
     {
         Result = null;
         Cancelled?.Invoke();
+    }
+
+    // ── Gift AutoSuggestBox ─────────────────────────────────────────────────
+
+    private void GiftSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    {
+        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        {
+            var query = sender.Text?.Trim() ?? string.Empty;
+            if (string.IsNullOrEmpty(query))
+            {
+                // Show all gifts when text is empty
+                sender.ItemsSource = TikTokGiftLibrary.All.ToList();
+            }
+            else
+            {
+                // Filter/sort when user is typing
+                sender.ItemsSource = TikTokGiftLibrary.Search(query).ToList();
+            }
+        }
+    }
+
+    private void GiftSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+    {
+        if (args.SelectedItem is TikTokGift gift)
+        {
+            sender.Text = gift.Name;
+        }
+    }
+
+    private void GiftSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    {
+        if (args.ChosenSuggestion is TikTokGift gift)
+        {
+            sender.Text = gift.Name;
+        }
     }
 }

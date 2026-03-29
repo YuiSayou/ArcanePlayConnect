@@ -44,6 +44,9 @@ public class CommandButton
     /// <summary>When true, this is a boss creature that can be summoned infinitely (no one-per-viewer limit).</summary>
     public bool SummonIsBoss { get; set; }
 
+    /// <summary>Custom display name for boss creatures. Empty = use viewer nickname.</summary>
+    public string SummonBossName { get; set; } = string.Empty;
+
     // ?? HealthCheck options ??
     /// <summary>When true the command sequence runs repeatedly at IntervalSeconds.</summary>
     public bool RunContinuously { get; set; }

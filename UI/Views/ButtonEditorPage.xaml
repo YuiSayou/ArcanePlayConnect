@@ -202,11 +202,24 @@
                     <!-- Boss toggle -->
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <ToggleSwitch x:Name="BossToggle" IsOn="False" MinWidth="0"
-                                      OnContent="" OffContent="" />
+                                      OnContent="" OffContent=""
+                                      Toggled="BossToggle_Toggled" />
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="Boss Creature" FontSize="11" Foreground="#FFFF3278" FontWeight="SemiBold" />
                             <TextBlock Text="Can be summoned infinitely (no one-per-viewer limit)" FontSize="8" Foreground="#FF8888AA" />
                         </StackPanel>
+                    </StackPanel>
+
+                    <!-- Boss Name (only visible when Boss is toggled on) -->
+                    <StackPanel x:Name="BossNamePanel" Spacing="4" Visibility="Collapsed">
+                        <TextBlock Text="BOSS NAME" FontSize="9" FontWeight="Bold"
+                                   Foreground="#FFFF3278" CharacterSpacing="100" />
+                        <TextBox x:Name="BossNameBox" PlaceholderText="e.g. Dragon Lord, The Destroyer..."
+                                 Background="#FF0D0D1A" Foreground="#FFFF3278"
+                                 BorderBrush="#FF1A1A2E" BorderThickness="1"
+                                 Padding="10,7" CornerRadius="4" FontSize="12" />
+                        <TextBlock Text="This name will appear above the boss in-game instead of the viewer's TikTok name"
+                                   FontSize="8" Foreground="#FF8888AA" TextWrapping="Wrap" />
                     </StackPanel>
 
                     <!-- Summon Preview -->

@@ -36,6 +36,7 @@ public sealed partial class ShellPage : Page
             "Mappings"  => NavMappings,
             "Buttons"   => NavButtons,
             "Arena"     => NavArena,
+            "Overlays"  => NavOverlays,
             "Profiles"  => NavProfiles,
             _ => NavDashboard
         };
@@ -51,6 +52,7 @@ public sealed partial class ShellPage : Page
             "Mappings"  => typeof(MappingsPage),
             "Buttons"   => typeof(CommandButtonsPage),
             "Arena"     => typeof(CreatureArenaPage),
+            "Overlays"  => typeof(OverlaysPage),
             "Profiles"  => typeof(ProfilesPage),
             _ => typeof(DashboardPage)
         };

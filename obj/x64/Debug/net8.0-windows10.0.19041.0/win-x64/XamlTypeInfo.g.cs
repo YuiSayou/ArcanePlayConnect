@@ -226,7 +226,7 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
         
         private void InitTypeTables()
         {
-            _typeNameTable = new string[72];
+            _typeNameTable = new string[73];
             _typeNameTable[0] = "Microsoft.UI.Xaml.Controls.XamlControlsResources";
             _typeNameTable[1] = "Microsoft.UI.Xaml.ResourceDictionary";
             _typeNameTable[2] = "Object";
@@ -295,12 +295,13 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
             _typeNameTable[65] = "ArcanePlayConnect.UI.Converters.ActionTypeToBrushConverter";
             _typeNameTable[66] = "ArcanePlayConnect.UI.Views.MainPage";
             _typeNameTable[67] = "ArcanePlayConnect.UI.Views.MappingsPage";
-            _typeNameTable[68] = "ArcanePlayConnect.UI.Views.ProfilesPage";
-            _typeNameTable[69] = "ArcanePlayConnect.UI.Views.ShellPage";
-            _typeNameTable[70] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
-            _typeNameTable[71] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
+            _typeNameTable[68] = "ArcanePlayConnect.UI.Views.OverlaysPage";
+            _typeNameTable[69] = "ArcanePlayConnect.UI.Views.ProfilesPage";
+            _typeNameTable[70] = "ArcanePlayConnect.UI.Views.ShellPage";
+            _typeNameTable[71] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
+            _typeNameTable[72] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
 
-            _typeTable = new global::System.Type[72];
+            _typeTable = new global::System.Type[73];
             _typeTable[0] = typeof(global::Microsoft.UI.Xaml.Controls.XamlControlsResources);
             _typeTable[1] = typeof(global::Microsoft.UI.Xaml.ResourceDictionary);
             _typeTable[2] = typeof(global::System.Object);
@@ -373,10 +374,11 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
             _typeTable[65] = typeof(global::ArcanePlayConnect.UI.Converters.ActionTypeToBrushConverter);
             _typeTable[66] = typeof(global::ArcanePlayConnect.UI.Views.MainPage);
             _typeTable[67] = typeof(global::ArcanePlayConnect.UI.Views.MappingsPage);
-            _typeTable[68] = typeof(global::ArcanePlayConnect.UI.Views.ProfilesPage);
-            _typeTable[69] = typeof(global::ArcanePlayConnect.UI.Views.ShellPage);
-            _typeTable[70] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
-            _typeTable[71] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
+            _typeTable[68] = typeof(global::ArcanePlayConnect.UI.Views.OverlaysPage);
+            _typeTable[69] = typeof(global::ArcanePlayConnect.UI.Views.ProfilesPage);
+            _typeTable[70] = typeof(global::ArcanePlayConnect.UI.Views.ShellPage);
+            _typeTable[71] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
+            _typeTable[72] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
         }
 
         private int LookupTypeIndexByName(string typeName)
@@ -440,9 +442,10 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
         private object Activate_65_ActionTypeToBrushConverter() { return new global::ArcanePlayConnect.UI.Converters.ActionTypeToBrushConverter(); }
         private object Activate_66_MainPage() { return new global::ArcanePlayConnect.UI.Views.MainPage(); }
         private object Activate_67_MappingsPage() { return new global::ArcanePlayConnect.UI.Views.MappingsPage(); }
-        private object Activate_68_ProfilesPage() { return new global::ArcanePlayConnect.UI.Views.ProfilesPage(); }
-        private object Activate_69_ShellPage() { return new global::ArcanePlayConnect.UI.Views.ShellPage(); }
-        private object Activate_70_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
+        private object Activate_68_OverlaysPage() { return new global::ArcanePlayConnect.UI.Views.OverlaysPage(); }
+        private object Activate_69_ProfilesPage() { return new global::ArcanePlayConnect.UI.Views.ProfilesPage(); }
+        private object Activate_70_ShellPage() { return new global::ArcanePlayConnect.UI.Views.ShellPage(); }
+        private object Activate_71_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
         private void StaticInitializer_0_XamlControlsResources() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.XamlControlsResources).TypeHandle);
         private void StaticInitializer_4_WindowEx() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::WinUIEx.WindowEx).TypeHandle);
         private void StaticInitializer_8_AppWindow() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Windowing.AppWindow).TypeHandle);
@@ -496,10 +499,11 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
         private void StaticInitializer_65_ActionTypeToBrushConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Converters.ActionTypeToBrushConverter).TypeHandle);
         private void StaticInitializer_66_MainPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.MainPage).TypeHandle);
         private void StaticInitializer_67_MappingsPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.MappingsPage).TypeHandle);
-        private void StaticInitializer_68_ProfilesPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.ProfilesPage).TypeHandle);
-        private void StaticInitializer_69_ShellPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.ShellPage).TypeHandle);
-        private void StaticInitializer_70_TreeViewNode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode).TypeHandle);
-        private void StaticInitializer_71_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>).TypeHandle);
+        private void StaticInitializer_68_OverlaysPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.OverlaysPage).TypeHandle);
+        private void StaticInitializer_69_ProfilesPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.ProfilesPage).TypeHandle);
+        private void StaticInitializer_70_ShellPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::ArcanePlayConnect.UI.Views.ShellPage).TypeHandle);
+        private void StaticInitializer_71_TreeViewNode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode).TypeHandle);
+        private void StaticInitializer_72_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>).TypeHandle);
         private void MapAdd_0_XamlControlsResources(object instance, object key, object item)
         {
             var collection = (global::System.Collections.Generic.IDictionary<global::System.Object, global::System.Object>)instance;
@@ -507,7 +511,7 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
             var newItem = (global::System.Object)item;
             collection.Add(newKey, newItem);
         }
-        private void VectorAdd_71_IList(object instance, object item)
+        private void VectorAdd_72_IList(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Microsoft.UI.Xaml.Controls.TreeViewNode>)instance;
             var newItem = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)item;
@@ -1058,28 +1062,37 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 68:   //  ArcanePlayConnect.UI.Views.ProfilesPage
+            case 68:   //  ArcanePlayConnect.UI.Views.OverlaysPage
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_68_ProfilesPage;
-                userType.StaticInitializer = StaticInitializer_68_ProfilesPage;
+                userType.Activator = Activate_68_OverlaysPage;
+                userType.StaticInitializer = StaticInitializer_68_OverlaysPage;
                 userType.AddMemberName("ViewModel");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 69:   //  ArcanePlayConnect.UI.Views.ShellPage
+            case 69:   //  ArcanePlayConnect.UI.Views.ProfilesPage
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_69_ShellPage;
-                userType.StaticInitializer = StaticInitializer_69_ShellPage;
+                userType.Activator = Activate_69_ProfilesPage;
+                userType.StaticInitializer = StaticInitializer_69_ProfilesPage;
                 userType.AddMemberName("ViewModel");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 70:   //  Microsoft.UI.Xaml.Controls.TreeViewNode
+            case 70:   //  ArcanePlayConnect.UI.Views.ShellPage
+                userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_70_ShellPage;
+                userType.StaticInitializer = StaticInitializer_70_ShellPage;
+                userType.AddMemberName("ViewModel");
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 71:   //  Microsoft.UI.Xaml.Controls.TreeViewNode
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
-                userType.Activator = Activate_70_TreeViewNode;
-                userType.StaticInitializer = StaticInitializer_70_TreeViewNode;
+                userType.Activator = Activate_71_TreeViewNode;
+                userType.StaticInitializer = StaticInitializer_71_TreeViewNode;
                 userType.AddMemberName("Children");
                 userType.AddMemberName("Content");
                 userType.AddMemberName("Depth");
@@ -1091,10 +1104,10 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 71:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
+            case 72:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
                 userType = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType(this, typeName, type, null);
-                userType.StaticInitializer = StaticInitializer_71_IList;
-                userType.CollectionAdd = VectorAdd_71_IList;
+                userType.StaticInitializer = StaticInitializer_72_IList;
+                userType.CollectionAdd = VectorAdd_72_IList;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
@@ -1858,62 +1871,67 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
             var that = (global::ArcanePlayConnect.UI.Views.MappingsPage)instance;
             return that.ViewModel;
         }
-        private object get_76_ProfilesPage_ViewModel(object instance)
+        private object get_76_OverlaysPage_ViewModel(object instance)
+        {
+            var that = (global::ArcanePlayConnect.UI.Views.OverlaysPage)instance;
+            return that.ViewModel;
+        }
+        private object get_77_ProfilesPage_ViewModel(object instance)
         {
             var that = (global::ArcanePlayConnect.UI.Views.ProfilesPage)instance;
             return that.ViewModel;
         }
-        private object get_77_ShellPage_ViewModel(object instance)
+        private object get_78_ShellPage_ViewModel(object instance)
         {
             var that = (global::ArcanePlayConnect.UI.Views.ShellPage)instance;
             return that.ViewModel;
         }
-        private object get_78_TreeViewNode_Children(object instance)
+        private object get_79_TreeViewNode_Children(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Children;
         }
-        private object get_79_TreeViewNode_Content(object instance)
+        private object get_80_TreeViewNode_Content(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Content;
         }
-        private void set_79_TreeViewNode_Content(object instance, object Value)
+        private void set_80_TreeViewNode_Content(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.Content = (global::System.Object)Value;
         }
-        private object get_80_TreeViewNode_Depth(object instance)
+        private object get_81_TreeViewNode_Depth(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Depth;
         }
-        private object get_81_TreeViewNode_HasChildren(object instance)
+        private object get_82_TreeViewNode_HasChildren(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.HasChildren;
         }
-        private object get_82_TreeViewNode_HasUnrealizedChildren(object instance)
+        private object get_83_TreeViewNode_HasUnrealizedChildren(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.HasUnrealizedChildren;
         }
-        private void set_82_TreeViewNode_HasUnrealizedChildren(object instance, object Value)
+        private void set_83_TreeViewNode_HasUnrealizedChildren(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.HasUnrealizedChildren = (global::System.Boolean)Value;
         }
-        private object get_83_TreeViewNode_IsExpanded(object instance)
+        private object get_84_TreeViewNode_IsExpanded(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.IsExpanded;
         }
-        private void set_83_TreeViewNode_IsExpanded(object instance, object Value)
+        private void set_84_TreeViewNode_IsExpanded(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.IsExpanded = (global::System.Boolean)Value;
         }
-        private object get_84_TreeViewNode_Parent(object instance)
+        private object get_85_TreeViewNode_Parent(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Parent;
@@ -2423,62 +2441,68 @@ namespace ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo
                 xamlMember.Getter = get_75_MappingsPage_ViewModel;
                 xamlMember.SetIsReadOnly();
                 break;
+            case "ArcanePlayConnect.UI.Views.OverlaysPage.ViewModel":
+                userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Views.OverlaysPage");
+                xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ViewModel", "ArcanePlayConnect.UI.ViewModels.MainViewModel");
+                xamlMember.Getter = get_76_OverlaysPage_ViewModel;
+                xamlMember.SetIsReadOnly();
+                break;
             case "ArcanePlayConnect.UI.Views.ProfilesPage.ViewModel":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Views.ProfilesPage");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ViewModel", "ArcanePlayConnect.UI.ViewModels.MainViewModel");
-                xamlMember.Getter = get_76_ProfilesPage_ViewModel;
+                xamlMember.Getter = get_77_ProfilesPage_ViewModel;
                 xamlMember.SetIsReadOnly();
                 break;
             case "ArcanePlayConnect.UI.Views.ShellPage.ViewModel":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ArcanePlayConnect.UI.Views.ShellPage");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "ViewModel", "ArcanePlayConnect.UI.ViewModels.MainViewModel");
-                xamlMember.Getter = get_77_ShellPage_ViewModel;
+                xamlMember.Getter = get_78_ShellPage_ViewModel;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Children":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Children", "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>");
-                xamlMember.Getter = get_78_TreeViewNode_Children;
+                xamlMember.Getter = get_79_TreeViewNode_Children;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Content":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Content", "Object");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_79_TreeViewNode_Content;
-                xamlMember.Setter = set_79_TreeViewNode_Content;
+                xamlMember.Getter = get_80_TreeViewNode_Content;
+                xamlMember.Setter = set_80_TreeViewNode_Content;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Depth":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Depth", "Int32");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_80_TreeViewNode_Depth;
+                xamlMember.Getter = get_81_TreeViewNode_Depth;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.HasChildren":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "HasChildren", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_81_TreeViewNode_HasChildren;
+                xamlMember.Getter = get_82_TreeViewNode_HasChildren;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.HasUnrealizedChildren":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "HasUnrealizedChildren", "Boolean");
-                xamlMember.Getter = get_82_TreeViewNode_HasUnrealizedChildren;
-                xamlMember.Setter = set_82_TreeViewNode_HasUnrealizedChildren;
+                xamlMember.Getter = get_83_TreeViewNode_HasUnrealizedChildren;
+                xamlMember.Setter = set_83_TreeViewNode_HasUnrealizedChildren;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.IsExpanded":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "IsExpanded", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_83_TreeViewNode_IsExpanded;
-                xamlMember.Setter = set_83_TreeViewNode_IsExpanded;
+                xamlMember.Getter = get_84_TreeViewNode_IsExpanded;
+                xamlMember.Setter = set_84_TreeViewNode_IsExpanded;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Parent":
                 userType = (global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::ArcanePlayConnect.ArcanePlayConnect_XamlTypeInfo.XamlMember(this, "Parent", "Microsoft.UI.Xaml.Controls.TreeViewNode");
-                xamlMember.Getter = get_84_TreeViewNode_Parent;
+                xamlMember.Getter = get_85_TreeViewNode_Parent;
                 xamlMember.SetIsReadOnly();
                 break;
             }

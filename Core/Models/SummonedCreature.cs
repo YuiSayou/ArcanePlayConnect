@@ -18,6 +18,9 @@ public class SummonedCreature
     /// <summary>TikTok username (login) of the owner.</summary>
     public string OwnerUsername { get; set; } = string.Empty;
 
+    /// <summary>TikTok profile picture URL of the owner (from webhook avatar_url).</summary>
+    public string OwnerProfilePictureUrl { get; set; } = string.Empty;
+
     /// <summary>Minecraft entity type, e.g. "minecraft:zombie".</summary>
     public string EntityType { get; set; } = string.Empty;
 
@@ -77,6 +80,7 @@ public class AggregatedLeaderboardEntry
 {
     public string OwnerNickname { get; set; } = string.Empty;
     public string OwnerUsername { get; set; } = string.Empty;
+    public string OwnerProfilePictureUrl { get; set; } = string.Empty;
     public int TotalDamageDealt { get; set; }
     public int TotalKills { get; set; }
     public int CreatureCount { get; set; }

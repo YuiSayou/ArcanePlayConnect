@@ -11,5 +11,6 @@ UI\Views\DashboardPage.xbf
 UI\Views\EventLogPage.xbf
 UI\Views\MainPage.xbf
 UI\Views\MappingsPage.xbf
+UI\Views\OverlaysPage.xbf
 UI\Views\ProfilesPage.xbf
 UI\Views\ShellPage.xbf

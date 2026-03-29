@@ -115,6 +115,17 @@
                         </StackPanel>
                     </Button>
 
+                    <Button x:Name="NavOverlays" Click="NavButton_Click" Tag="Overlays"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                            Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <FontIcon Glyph="&#xE774;" FontFamily="Segoe MDL2 Assets" FontSize="16"
+                                      Foreground="{StaticResource NeonGreenBrush}" />
+                            <TextBlock Text="OBS Overlays" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
                     <Button x:Name="NavProfiles" Click="NavButton_Click" Tag="Profiles"
                             HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
                             Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">

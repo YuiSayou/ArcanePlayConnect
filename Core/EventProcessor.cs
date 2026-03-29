@@ -184,12 +184,12 @@ public class EventProcessor
                         !string.IsNullOrEmpty(button.SummonEntityType))
                     {
                         // Use the structured summon path — routes through creature tracker
-                        await ExecuteSummonButton(button, evt.Nickname, evt.Username);
+                        await ExecuteSummonButton(button, evt.Nickname, evt.Username, evt.ProfilePictureUrl);
                     }
                     else if (button.ButtonType == CommandButtonType.Summon)
                     {
                         // Legacy summon button — scan commands for summon patterns
-                        await ExecuteButtonWithCreatureTracking(button, evt.Nickname, evt.Username);
+                        await ExecuteButtonWithCreatureTracking(button, evt.Nickname, evt.Username, evt.ProfilePictureUrl);
                     }
                     else
                     {
@@ -208,7 +208,8 @@ public class EventProcessor
 
                 if (TryParseSummonCommand(command, out var entityType, out var position, out var nbt))
                 {
-                    await _creatureTracker.SummonCreatureAsync(evt.Nickname, evt.Username, entityType, position, nbt);
+                    await _creatureTracker.SummonCreatureAsync(evt.Nickname, evt.Username, entityType, position, nbt,
+                        ownerProfilePictureUrl: evt.ProfilePictureUrl);
                 }
                 else
                 {
@@ -233,7 +234,7 @@ public class EventProcessor
     /// Routes through CreatureTrackerService for proper tracking.
     /// Also runs any additional commands in the button's command list.
     /// </summary>
-    private async Task ExecuteSummonButton(CommandButton button, string nickname, string username)
+    private async Task ExecuteSummonButton(CommandButton button, string nickname, string username, string profilePictureUrl)
     {
         if (!_rcon.IsConnected) return;
 
@@ -246,7 +247,9 @@ public class EventProcessor
             extraNbt: "",
             customHealth: button.SummonCustomHealth,
             customAttackDamage: button.SummonCustomAttack,
-            isBoss: button.SummonIsBoss);
+            isBoss: button.SummonIsBoss,
+            ownerProfilePictureUrl: profilePictureUrl,
+            bossName: button.SummonBossName);
 
         if (creature == null) return; // blocked or failed
 
@@ -269,7 +272,7 @@ public class EventProcessor
     /// <summary>
     /// Fallback: Executes a Summon-type button's commands, scanning for summon patterns.
     /// </summary>
-    private async Task ExecuteButtonWithCreatureTracking(CommandButton button, string nickname, string username)
+    private async Task ExecuteButtonWithCreatureTracking(CommandButton button, string nickname, string username, string profilePictureUrl)
     {
         if (!_rcon.IsConnected) return;
 
@@ -283,7 +286,8 @@ public class EventProcessor
 
             if (TryParseSummonCommand(cmd, out var entityType, out var position, out var nbt))
             {
-                await _creatureTracker.SummonCreatureAsync(nickname, username, entityType, position, nbt);
+                await _creatureTracker.SummonCreatureAsync(nickname, username, entityType, position, nbt,
+                    ownerProfilePictureUrl: profilePictureUrl);
             }
             else
             {

@@ -63,46 +63,46 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Border x:ConnectionId='25' x:Name="GiftTypeBtn" Grid.Column="0" CornerRadius="6" Padding="10,10"
+                        <Border x:ConnectionId='31' x:Name="GiftTypeBtn" Grid.Column="0" CornerRadius="6" Padding="10,10"
                                 Background="#FF1E1E36" BorderThickness="2" BorderBrush="#FFFF3278"
                                                                             Tag="Gift">
                             <StackPanel Spacing="4" HorizontalAlignment="Center">
                                 <FontIcon Glyph="&#xE8E1;" FontFamily="Segoe MDL2 Assets" FontSize="22"
                                           HorizontalAlignment="Center" Foreground="#FFFF3278" />
-                                <TextBlock x:ConnectionId='32' x:Name="GiftLabel" Text="GIFT" FontSize="10" FontWeight="Bold"
+                                <TextBlock x:ConnectionId='38' x:Name="GiftLabel" Text="GIFT" FontSize="10" FontWeight="Bold"
                                            Foreground="#FFFF3278" HorizontalAlignment="Center" CharacterSpacing="100" />
                             </StackPanel>
                         </Border>
 
-                        <Border x:ConnectionId='26' x:Name="FollowTypeBtn" Grid.Column="1" CornerRadius="6" Padding="10,10"
+                        <Border x:ConnectionId='32' x:Name="FollowTypeBtn" Grid.Column="1" CornerRadius="6" Padding="10,10"
                                 Background="#FF16162A" BorderThickness="2" BorderBrush="#FF1A1A2E"
                                                                             Tag="Follow">
                             <StackPanel Spacing="4" HorizontalAlignment="Center">
                                 <FontIcon Glyph="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="22"
                                           HorizontalAlignment="Center" Foreground="#FF8888AA" />
-                                <TextBlock x:ConnectionId='31' x:Name="FollowLabel" Text="FOLLOW" FontSize="10" FontWeight="Bold"
+                                <TextBlock x:ConnectionId='37' x:Name="FollowLabel" Text="FOLLOW" FontSize="10" FontWeight="Bold"
                                            Foreground="#FF8888AA" HorizontalAlignment="Center" CharacterSpacing="100" />
                             </StackPanel>
                         </Border>
 
-                        <Border x:ConnectionId='27' x:Name="ChatTypeBtn" Grid.Column="2" CornerRadius="6" Padding="10,10"
+                        <Border x:ConnectionId='33' x:Name="ChatTypeBtn" Grid.Column="2" CornerRadius="6" Padding="10,10"
                                 Background="#FF16162A" BorderThickness="2" BorderBrush="#FF1A1A2E"
                                                                             Tag="Chat">
                             <StackPanel Spacing="4" HorizontalAlignment="Center">
                                 <FontIcon Glyph="&#xE8BD;" FontFamily="Segoe MDL2 Assets" FontSize="22"
                                           HorizontalAlignment="Center" Foreground="#FF8888AA" />
-                                <TextBlock x:ConnectionId='30' x:Name="ChatLabel" Text="CHAT" FontSize="10" FontWeight="Bold"
+                                <TextBlock x:ConnectionId='36' x:Name="ChatLabel" Text="CHAT" FontSize="10" FontWeight="Bold"
                                            Foreground="#FF8888AA" HorizontalAlignment="Center" CharacterSpacing="100" />
                             </StackPanel>
                         </Border>
 
-                        <Border x:ConnectionId='28' x:Name="LikeTypeBtn" Grid.Column="3" CornerRadius="6" Padding="10,10"
+                        <Border x:ConnectionId='34' x:Name="LikeTypeBtn" Grid.Column="3" CornerRadius="6" Padding="10,10"
                                 Background="#FF16162A" BorderThickness="2" BorderBrush="#FF1A1A2E"
                                                                             Tag="Like">
                             <StackPanel Spacing="4" HorizontalAlignment="Center">
                                 <FontIcon Glyph="&#xEB51;" FontFamily="Segoe MDL2 Assets" FontSize="22"
                                           HorizontalAlignment="Center" Foreground="#FF8888AA" />
-                                <TextBlock x:ConnectionId='29' x:Name="LikeLabel" Text="LIKE" FontSize="10" FontWeight="Bold"
+                                <TextBlock x:ConnectionId='35' x:Name="LikeLabel" Text="LIKE" FontSize="10" FontWeight="Bold"
                                            Foreground="#FF8888AA" HorizontalAlignment="Center" CharacterSpacing="100" />
                             </StackPanel>
                         </Border>
@@ -113,11 +113,52 @@
                 <StackPanel x:ConnectionId='8' Grid.Row="4" Spacing="6" x:Name="TriggerKeyPanel">
                     <TextBlock x:ConnectionId='23' x:Name="TriggerKeyLabel" Text="GIFT NAME" FontSize="10" FontWeight="Bold"
                                Foreground="#FF8888AA" CharacterSpacing="120" />
-                    <TextBox x:ConnectionId='24' x:Name="TriggerKeyBox"
+
+                    <!-- Gift name AutoSuggestBox (visible only for Gift type) -->
+                    <AutoSuggestBox x:ConnectionId='24' x:Name="GiftSuggestBox"
+                                    PlaceholderText="Type or select a gift name..."
+                                    Background="#FF12121E" Foreground="#FFE0E0FF"
+                                    BorderBrush="#FF1A1A2E" BorderThickness="1"
+                                    FontSize="13"
+                                                                            
+                                                                                      
+                                                                                  
+                                    UpdateTextOnSelect="False">
+                        <AutoSuggestBox.ItemTemplate>
+                            <DataTemplate                               >
+                                <Grid x:ConnectionId='27' Padding="4,4" ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="32" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Width="32" Height="32" CornerRadius="4"
+                                            Background="#FF1A1A2E">
+                                        <Image x:ConnectionId='30'                            Stretch="UniformToFill"
+                                               Width="28" Height="28" />
+                                    </Border>
+                                    <TextBlock x:ConnectionId='28' Grid.Column="1"                     
+                                               Foreground="#FFE0E0FF" FontSize="12" FontWeight="SemiBold"
+                                               VerticalAlignment="Center"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="3"
+                                                VerticalAlignment="Center">
+                                        <TextBlock x:ConnectionId='29'                           FontSize="11"
+                                                   Foreground="#FFFF9500" FontWeight="SemiBold" />
+                                        <TextBlock Text="🪙" FontSize="10" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </AutoSuggestBox.ItemTemplate>
+                    </AutoSuggestBox>
+
+                    <!-- Plain TextBox for non-gift trigger types -->
+                    <TextBox x:ConnectionId='25' x:Name="TriggerKeyBox"
                              PlaceholderText="e.g. Rose"
                              Background="#FF12121E" Foreground="#FFE0E0FF"
                              BorderBrush="#FF1A1A2E" BorderThickness="1"
-                             Padding="10,8" CornerRadius="4" FontSize="13" />
+                             Padding="10,8" CornerRadius="4" FontSize="13"
+                             Visibility="Collapsed" />
                 </StackPanel>
 
                 <!-- Command / Button Action -->
