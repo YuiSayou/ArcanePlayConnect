@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gift Ranking - ArcanePlayConnect</title>
+<link rel="stylesheet" href="/shared/theme.css">
+<style>
+.overlay-container { width: 380px; padding: 16px; }
+
+/* --- Player Card --- */
+.player-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px; margin-bottom: 8px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px; position: relative;
+    overflow: hidden; transition: all 0.4s ease;
+}
+.player-card.entering { animation: slideIn 0.4s ease forwards; }
+.player-card.removing { animation: slideOut 0.3s ease forwards; }
+.player-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--gradient);
+    border-radius: 4px 0 0 4px;
+}
+.player-card.rank-1 {
+    box-shadow: var(--glow), inset 0 0 30px rgba(255,215,0,0.05);
+    border-color: var(--rank1);
+}
+.player-card.rank-1::before { background: var(--rank1); }
+.player-card.rank-2 { border-color: var(--rank2); }
+.player-card.rank-2::before { background: var(--rank2); }
+.player-card.rank-3 { border-color: var(--rank3); }
+.player-card.rank-3::before { background: var(--rank3); }
+
+/* --- Rank Badge --- */
+.rank-badge {
+    width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--title-font);
+    font-weight: 900; font-size: 18px;
+    border-radius: 50%; flex-shrink: 0;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid var(--card-border);
+    color: var(--text2);
+}
+.rank-1 .rank-badge {
+    background: linear-gradient(135deg, #ffd700, #ffaa00);
+    color: #1a1000; border-color: #ffd700;
+    box-shadow: 0 0 14px rgba(255,215,0,0.5);
+}
+.rank-2 .rank-badge {
+    background: linear-gradient(135deg, #c0c0c0, #999);
+    color: #1a1a1a; border-color: #c0c0c0;
+}
+.rank-3 .rank-badge {
+    background: linear-gradient(135deg, #cd7f32, #a05a20);
+    color: #1a0e00; border-color: #cd7f32;
+}
+
+/* --- Profile Picture --- */
+.profile-pic {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 3px solid var(--card-border);
+    overflow: hidden; flex-shrink: 0;
+}
+.rank-1 .profile-pic { border-color: var(--rank1); box-shadow: 0 0 12px rgba(255,215,0,0.3); }
+.rank-2 .profile-pic { border-color: var(--rank2); }
+.rank-3 .profile-pic { border-color: var(--rank3); }
+.profile-pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* --- Player Info --- */
+.player-info { flex: 1; min-width: 0; }
+.player-name {
+    font-size: 18px; font-weight: 700;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    color: var(--text);
+}
+.rank-1 .player-name { color: var(--rank1); }
+.gift-sub { font-size: 13px; color: var(--text2); }
+
+/* --- Coin Count --- */
+.coin-count {
+    font-family: var(--title-font);
+    font-size: 20px; font-weight: 700;
+    color: var(--accent); flex-shrink: 0;
+    display: flex; align-items: center; gap: 4px;
+}
+.coin-icon { font-size: 16px; }
+</style>
+</head>
+<body>
+<div class="overlay-container">
+    <div class="header">
+        <h1>Gift Ranking</h1>
+        <div class="header-line"></div>
+        <div class="header-sub">Top Gifters This Session</div>
+    </div>
+    <div id="playerList"></div>
+    <div id="emptyState" class="empty-state" style="display:none">
+        <div class="empty-icon">&#x1F381;</div>
+        Waiting for generous gifters to appear...
+    </div>
+</div>
+<script src="/shared/overlay-core.js"></script>
+<script>
+'use strict';
+(function() {
+    const cardMap = new Map();
+
+    function createCard(p) {
+        const card = document.createElement('div');
+        card.className = 'player-card entering';
+        card.dataset.username = p.username;
+        card.innerHTML =
+            '<div class="rank-badge"></div>' +
+            '<div class="profile-pic"><img src="" alt="" onerror="this.src=\'https://minotar.net/helm/MHF_Steve/64\'" /></div>' +
+            '<div class="player-info"><div class="player-name"></div><div class="gift-sub"></div></div>' +
+            '<div class="coin-count"><span class="coin-val"></span><span class="coin-icon">&#x1FA99;</span></div>';
+        card.addEventListener('animationend', () => card.classList.remove('entering'), { once: true });
+        return card;
+    }
+
+    function updateCard(card, p) {
+        ArcaneOverlay.setRankClass(card, p.rank);
+        const badge = card.querySelector('.rank-badge');
+        if (badge && badge.textContent !== String(p.rank)) badge.textContent = p.rank;
+        const img = card.querySelector('.profile-pic img');
+        if (img && img.getAttribute('src') !== p.profilePicture) img.src = p.profilePicture;
+        ArcaneOverlay.setText(card, '.player-name', p.nickname);
+        ArcaneOverlay.setText(card, '.gift-sub', p.giftCount + ' gift' + (p.giftCount !== 1 ? 's' : '') + ' sent');
+        const coinVal = card.querySelector('.coin-val');
+        if (coinVal) coinVal.textContent = ArcaneOverlay.fmt(p.totalCoins);
+    }
+
+    function renderPlayers(data) {
+        const players = data.players || [];
+        const list = document.getElementById('playerList');
+        const empty = document.getElementById('emptyState');
+
+        if (!players.length) {
+            cardMap.forEach(c => c.classList.add('removing'));
+            setTimeout(() => { list.innerHTML = ''; cardMap.clear(); }, 350);
+            empty.style.display = 'block';
+            return;
+        }
+        empty.style.display = 'none';
+
+        const newSet = new Set(players.map(p => p.username));
+        cardMap.forEach((card, u) => {
+            if (!newSet.has(u)) {
+                card.classList.add('removing');
+                setTimeout(() => { card.remove(); cardMap.delete(u); }, 350);
+            }
+        });
+
+        let ins = null;
+        for (let i = players.length - 1; i >= 0; i--) {
+            const p = players[i];
+            let card = cardMap.get(p.username);
+            if (!card) { card = createCard(p); cardMap.set(p.username, card); }
+            updateCard(card, p);
+            list.insertBefore(card, ins);
+            ins = card;
+        }
+    }
+
+    ArcaneOverlay.init(renderPlayers);
+})();
+</script>
+</body>
+</html>

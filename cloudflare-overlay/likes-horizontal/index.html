@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Likes Ranking - ArcanePlayConnect</title>
+<link rel="stylesheet" href="/shared/theme.css">
+<style>
+.overlay-container {
+    display: flex; flex-direction: column;
+    align-items: center; padding: 14px 20px;
+}
+
+/* --- Horizontal Player Row --- */
+.players-row {
+    display: flex; gap: 12px;
+    align-items: flex-end; justify-content: center;
+    flex-wrap: wrap;
+}
+
+.player-card {
+    display: flex; flex-direction: column; align-items: center;
+    width: 150px; padding: 14px 10px 12px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 14px; position: relative;
+    transition: all 0.4s ease;
+}
+.player-card.entering { animation: popIn 0.4s ease forwards; }
+.player-card.removing { animation: popOut 0.3s ease forwards; }
+.player-card::after {
+    content: ''; position: absolute; bottom: 0; left: 50%;
+    transform: translateX(-50%); width: 60%; height: 3px;
+    background: var(--gradient); border-radius: 2px; opacity: 0.5;
+}
+.player-card.rank-1 {
+    box-shadow: var(--glow), inset 0 0 30px rgba(255,215,0,0.05);
+    border-color: var(--rank1); transform: translateY(-8px);
+    padding-top: 18px;
+}
+.player-card.rank-1::after { background: var(--rank1); width: 80%; opacity: 0.8; }
+.player-card.rank-2 { border-color: var(--rank2); }
+.player-card.rank-3 { border-color: var(--rank3); }
+
+/* --- Rank Badge --- */
+.rank-badge {
+    position: absolute; top: -14px;
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--title-font);
+    font-weight: 900; font-size: 15px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid var(--card-border);
+    color: var(--text2); z-index: 2;
+}
+.rank-1 .rank-badge {
+    background: linear-gradient(135deg, #ffd700, #ffaa00);
+    color: #1a1000; border-color: #ffd700;
+    box-shadow: 0 0 12px rgba(255,215,0,0.5);
+    width: 36px; height: 36px; top: -16px; font-size: 18px;
+}
+.rank-2 .rank-badge {
+    background: linear-gradient(135deg, #c0c0c0, #999);
+    color: #1a1a1a; border-color: #c0c0c0;
+}
+.rank-3 .rank-badge {
+    background: linear-gradient(135deg, #cd7f32, #a05a20);
+    color: #1a0e00; border-color: #cd7f32;
+}
+
+/* --- Profile Picture --- */
+.profile-pic {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    border: 3px solid var(--card-border);
+    overflow: hidden; margin-top: 6px;
+}
+.rank-1 .profile-pic {
+    width: 68px; height: 68px;
+    border-color: var(--rank1);
+    box-shadow: 0 0 16px rgba(255,215,0,0.3);
+}
+.rank-2 .profile-pic { border-color: var(--rank2); }
+.rank-3 .profile-pic { border-color: var(--rank3); }
+.profile-pic img { width: 100%; height: 100%; object-fit: cover; }
+
+/* --- Player Name --- */
+.player-name {
+    font-size: 16px; font-weight: 700;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    max-width: 100%; text-align: center;
+    margin-top: 6px; color: var(--text);
+}
+.rank-1 .player-name { color: var(--rank1); font-size: 18px; }
+
+/* --- Like Count --- */
+.like-count {
+    font-family: var(--title-font);
+    font-size: 20px; font-weight: 700;
+    color: var(--accent); margin-top: 4px;
+    display: flex; align-items: center; gap: 4px;
+}
+.rank-1 .like-count { font-size: 24px; }
+.like-icon { font-size: 16px; }
+</style>
+</head>
+<body>
+<div class="overlay-container">
+    <div class="header">
+        <h1>Likes Ranking</h1>
+        <div class="header-line"></div>
+    </div>
+    <div class="players-row" id="playerList"></div>
+    <div id="emptyState" class="empty-state" style="display:none">
+        <div class="empty-icon">&#x2764;&#xFE0F;</div>
+        Waiting for viewers to show their support...
+    </div>
+</div>
+<script src="/shared/overlay-core.js"></script>
+<script>
+'use strict';
+(function() {
+    const cardMap = new Map();
+
+    function createCard(p) {
+        const card = document.createElement('div');
+        card.className = 'player-card entering';
+        card.dataset.username = p.username;
+        card.innerHTML =
+            '<div class="rank-badge"></div>' +
+            '<div class="profile-pic"><img src="" alt="" onerror="this.src=\'https://minotar.net/helm/MHF_Steve/64\'" /></div>' +
+            '<div class="player-name"></div>' +
+            '<div class="like-count"><span class="like-icon">&#x2764;&#xFE0F;</span><span class="like-val"></span></div>';
+        card.addEventListener('animationend', () => card.classList.remove('entering'), { once: true });
+        return card;
+    }
+
+    function updateCard(card, p) {
+        ArcaneOverlay.setRankClass(card, p.rank);
+        const badge = card.querySelector('.rank-badge');
+        if (badge && badge.textContent !== String(p.rank)) badge.textContent = p.rank;
+        const img = card.querySelector('.profile-pic img');
+        if (img && img.getAttribute('src') !== p.profilePicture) img.src = p.profilePicture;
+        ArcaneOverlay.setText(card, '.player-name', p.nickname);
+        const likeVal = card.querySelector('.like-val');
+        if (likeVal) likeVal.textContent = ArcaneOverlay.fmt(p.totalLikes);
+    }
+
+    function renderPlayers(data) {
+        const players = data.players || [];
+        const list = document.getElementById('playerList');
+        const empty = document.getElementById('emptyState');
+
+        if (!players.length) {
+            cardMap.forEach(c => c.classList.add('removing'));
+            setTimeout(() => { list.innerHTML = ''; cardMap.clear(); }, 350);
+            empty.style.display = 'block';
+            return;
+        }
+        empty.style.display = 'none';
+
+        const newSet = new Set(players.map(p => p.username));
+        cardMap.forEach((card, u) => {
+            if (!newSet.has(u)) {
+                card.classList.add('removing');
+                setTimeout(() => { card.remove(); cardMap.delete(u); }, 350);
+            }
+        });
+
+        let ins = null;
+        for (let i = players.length - 1; i >= 0; i--) {
+            const p = players[i];
+            let card = cardMap.get(p.username);
+            if (!card) { card = createCard(p); cardMap.set(p.username, card); }
+            updateCard(card, p);
+            list.insertBefore(card, ins);
+            ins = card;
+        }
+    }
+
+    ArcaneOverlay.init(renderPlayers);
+})();
+</script>
+</body>
+</html>

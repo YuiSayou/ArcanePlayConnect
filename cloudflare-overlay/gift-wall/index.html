@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gift Wall - ArcanePlayConnect</title>
+<link rel="stylesheet" href="/shared/theme.css">
+<style>
+.overlay-container { padding: 16px; max-width: 800px; }
+
+/* --- Gift Grid --- */
+.gifts-grid {
+    display: flex; flex-wrap: wrap;
+    gap: 14px; justify-content: center;
+}
+
+.gift-card {
+    display: flex; flex-direction: column; align-items: center;
+    width: 160px; padding: 14px 10px 12px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px; position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 0.4s ease forwards;
+    opacity: 0;
+}
+.gift-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--glow);
+}
+.gift-card::before {
+    content: ''; position: absolute;
+    bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 60%; height: 3px;
+    background: var(--gradient);
+    border-radius: 2px; opacity: 0.4;
+}
+
+/* --- Shimmer effect on rank-1 equivalent (first card) --- */
+.gift-card:first-child {
+    border-color: var(--accent);
+    box-shadow: var(--glow);
+}
+
+/* --- Gift Image --- */
+.gift-img {
+    width: 76px; height: 76px;
+    object-fit: contain; border-radius: 10px;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 3px 8px rgba(0,0,0,0.4));
+    background: rgba(255,255,255,0.03);
+    padding: 4px;
+}
+
+.gift-name {
+    font-size: 18px; font-weight: 700;
+    color: var(--text); text-align: center;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    max-width: 145px; line-height: 1.3;
+}
+
+.gift-price {
+    display: flex; align-items: center; gap: 4px;
+    margin-top: 4px; font-size: 15px;
+    font-weight: 600; color: var(--accent);
+}
+.gift-price.free {
+    color: var(--accent2); font-style: italic;
+}
+
+.gift-text {
+    font-size: 20px; font-weight: 600;
+    color: var(--accent2); text-align: center;
+    margin-top: 6px; padding: 4px 8px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 8px; max-width: 145px;
+    word-wrap: break-word; line-height: 1.3;
+}
+</style>
+</head>
+<body>
+<div class="overlay-container">
+    <div class="header">
+        <h1>Gift Wall</h1>
+        <div class="header-line"></div>
+        <div class="header-sub">TikTok Gifts and Interactions</div>
+    </div>
+    <div class="gifts-grid" id="giftsGrid"></div>
+    <div id="emptyState" class="empty-state" style="display:none">
+        <div class="empty-icon">&#x1F381;</div>
+        No gifts have been configured for this overlay.
+    </div>
+</div>
+<script src="/shared/overlay-core.js"></script>
+<script>
+'use strict';
+(function() {
+    /* Gift data can optionally be embedded in the URL as a JSON-encoded &gifts= param
+       for static display, or fetched from the polling data endpoint. */
+    const params = ArcaneOverlay.getParams();
+    const urlParams = new URLSearchParams(window.location.search);
+    const giftsParam = urlParams.get('gifts');
+
+    let staticGifts = null;
+    if (giftsParam) {
+        try { staticGifts = JSON.parse(giftsParam); } catch (e) { /* ignore */ }
+    }
+
+    function renderStaticGifts(gifts) {
+        const grid = document.getElementById('giftsGrid');
+        const empty = document.getElementById('emptyState');
+
+        if (!gifts || !gifts.length) {
+            empty.style.display = 'block';
+            return;
+        }
+        empty.style.display = 'none';
+
+        gifts.forEach(function(g, i) {
+            const card = document.createElement('div');
+            card.className = 'gift-card';
+            card.style.animationDelay = (i * 0.05) + 's';
+
+            const img = document.createElement('img');
+            img.className = 'gift-img';
+            img.alt = g.name;
+            img.src = g.localImg || g.remoteImg;
+            img.onerror = function() {
+                if (g.remoteImg && this.src !== g.remoteImg) {
+                    this.src = g.remoteImg;
+                }
+            };
+
+            const name = document.createElement('div');
+            name.className = 'gift-name';
+            name.textContent = g.name;
+            name.title = g.name;
+
+            const price = document.createElement('div');
+            price.className = 'gift-price';
+            if (g.isFree) {
+                price.classList.add('free');
+                price.textContent = 'FREE';
+            } else {
+                price.innerHTML = g.price + ' &#x1FA99;';
+            }
+
+            card.appendChild(img);
+            card.appendChild(name);
+            card.appendChild(price);
+
+            if (g.text && g.text.length > 0) {
+                const txt = document.createElement('div');
+                txt.className = 'gift-text';
+                txt.textContent = g.text;
+                card.appendChild(txt);
+            }
+
+            grid.appendChild(card);
+        });
+    }
+
+    function renderDynamicGifts(data) {
+        const grid = document.getElementById('giftsGrid');
+        const empty = document.getElementById('emptyState');
+        const gifts = data.gifts || data.players || [];
+
+        grid.innerHTML = '';
+        if (!gifts.length) {
+            empty.style.display = 'block';
+            return;
+        }
+        empty.style.display = 'none';
+        renderStaticGifts(gifts);
+    }
+
+    // Apply theme
+    ArcaneOverlay.applyTheme(params.theme);
+
+    if (staticGifts) {
+        // Static mode: render embedded gift data once
+        renderStaticGifts(staticGifts);
+    } else {
+        // Dynamic mode: poll the data endpoint
+        ArcaneOverlay.init(renderDynamicGifts);
+    }
+})();
+</script>
+</body>
+</html>

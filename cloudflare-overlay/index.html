@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArcanePlayConnect - Stream Overlay Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --accent: #00c8ff;
+    --accent2: #b400ff;
+    --accent3: #ff3278;
+    --bg-solid: #06060f;
+    --card-bg: rgba(22, 22, 42, 0.85);
+    --card-border: rgba(0, 200, 255, 0.18);
+    --text: #e0e0ff;
+    --text2: #7878aa;
+    --gradient: linear-gradient(135deg, #00c8ff, #b400ff, #ff3278);
+    --glow-cyan: rgba(0, 200, 255, 0.25);
+    --glow-purple: rgba(180, 0, 255, 0.2);
+}
+
+body {
+    background: var(--bg-solid);
+    font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- Animated background --- */
+.bg-grid {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+        linear-gradient(rgba(0,200,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,200,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridScroll 20s linear infinite;
+}
+@keyframes gridScroll {
+    0%   { background-position: 0 0; }
+    100% { background-position: 60px 60px; }
+}
+
+.bg-orb {
+    position: fixed; border-radius: 50%; filter: blur(100px);
+    pointer-events: none; z-index: 0;
+}
+.bg-orb.cyan   { width: 500px; height: 500px; background: var(--glow-cyan);   top: -10%; left: -5%;  animation: orbFloat1 12s ease-in-out infinite alternate; }
+.bg-orb.purple { width: 400px; height: 400px; background: var(--glow-purple); bottom: -8%; right: -3%; animation: orbFloat2 15s ease-in-out infinite alternate; }
+.bg-orb.pink   { width: 300px; height: 300px; background: rgba(255,50,120,0.12); top: 50%; left: 60%; animation: orbFloat3 18s ease-in-out infinite alternate; }
+
+@keyframes orbFloat1 { 0% { transform: translate(0,0) scale(1); }   100% { transform: translate(40px,60px) scale(1.15); } }
+@keyframes orbFloat2 { 0% { transform: translate(0,0) scale(1); }   100% { transform: translate(-50px,-40px) scale(1.1); } }
+@keyframes orbFloat3 { 0% { transform: translate(0,0) scale(0.9); } 100% { transform: translate(-30px,50px) scale(1.05); } }
+
+/* --- Layout --- */
+.page-wrapper {
+    position: relative; z-index: 1;
+    max-width: 960px; margin: 0 auto;
+    padding: 48px 24px 80px;
+}
+
+/* --- Hero --- */
+.hero {
+    text-align: center;
+    margin-bottom: 56px;
+    animation: heroReveal 0.8s ease forwards;
+    opacity: 0;
+}
+@keyframes heroReveal {
+    0%   { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.hero-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 42px; font-weight: 900;
+    text-transform: uppercase; letter-spacing: 6px;
+    background: var(--gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 18px var(--glow-cyan));
+    line-height: 1.2;
+}
+
+.hero-divider {
+    width: 200px; height: 3px; margin: 16px auto;
+    background: var(--gradient); border-radius: 2px;
+    opacity: 0.6;
+}
+
+.hero-tagline {
+    font-size: 16px; color: var(--text2);
+    letter-spacing: 5px; text-transform: uppercase;
+}
+
+.hero-description {
+    max-width: 600px; margin: 20px auto 0;
+    font-size: 15px; color: var(--text2);
+    line-height: 1.7;
+}
+
+/* --- Section --- */
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 4px;
+    color: var(--text2); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 14px;
+}
+.section-title::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--card-border), transparent);
+}
+
+/* --- Overlay Cards Grid --- */
+.overlay-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+    margin-bottom: 48px;
+}
+
+.overlay-card {
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 28px 24px 24px;
+    text-decoration: none; color: inherit;
+    display: flex; flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    overflow: hidden;
+    opacity: 0;
+    animation: cardAppear 0.5s ease forwards;
+}
+.overlay-card:nth-child(1)  { animation-delay: 0.10s; }
+.overlay-card:nth-child(2)  { animation-delay: 0.15s; }
+.overlay-card:nth-child(3)  { animation-delay: 0.20s; }
+.overlay-card:nth-child(4)  { animation-delay: 0.25s; }
+.overlay-card:nth-child(5)  { animation-delay: 0.30s; }
+.overlay-card:nth-child(6)  { animation-delay: 0.35s; }
+.overlay-card:nth-child(7)  { animation-delay: 0.40s; }
+.overlay-card:nth-child(8)  { animation-delay: 0.45s; }
+
+@keyframes cardAppear {
+    0%   { opacity: 0; transform: translateY(16px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.overlay-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: var(--gradient);
+    opacity: 0; transition: opacity 0.3s ease;
+}
+.overlay-card:hover::before { opacity: 1; }
+
+.overlay-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0,200,255,0.12), 0 0 20px rgba(180,0,255,0.08);
+    border-color: rgba(0,200,255,0.35);
+}
+
+.card-icon {
+    font-size: 32px; margin-bottom: 14px;
+    filter: drop-shadow(0 0 6px rgba(0,200,255,0.3));
+}
+
+.card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 15px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px;
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+.card-description {
+    font-size: 14px; color: var(--text2);
+    line-height: 1.6; flex: 1;
+}
+
+.card-tag {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 4px 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px;
+    border-radius: 6px;
+    background: rgba(0,200,255,0.08);
+    border: 1px solid rgba(0,200,255,0.2);
+    color: var(--accent);
+    width: fit-content;
+}
+.card-tag.likes  { background: rgba(255,50,120,0.08); border-color: rgba(255,50,120,0.2); color: var(--accent3); }
+.card-tag.gifts  { background: rgba(180,0,255,0.08);  border-color: rgba(180,0,255,0.2);  color: var(--accent2); }
+
+/* --- Footer --- */
+.footer {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--card-border);
+    opacity: 0;
+    animation: cardAppear 0.5s 0.6s ease forwards;
+}
+.footer-text {
+    font-size: 13px; color: var(--text2);
+    letter-spacing: 1px; line-height: 1.8;
+}
+.footer-text a {
+    color: var(--accent); text-decoration: none;
+    transition: color 0.2s ease;
+}
+.footer-text a:hover { color: #ffffff; }
+
+.footer-note {
+    margin-top: 10px;
+    font-size: 12px; color: rgba(120,120,170,0.5);
+    letter-spacing: 1px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+    .hero-logo { font-size: 28px; letter-spacing: 3px; }
+    .overlay-grid { grid-template-columns: 1fr; }
+    .page-wrapper { padding: 32px 16px 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Animated background elements -->
+<div class="bg-grid"></div>
+<div class="bg-orb cyan"></div>
+<div class="bg-orb purple"></div>
+<div class="bg-orb pink"></div>
+
+<div class="page-wrapper">
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-logo">ArcanePlay<br>Connect</div>
+        <div class="hero-divider"></div>
+        <div class="hero-tagline">Stream Overlay Hub</div>
+        <p class="hero-description">
+            Real-time stream overlays powered by ArcanePlayConnect.
+            Each overlay is designed for OBS Browser Sources and updates live
+            via the Cloudflare edge network. Select an overlay type below to preview it.
+        </p>
+    </header>
+
+    <!-- Arena Rankings Section -->
+    <div class="section-title">Arena Rankings</div>
+    <div class="overlay-grid">
+
+        <a href="/ranking-vertical/" class="overlay-card">
+            <div class="card-icon">&#x2694;&#xFE0F;</div>
+            <div class="card-title">Ranking &mdash; Vertical</div>
+            <p class="card-description">
+                A vertical leaderboard displaying creature battle rankings with HP bars, damage output, and kill counts in a compact sidebar-friendly layout.
+            </p>
+            <span class="card-tag">Arena</span>
+        </a>
+
+        <a href="/ranking-horizontal/" class="overlay-card">
+            <div class="card-icon">&#x1F3C6;</div>
+            <div class="card-title">Ranking &mdash; Horizontal</div>
+            <p class="card-description">
+                A horizontal podium-style leaderboard with elevated champion cards. Ideal for placement along the top or bottom of a stream layout.
+            </p>
+            <span class="card-tag">Arena</span>
+        </a>
+
+    </div>
+
+    <!-- Likes Rankings Section -->
+    <div class="section-title">Likes Rankings</div>
+    <div class="overlay-grid">
+
+        <a href="/likes-vertical/" class="overlay-card">
+            <div class="card-icon">&#x2764;&#xFE0F;</div>
+            <div class="card-title">Likes &mdash; Vertical</div>
+            <p class="card-description">
+                A vertical sidebar overlay ranking viewers by total likes sent during the session. Profile pictures and animated rank badges update in real time.
+            </p>
+            <span class="card-tag likes">Likes</span>
+        </a>
+
+        <a href="/likes-horizontal/" class="overlay-card">
+            <div class="card-icon">&#x1F4AB;</div>
+            <div class="card-title">Likes &mdash; Horizontal</div>
+            <p class="card-description">
+                A horizontal card row showcasing the top like contributors with pop-in animations and an elevated first-place spotlight.
+            </p>
+            <span class="card-tag likes">Likes</span>
+        </a>
+
+    </div>
+
+    <!-- Gift Rankings Section -->
+    <div class="section-title">Gift Rankings</div>
+    <div class="overlay-grid">
+
+        <a href="/gift-ranking-vertical/" class="overlay-card">
+            <div class="card-icon">&#x1F381;</div>
+            <div class="card-title">Gift Ranking &mdash; Vertical</div>
+            <p class="card-description">
+                A vertical leaderboard of the most generous gifters ranked by total coins spent, with gift count summaries and smooth entry transitions.
+            </p>
+            <span class="card-tag gifts">Gifts</span>
+        </a>
+
+        <a href="/gift-ranking-horizontal/" class="overlay-card">
+            <div class="card-icon">&#x1F48E;</div>
+            <div class="card-title">Gift Ranking &mdash; Horizontal</div>
+            <p class="card-description">
+                A horizontal podium display for top gifters with cascading card layout and real-time coin count updates.
+            </p>
+            <span class="card-tag gifts">Gifts</span>
+        </a>
+
+    </div>
+
+    <!-- Gift Walls Section -->
+    <div class="section-title">Gift Walls</div>
+    <div class="overlay-grid">
+
+        <a href="/gift-wall/" class="overlay-card">
+            <div class="card-icon">&#x1F5BC;&#xFE0F;</div>
+            <div class="card-title">Gift Wall &mdash; Grid</div>
+            <p class="card-description">
+                A responsive grid showcasing all configured TikTok gifts with images, coin prices, and custom text labels. Perfect for displaying available interactions.
+            </p>
+            <span class="card-tag gifts">Gifts</span>
+        </a>
+
+        <a href="/gift-wall-vertical/" class="overlay-card">
+            <div class="card-icon">&#x1F4DC;</div>
+            <div class="card-title">Gift Wall &mdash; Vertical</div>
+            <p class="card-description">
+                A vertical list-style gift display with slide-in animations, ideal for narrow sidebar placement in your streaming layout.
+            </p>
+            <span class="card-tag gifts">Gifts</span>
+        </a>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">
+            These overlays require an active <strong>ArcanePlayConnect</strong> desktop session with cloud relay enabled.<br>
+            Add the overlay URL (with your streamer and overlay parameters) as an OBS Browser Source.
+        </p>
+        <p class="footer-note">ArcanePlayConnect &copy; 2025 &mdash; Powered by Cloudflare Pages</p>
+    </footer>
+
+</div>
+
+</body>
+</html>
