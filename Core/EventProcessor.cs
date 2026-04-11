@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -13,13 +13,16 @@ public class EventProcessor
     private readonly LoggingService _logger;
     private readonly CommandButtonExecutor _buttonExecutor;
     private readonly CreatureTrackerService _creatureTracker;
+    private readonly FollowerService _followerService;
 
-    public EventProcessor(RconService rcon, LoggingService logger, CommandButtonExecutor buttonExecutor, CreatureTrackerService creatureTracker)
+    public EventProcessor(RconService rcon, LoggingService logger, CommandButtonExecutor buttonExecutor,
+        CreatureTrackerService creatureTracker, FollowerService followerService)
     {
         _rcon = rcon;
         _logger = logger;
         _buttonExecutor = buttonExecutor;
         _creatureTracker = creatureTracker;
+        _followerService = followerService;
     }
 
     public static string EscapeJson(string input) =>
@@ -55,7 +58,7 @@ public class EventProcessor
         // Strip leading slash
         var cmd = command.TrimStart('/').Trim();
 
-        // Handle "execute ... run summon ..." — extract from "run summon" onward
+        // Handle "execute ... run summon ..." - extract from "run summon" onward
         var runIdx = cmd.IndexOf("run summon", StringComparison.OrdinalIgnoreCase);
         if (runIdx >= 0)
             cmd = cmd[(runIdx + 4)..].Trim(); // skip "run "
@@ -111,6 +114,23 @@ public class EventProcessor
             return;
         }
 
+        // ?? Join?Follow promotion: if a Join event arrives for a known follower,
+        //    re-route it to be processed as a Follow event instead.
+        if (evt.EventType == WebhookEventType.Join &&
+            _followerService.IsFollower(evt.Username))
+        {
+            _logger.LogInfo($"[Followers] {evt.Nickname} is a known follower - promoting Join to Follow.", LogCategory.Join);
+            evt.EventType = WebhookEventType.Follow;
+        }
+
+        // ?? On Follow events, auto-register the viewer in the follower DB
+        if (evt.EventType == WebhookEventType.Follow)
+        {
+            var isNew = _followerService.AddOrUpdate(evt.Username, evt.Nickname, evt.ProfilePictureUrl);
+            if (isNew)
+                _logger.LogInfo($"[Followers] {evt.Nickname} (@{evt.Username}) added to follower database.", LogCategory.Follow);
+        }
+
         // Log the incoming event
         switch (evt.EventType)
         {
@@ -125,6 +145,15 @@ public class EventProcessor
                 break;
             case WebhookEventType.Like:
                 _logger.LogEvent($"Like from {evt.Nickname} \u00d7{evt.LikeCount} (total {evt.TotalLikeCount})", LogCategory.Like);
+                break;
+            case WebhookEventType.Join:
+                _logger.LogEvent($"Join from {evt.Nickname}", LogCategory.Join);
+                break;
+            case WebhookEventType.Share:
+                _logger.LogEvent($"Share from {evt.Nickname}", LogCategory.Share);
+                break;
+            case WebhookEventType.Subscribe:
+                _logger.LogEvent($"Subscribe from {evt.Nickname}", LogCategory.Subscribe);
                 break;
             default:
                 return;
@@ -143,7 +172,8 @@ public class EventProcessor
             {
                 ActionTriggerType.Gift =>
                     evt.EventType == WebhookEventType.Gift &&
-                    string.Equals(mapping.TriggerKey, evt.GiftName, StringComparison.OrdinalIgnoreCase),
+                    mapping.TriggerKey.Split('|', StringSplitOptions.RemoveEmptyEntries)
+                        .Any(k => string.Equals(k.Trim(), evt.GiftName, StringComparison.OrdinalIgnoreCase)),
 
                 ActionTriggerType.Follow =>
                     evt.EventType == WebhookEventType.Follow,
@@ -158,6 +188,15 @@ public class EventProcessor
                     (string.IsNullOrWhiteSpace(mapping.TriggerKey) ||
                      int.TryParse(mapping.TriggerKey, out var minLikes) && evt.LikeCount >= minLikes),
 
+                ActionTriggerType.Join =>
+                    evt.EventType == WebhookEventType.Join,
+
+                ActionTriggerType.Share =>
+                    evt.EventType == WebhookEventType.Share,
+
+                ActionTriggerType.Subscribe =>
+                    evt.EventType == WebhookEventType.Subscribe,
+
                 _ => false
             };
 
@@ -171,6 +210,12 @@ public class EventProcessor
 
             fired = true;
 
+            // ?? Follow + ReplaceJoinMob: silently kill the viewer's existing Join creature
+            if (mapping.TriggerType == ActionTriggerType.Follow && mapping.ReplaceJoinMob)
+            {
+                await SilentlyKillExistingCreature(evt.Username, evt.Nickname);
+            }
+
             if (!string.IsNullOrEmpty(mapping.TargetButtonId))
             {
                 var button = activeProfile.CommandButtons
@@ -183,13 +228,18 @@ public class EventProcessor
                     if (button.ButtonType == CommandButtonType.Summon && button.SummonTrackCreature &&
                         !string.IsNullOrEmpty(button.SummonEntityType))
                     {
-                        // Use the structured summon path — routes through creature tracker
+                        // Use the structured summon path - routes through creature tracker
                         await ExecuteSummonButton(button, evt.Nickname, evt.Username, evt.ProfilePictureUrl);
                     }
                     else if (button.ButtonType == CommandButtonType.Summon)
                     {
-                        // Legacy summon button — scan commands for summon patterns
+                        // Legacy summon button - scan commands for summon patterns
                         await ExecuteButtonWithCreatureTracking(button, evt.Nickname, evt.Username, evt.ProfilePictureUrl);
+                    }
+                    else if (button.ButtonType == CommandButtonType.Buff)
+                    {
+                        // Buff button - apply heal/damage to the viewer's active creature
+                        await ExecuteBuffButton(button, evt.Nickname, evt.Username);
                     }
                     else
                     {
@@ -224,8 +274,68 @@ public class EventProcessor
                 $"No mapping matched: {evt.EventType}" +
                 (evt.EventType == WebhookEventType.Gift   ? $"/{evt.GiftName}" : string.Empty) +
                 (evt.EventType == WebhookEventType.Chat   ? $"/\"{evt.Comment}\"" : string.Empty) +
-                (evt.EventType == WebhookEventType.Like   ? $" \u00d7{evt.LikeCount}" : string.Empty),
+                (evt.EventType == WebhookEventType.Like   ? $" \u00d7{evt.LikeCount}" : string.Empty) +
+                (evt.EventType == WebhookEventType.Join   ? $" ({evt.Nickname})" : string.Empty) +
+                (evt.EventType == WebhookEventType.Share  ? $" ({evt.Nickname})" : string.Empty),
                 LogCategory.System);
+        }
+    }
+
+    /// <summary>
+    /// Silently kills a viewer's existing creature without counting the death/kill
+    /// in the arena rankings. Used when upgrading a Join mob to a Follow mob.
+    /// </summary>
+    private async Task SilentlyKillExistingCreature(string ownerUsername, string ownerNickname)
+    {
+        if (!_creatureTracker.HasActiveCreature(ownerUsername))
+            return;
+
+        _logger.LogInfo($"[Arena] Silently removing {ownerNickname}'s Join creature for Follow upgrade.", LogCategory.System);
+
+        // Remove the creature from tracking WITHOUT recording stats
+        _creatureTracker.SilentlyRemoveCreature(ownerUsername);
+
+        // Kill the entity in-game by tag
+        // We don't know the exact tag, so kill all viewer-tagged entities owned by this user
+        // The tracker uses ownerUsername as the key for non-boss creatures
+        await Task.Delay(100);
+    }
+
+    /// <summary>
+    /// Executes a Buff button: applies heal and/or damage buff to the viewer's active creature,
+    /// then runs any additional commands in the button's command list.
+    /// </summary>
+    private async Task ExecuteBuffButton(CommandButton button, string nickname, string username)
+    {
+        if (!_rcon.IsConnected) return;
+
+        var healAmount = button.BuffApplyHeal ? button.BuffHealAmount : 0;
+        var damageAmount = button.BuffApplyDamage ? button.BuffDamageAmount : 0;
+
+        if (healAmount > 0 || damageAmount > 0)
+        {
+            var applied = await _creatureTracker.BuffCreatureAsync(username, healAmount, damageAmount);
+            if (!applied)
+            {
+                _logger.LogInfo($"[Buff] No active creature for {nickname} to buff.", LogCategory.System);
+            }
+        }
+
+        // Execute any additional commands in the button
+        var creature = _creatureTracker.GetActiveCreature(username);
+        foreach (var template in button.Commands)
+        {
+            if (string.IsNullOrWhiteSpace(template)) continue;
+
+            var cmd = template;
+            if (button.UseNickname)
+                cmd = BuildCommand(template, nickname, username);
+
+            // Replace {tag} with the creature's tracking tag if available
+            if (creature != null)
+                cmd = cmd.Replace("{tag}", creature.TrackingId);
+
+            await _rcon.SendCommand(cmd);
         }
     }
 
@@ -252,6 +362,9 @@ public class EventProcessor
             bossName: button.SummonBossName);
 
         if (creature == null) return; // blocked or failed
+
+        // Track which button spawned this creature for auto-respawn
+        creature.LastButtonId = button.Id;
 
         // Execute any additional commands in the button
         foreach (var template in button.Commands)

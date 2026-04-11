@@ -18,6 +18,7 @@ public sealed partial class AddActionPage : Page
 {
     private ActionTriggerType _selectedType = ActionTriggerType.Gift;
     private bool _useButtonAction;
+    private readonly List<TikTokGift> _selectedGifts = new();
 
     public ActionMappingItem? Result { get; private set; }
 
@@ -31,6 +32,13 @@ public sealed partial class AddActionPage : Page
         InitializeComponent();
         ApplyTypeSelection(ActionTriggerType.Gift);
         ApplyActionMode(false);
+
+        // Show the gift picker only after layout is complete to prevent auto-focus
+        Loaded += (_, _) =>
+        {
+            if (_selectedType == ActionTriggerType.Gift)
+                GiftPickerPanel.Visibility = Visibility.Visible;
+        };
 
         // Preload gift images in background
         _ = GiftImageService.PreloadAllAsync();
@@ -174,6 +182,9 @@ public sealed partial class AddActionPage : Page
         SetInactive(FollowTypeBtn, FollowLabel);
         SetInactive(ChatTypeBtn,   ChatLabel);
         SetInactive(LikeTypeBtn,   LikeLabel);
+        SetInactive(JoinTypeBtn,   JoinLabel);
+        SetInactive(ShareTypeBtn,  ShareLabel);
+        SetInactive(SubscribeTypeBtn, SubscribeLabel);
 
         switch (type)
         {
@@ -189,9 +200,19 @@ public sealed partial class AddActionPage : Page
             case ActionTriggerType.Like:
                 SetActive(LikeTypeBtn,   LikeLabel,   "#FFFF5050");
                 break;
+            case ActionTriggerType.Join:
+                SetActive(JoinTypeBtn,   JoinLabel,   "#FF00E6B4");
+                break;
+            case ActionTriggerType.Share:
+                SetActive(ShareTypeBtn,  ShareLabel,  "#FFFF9500");
+                break;
+            case ActionTriggerType.Subscribe:
+                SetActive(SubscribeTypeBtn, SubscribeLabel, "#FFFFD700");
+                break;
         }
 
-        if (type == ActionTriggerType.Follow)
+        if (type == ActionTriggerType.Follow || type == ActionTriggerType.Join ||
+            type == ActionTriggerType.Share || type == ActionTriggerType.Subscribe)
         {
             TriggerKeyPanel.Visibility = Visibility.Collapsed;
         }
@@ -202,12 +223,12 @@ public sealed partial class AddActionPage : Page
             if (type == ActionTriggerType.Gift)
             {
                 TriggerKeyLabel.Text = "GIFT NAME";
-                GiftSuggestBox.Visibility = Visibility.Visible;
+                GiftPickerPanel.Visibility = Visibility.Visible;
                 TriggerKeyBox.Visibility = Visibility.Collapsed;
             }
             else
             {
-                GiftSuggestBox.Visibility = Visibility.Collapsed;
+                GiftPickerPanel.Visibility = Visibility.Collapsed;
                 TriggerKeyBox.Visibility = Visibility.Visible;
 
                 TriggerKeyLabel.Text = type switch
@@ -317,14 +338,19 @@ public sealed partial class AddActionPage : Page
     private void Add_Click(object sender, RoutedEventArgs e)
     {
         // Get trigger key from the correct input control
-        var triggerKey = _selectedType == ActionTriggerType.Gift
-            ? GiftSuggestBox.Text?.Trim() ?? string.Empty
-            : TriggerKeyBox.Text?.Trim() ?? string.Empty;
-
-        if (_selectedType == ActionTriggerType.Gift && string.IsNullOrWhiteSpace(triggerKey))
+        string triggerKey;
+        if (_selectedType == ActionTriggerType.Gift)
         {
-            GiftSuggestBox.BorderBrush = new SolidColorBrush(ParseColor("#FFFF3278"));
-            return;
+            if (_selectedGifts.Count == 0)
+            {
+                GiftSuggestBox.BorderBrush = new SolidColorBrush(ParseColor("#FFFF3278"));
+                return;
+            }
+            triggerKey = string.Join("|", _selectedGifts.Select(g => g.Name));
+        }
+        else
+        {
+            triggerKey = TriggerKeyBox.Text?.Trim() ?? string.Empty;
         }
 
         if (_useButtonAction)
@@ -369,23 +395,38 @@ public sealed partial class AddActionPage : Page
         Cancelled?.Invoke();
     }
 
-    // ── Gift AutoSuggestBox ─────────────────────────────────────────────────
+    // ── Gift Picker ─────────────────────────────────────────────────────────
+
+    private void GiftSuggestBox_GotFocus(object sender, RoutedEventArgs e)
+    {
+        if (sender is AutoSuggestBox box)
+        {
+            box.ItemsSource = TikTokGiftLibrary.All
+                .Where(g => !_selectedGifts.Any(s => s.Name == g.Name))
+                .ToList();
+            box.IsSuggestionListOpen = true;
+        }
+    }
 
     private void GiftSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
             var query = sender.Text?.Trim() ?? string.Empty;
+            List<TikTokGift> results;
             if (string.IsNullOrEmpty(query))
             {
-                // Show all gifts when text is empty
-                sender.ItemsSource = TikTokGiftLibrary.All.ToList();
+                results = TikTokGiftLibrary.All
+                    .Where(g => !_selectedGifts.Any(s => s.Name == g.Name))
+                    .ToList();
             }
             else
             {
-                // Filter/sort when user is typing
-                sender.ItemsSource = TikTokGiftLibrary.Search(query).ToList();
+                results = TikTokGiftLibrary.Search(query)
+                    .Where(g => !_selectedGifts.Any(s => s.Name == g.Name))
+                    .ToList();
             }
+            sender.ItemsSource = results;
         }
     }
 
@@ -393,7 +434,8 @@ public sealed partial class AddActionPage : Page
     {
         if (args.SelectedItem is TikTokGift gift)
         {
-            sender.Text = gift.Name;
+            AddGiftToSelection(gift);
+            sender.Text = string.Empty;
         }
     }
 
@@ -401,7 +443,105 @@ public sealed partial class AddActionPage : Page
     {
         if (args.ChosenSuggestion is TikTokGift gift)
         {
-            sender.Text = gift.Name;
+            AddGiftToSelection(gift);
+            sender.Text = string.Empty;
         }
+        else if (!string.IsNullOrWhiteSpace(args.QueryText))
+        {
+            var found = TikTokGiftLibrary.FindByName(args.QueryText);
+            if (found != null && !_selectedGifts.Any(s => s.Name == found.Name))
+            {
+                AddGiftToSelection(found);
+            }
+            sender.Text = string.Empty;
+        }
+    }
+
+    private void AddGiftToSelection(TikTokGift gift)
+    {
+        if (_selectedGifts.Any(g => g.Name == gift.Name))
+            return;
+
+        _selectedGifts.Add(gift);
+        RefreshSelectedGiftsDisplay();
+    }
+
+    private void RemoveGiftFromSelection(TikTokGift gift)
+    {
+        _selectedGifts.RemoveAll(g => g.Name == gift.Name);
+        RefreshSelectedGiftsDisplay();
+    }
+
+    private void RefreshSelectedGiftsDisplay()
+    {
+        SelectedGiftsBorder.Visibility = _selectedGifts.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        SelectedGiftsCountText.Text = $"{_selectedGifts.Count} gift{(_selectedGifts.Count != 1 ? "s" : "")} selected";
+        SelectedGiftsList.Items.Clear();
+
+        foreach (var gift in _selectedGifts)
+        {
+            var chip = new Border
+            {
+                CornerRadius = new CornerRadius(14),
+                Background = new SolidColorBrush(Windows.UI.Color.FromArgb(50, 255, 50, 120)),
+                BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(100, 255, 50, 120)),
+                BorderThickness = new Thickness(1),
+                Padding = new Thickness(6, 3, 4, 3),
+                Tag = gift
+            };
+
+            var stack = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 5 };
+
+            var img = new Image
+            {
+                Width = 18,
+                Height = 18,
+                Source = new BitmapImage(new Uri(gift.ImageUrl))
+            };
+            stack.Children.Add(img);
+
+            var nameBlock = new TextBlock
+            {
+                Text = gift.Name,
+                FontSize = 10,
+                FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
+                Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 224, 224, 255)),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            stack.Children.Add(nameBlock);
+
+            var priceBlock = new TextBlock
+            {
+                Text = $"{gift.CoinPrice}\U0001FA99",
+                FontSize = 9,
+                Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 149, 0)),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            stack.Children.Add(priceBlock);
+
+            var removeBtn = new Button
+            {
+                Content = "\u2715",
+                FontSize = 9,
+                Padding = new Thickness(3, 1, 3, 1),
+                Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0)),
+                Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 136, 136, 170)),
+                BorderThickness = new Thickness(0),
+                Tag = gift,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            removeBtn.Click += (s, e) =>
+            {
+                if (s is Button b && b.Tag is TikTokGift g)
+                    RemoveGiftFromSelection(g);
+            };
+            stack.Children.Add(removeBtn);
+
+            chip.Child = stack;
+            SelectedGiftsList.Items.Add(chip);
+        }
+
+        // Reset border color after valid selection
+        GiftSuggestBox.BorderBrush = new SolidColorBrush(ParseColor("#FF1A1A2E"));
     }
 }

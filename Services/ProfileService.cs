@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -95,7 +95,7 @@ public class ProfileService
         }
 
         // ?? Migration 2: remove commands with stray } from bad prior migration ?
-        // Pattern: CustomName:"{nickname}"},CustomNameVisible  — the } after the
+        // Pattern: CustomName:"{nickname}"},CustomNameVisible  - the } after the
         // closing quote is wrong; it closes the NBT compound too early.
         var toRemove = new List<ActionMapping>();
         foreach (var m in profile.ActionMappings)

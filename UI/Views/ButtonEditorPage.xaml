@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="ArcanePlayConnect.UI.Views.ButtonEditorPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -6,128 +6,366 @@
     xmlns:controls="using:ArcanePlayConnect.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="#FF0A0A14">
+    Background="#FF0A0A14"
+    mc:Ignorable="d">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <StackPanel Padding="24,20,24,28" Spacing="14" MaxWidth="580">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <StackPanel
+            MaxWidth="580"
+            Padding="24,20,24,28"
+            Spacing="14">
 
-            <!-- Header -->
+            <!--  Header  -->
             <StackPanel Spacing="4">
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                    <FontIcon Glyph="&#xE946;" FontFamily="Segoe MDL2 Assets" FontSize="18"
-                              Foreground="#FFFF9500" VerticalAlignment="Center" />
-                    <TextBlock x:Name="HeaderText" Text="CREATE COMMAND BUTTON" FontSize="15" FontWeight="Bold"
-                               Foreground="#FFFF9500" CharacterSpacing="100" VerticalAlignment="Center" />
+                    <FontIcon
+                        VerticalAlignment="Center"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="18"
+                        Foreground="#FFFF9500"
+                        Glyph="&#xE946;" />
+                    <TextBlock
+                        x:Name="HeaderText"
+                        VerticalAlignment="Center"
+                        CharacterSpacing="100"
+                        FontSize="15"
+                        FontWeight="Bold"
+                        Foreground="#FFFF9500"
+                        Text="CREATE COMMAND BUTTON" />
                 </StackPanel>
-                <Border Height="2" CornerRadius="1" Margin="0,6,0,0">
+                <Border
+                    Height="2"
+                    Margin="0,6,0,0"
+                    CornerRadius="1">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#FFFF9500" Offset="0" />
-                            <GradientStop Color="#FFFF3278" Offset="1" />
+                            <GradientStop Offset="0" Color="#FFFF9500" />
+                            <GradientStop Offset="1" Color="#FFFF3278" />
                         </LinearGradientBrush>
                     </Border.Background>
                 </Border>
             </StackPanel>
 
-            <!-- Button Name -->
+            <!--  Button Name  -->
             <StackPanel Spacing="5">
-                <TextBlock Text="BUTTON NAME" FontSize="10" FontWeight="Bold"
-                           Foreground="#FF8888AA" CharacterSpacing="120" />
-                <TextBox x:Name="NameBox" PlaceholderText="e.g. Spawn Zombie Army"
-                         Background="#FF12121E" Foreground="#FFE0E0FF"
-                         BorderBrush="#FF1A1A2E" BorderThickness="1"
-                         Padding="10,8" CornerRadius="4" FontSize="13" />
+                <TextBlock
+                    CharacterSpacing="120"
+                    FontSize="10"
+                    FontWeight="Bold"
+                    Foreground="#FF8888AA"
+                    Text="BUTTON NAME" />
+                <TextBox
+                    x:Name="NameBox"
+                    Padding="10,8"
+                    Background="#FF12121E"
+                    BorderBrush="#FF1A1A2E"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    FontSize="13"
+                    Foreground="#FFE0E0FF"
+                    PlaceholderText="e.g. Spawn Zombie Army" />
             </StackPanel>
 
-            <!-- Button Type -->
+            <!--  Keyboard Shortcut  -->
             <StackPanel Spacing="5">
-                <TextBlock Text="BUTTON TYPE" FontSize="10" FontWeight="Bold"
-                           Foreground="#FF8888AA" CharacterSpacing="120" />
+                <TextBlock
+                    CharacterSpacing="120"
+                    FontSize="10"
+                    FontWeight="Bold"
+                    Foreground="#FF8888AA"
+                    Text="KEYBOARD SHORTCUT (optional)" />
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        x:Name="ShortcutDisplay"
+                        Grid.Column="0"
+                        Padding="10,8"
+                        Background="#FF12121E"
+                        BorderBrush="#FF1A1A2E"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        PointerPressed="ShortcutDisplay_PointerPressed">
+                        <TextBlock
+                            x:Name="ShortcutText"
+                            FontFamily="Consolas"
+                            FontSize="13"
+                            Foreground="#FF8888AA"
+                            Text="Click to record shortcut..."
+                            VerticalAlignment="Center" />
+                    </Border>
+                    <Button
+                        Grid.Column="1"
+                        Padding="10,8"
+                        Background="#FF1E1E36"
+                        BorderBrush="#FFFF9500"
+                        BorderThickness="1"
+                        Click="RecordShortcut_Click"
+                        CornerRadius="4"
+                        FontSize="11"
+                        FontWeight="SemiBold"
+                        Foreground="#FFFF9500">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="10"
+                                Glyph="&#xE765;" />
+                            <TextBlock x:Name="RecordBtnText" Text="Record" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        Grid.Column="2"
+                        Padding="10,8"
+                        Background="#FF1E1E36"
+                        BorderBrush="#FFFF3278"
+                        BorderThickness="1"
+                        Click="ClearShortcut_Click"
+                        CornerRadius="4"
+                        FontSize="11"
+                        Foreground="#FFFF3278">
+                        <FontIcon
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="10"
+                            Glyph="&#xE74D;" />
+                    </Button>
+                </Grid>
+                <TextBlock
+                    FontSize="8"
+                    Foreground="#FF8888AA"
+                    Text="Press a key combination (e.g. Ctrl+Shift+F1) to execute this button globally. Requires at least one modifier (Ctrl/Shift/Alt)."
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <!--  Button Type  -->
+            <StackPanel Spacing="5">
+                <TextBlock
+                    CharacterSpacing="120"
+                    FontSize="10"
+                    FontWeight="Bold"
+                    Foreground="#FF8888AA"
+                    Text="BUTTON TYPE" />
                 <Grid ColumnSpacing="8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Border x:Name="SummonTypeBtn" Grid.Column="0" CornerRadius="6" Padding="12,10"
-                            Background="#FF1E1E36" BorderThickness="2" BorderBrush="#FFFF9500"
-                            PointerPressed="TypeBtn_PointerPressed" Tag="Summon">
-                        <StackPanel Spacing="4" HorizontalAlignment="Center">
-                            <FontIcon x:Name="SummonIcon" Glyph="&#xEA18;" FontFamily="Segoe MDL2 Assets"
-                                      FontSize="20" HorizontalAlignment="Center" Foreground="#FFFF9500" />
-                            <TextBlock x:Name="SummonLabel" Text="SUMMON" FontSize="10" FontWeight="Bold"
-                                       Foreground="#FFFF9500" HorizontalAlignment="Center" CharacterSpacing="100" />
-                            <TextBlock Text="Spawn entities on events" FontSize="9"
-                                       Foreground="#FF8888AA" HorizontalAlignment="Center" />
+                    <Border
+                        x:Name="GeneralTypeBtn"
+                        Grid.Column="0"
+                        Padding="12,10"
+                        Background="#FF1E1E36"
+                        BorderBrush="#FF00C8FF"
+                        BorderThickness="2"
+                        CornerRadius="6"
+                        PointerPressed="TypeBtn_PointerPressed"
+                        Tag="General">
+                        <StackPanel HorizontalAlignment="Center" Spacing="4">
+                            <FontIcon
+                                x:Name="GeneralIcon"
+                                HorizontalAlignment="Center"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="20"
+                                Foreground="#FF00C8FF"
+                                Glyph="&#xE756;" />
+                            <TextBlock
+                                x:Name="GeneralLabel"
+                                HorizontalAlignment="Center"
+                                CharacterSpacing="100"
+                                FontSize="10"
+                                FontWeight="Bold"
+                                Foreground="#FF00C8FF"
+                                Text="GENERAL" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="9"
+                                Foreground="#FF8888AA"
+                                Text="Run any commands" />
                         </StackPanel>
                     </Border>
 
-                    <Border x:Name="HealthCheckTypeBtn" Grid.Column="1" CornerRadius="6" Padding="12,10"
-                            Background="#FF16162A" BorderThickness="2" BorderBrush="#FF1A1A2E"
-                            PointerPressed="TypeBtn_PointerPressed" Tag="HealthCheck">
-                        <StackPanel Spacing="4" HorizontalAlignment="Center">
-                            <FontIcon x:Name="HealthIcon" Glyph="&#xE95E;" FontFamily="Segoe MDL2 Assets"
-                                      FontSize="20" HorizontalAlignment="Center" Foreground="#FF8888AA" />
-                            <TextBlock x:Name="HealthLabel" Text="HEALTH CHECK" FontSize="10" FontWeight="Bold"
-                                       Foreground="#FF8888AA" HorizontalAlignment="Center" CharacterSpacing="100" />
-                            <TextBlock Text="Monitor or maintain server" FontSize="9"
-                                       Foreground="#FF8888AA" HorizontalAlignment="Center" />
+                    <Border
+                        x:Name="SummonTypeBtn"
+                        Grid.Column="1"
+                        Padding="12,10"
+                        Background="#FF16162A"
+                        BorderBrush="#FF1A1A2E"
+                        BorderThickness="2"
+                        CornerRadius="6"
+                        PointerPressed="TypeBtn_PointerPressed"
+                        Tag="Summon">
+                        <StackPanel HorizontalAlignment="Center" Spacing="4">
+                            <FontIcon
+                                x:Name="SummonIcon"
+                                HorizontalAlignment="Center"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="20"
+                                Foreground="#FF8888AA"
+                                Glyph="&#xEA18;" />
+                            <TextBlock
+                                x:Name="SummonLabel"
+                                HorizontalAlignment="Center"
+                                CharacterSpacing="100"
+                                FontSize="10"
+                                FontWeight="Bold"
+                                Foreground="#FF8888AA"
+                                Text="SUMMON" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="9"
+                                Foreground="#FF8888AA"
+                                Text="Minecraft entities" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border
+                        x:Name="HealthCheckTypeBtn"
+                        Grid.Column="2"
+                        Padding="12,10"
+                        Background="#FF16162A"
+                        BorderBrush="#FF1A1A2E"
+                        BorderThickness="2"
+                        CornerRadius="6"
+                        PointerPressed="TypeBtn_PointerPressed"
+                        Tag="Buff">
+                        <StackPanel HorizontalAlignment="Center" Spacing="4">
+                            <FontIcon
+                                x:Name="HealthIcon"
+                                HorizontalAlignment="Center"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="20"
+                                Foreground="#FF8888AA"
+                                Glyph="&#xE95E;" />
+                            <TextBlock
+                                x:Name="HealthLabel"
+                                HorizontalAlignment="Center"
+                                CharacterSpacing="100"
+                                FontSize="10"
+                                FontWeight="Bold"
+                                Foreground="#FF8888AA"
+                                Text="BUFF" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="9"
+                                Foreground="#FF8888AA"
+                                Text="Minecraft creature buff" />
                         </StackPanel>
                     </Border>
                 </Grid>
             </StackPanel>
 
-            <!-- ═══ SUMMON BUILDER (only visible for Summon type) ═══ -->
-            <Border x:Name="SummonBuilderPanel" Background="#FF12121E" CornerRadius="6" Padding="14,12">
+            <!--  ═══ SUMMON BUILDER (only visible for Summon type) ═══  -->
+            <Border
+                x:Name="SummonBuilderPanel"
+                Padding="14,12"
+                Background="#FF12121E"
+                CornerRadius="6">
                 <StackPanel Spacing="12">
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon Glyph="&#xEA18;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="#FFFF3278" />
-                        <TextBlock Text="SUMMON SETTINGS" FontSize="10" FontWeight="Bold"
-                                   Foreground="#FFFF3278" CharacterSpacing="120" VerticalAlignment="Center" />
+                        <FontIcon
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="14"
+                            Foreground="#FFFF3278"
+                            Glyph="&#xEA18;" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            CharacterSpacing="120"
+                            FontSize="10"
+                            FontWeight="Bold"
+                            Foreground="#FFFF3278"
+                            Text="SUMMON SETTINGS" />
                     </StackPanel>
 
-                    <!-- Entity Type Picker -->
+                    <!--  Entity Type Picker  -->
                     <StackPanel Spacing="4">
-                        <TextBlock Text="CREATURE TYPE" FontSize="9" FontWeight="Bold"
-                                   Foreground="#FF8888AA" CharacterSpacing="100" />
-                        <AutoSuggestBox x:Name="EntityTypeBox"
-                                        PlaceholderText="Search entity (e.g. zombie, skeleton)..."
-                                        Background="#FF0D0D1A" Foreground="#FF00FF88"
-                                        FontSize="12" FontFamily="Consolas"
-                                        QueryIcon="Find"
-                                        TextChanged="EntityTypeBox_TextChanged"
-                                        SuggestionChosen="EntityTypeBox_SuggestionChosen" />
+                        <TextBlock
+                            CharacterSpacing="100"
+                            FontSize="9"
+                            FontWeight="Bold"
+                            Foreground="#FF8888AA"
+                            Text="CREATURE TYPE" />
+                        <AutoSuggestBox
+                            x:Name="EntityTypeBox"
+                            Background="#FF0D0D1A"
+                            FontFamily="Consolas"
+                            FontSize="12"
+                            Foreground="#FF00FF88"
+                            PlaceholderText="Search entity (e.g. zombie, skeleton)..."
+                            QueryIcon="Find"
+                            SuggestionChosen="EntityTypeBox_SuggestionChosen"
+                            TextChanged="EntityTypeBox_TextChanged" />
                     </StackPanel>
 
-                    <!-- Position -->
+                    <!--  Position  -->
                     <StackPanel Spacing="4">
-                        <TextBlock Text="SPAWN POSITION" FontSize="9" FontWeight="Bold"
-                                   Foreground="#FF8888AA" CharacterSpacing="100" />
+                        <TextBlock
+                            CharacterSpacing="100"
+                            FontSize="9"
+                            FontWeight="Bold"
+                            Foreground="#FF8888AA"
+                            Text="SPAWN POSITION" />
                         <Grid ColumnSpacing="6">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBox x:Name="PositionBox" Text="~ ~ ~"
-                                     Background="#FF0D0D1A" Foreground="#FF00C8FF"
-                                     BorderBrush="#FF1A1A2E" BorderThickness="1"
-                                     Padding="10,7" CornerRadius="4" FontSize="12" FontFamily="Consolas" />
-                            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4">
-                                <Button Content="~ ~ ~" Click="PositionPreset_Click" Tag="~ ~ ~"
-                                        Background="#FF1A1A2E" Foreground="#FF00C8FF"
-                                        BorderThickness="0" Padding="8,6" CornerRadius="3" FontSize="9" FontFamily="Consolas" />
-                                <Button Content="~ ~1 ~" Click="PositionPreset_Click" Tag="~ ~1 ~"
-                                        Background="#FF1A1A2E" Foreground="#FF00C8FF"
-                                        BorderThickness="0" Padding="8,6" CornerRadius="3" FontSize="9" FontFamily="Consolas" />
-                                <Button Content="~ ~2 ~" Click="PositionPreset_Click" Tag="~ ~2 ~"
-                                        Background="#FF1A1A2E" Foreground="#FF00C8FF"
-                                        BorderThickness="0" Padding="8,6" CornerRadius="3" FontSize="9" FontFamily="Consolas" />
+                            <TextBox
+                                x:Name="PositionBox"
+                                Padding="10,7"
+                                Background="#FF0D0D1A"
+                                BorderBrush="#FF1A1A2E"
+                                BorderThickness="1"
+                                CornerRadius="4"
+                                FontFamily="Consolas"
+                                FontSize="12"
+                                Foreground="#FF00C8FF"
+                                Text="~ ~ ~" />
+                            <StackPanel
+                                Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="4">
+                                <Button
+                                    Padding="8,6"
+                                    Background="#FF1A1A2E"
+                                    BorderThickness="0"
+                                    Click="PositionPreset_Click"
+                                    Content="~ ~ ~"
+                                    CornerRadius="3"
+                                    FontFamily="Consolas"
+                                    FontSize="9"
+                                    Foreground="#FF00C8FF"
+                                    Tag="~ ~ ~" />
+                                <Button
+                                    Padding="8,6"
+                                    Background="#FF1A1A2E"
+                                    BorderThickness="0"
+                                    Click="PositionPreset_Click"
+                                    Content="~ ~1 ~"
+                                    CornerRadius="3"
+                                    FontFamily="Consolas"
+                                    FontSize="9"
+                                    Foreground="#FF00C8FF"
+                                    Tag="~ ~1 ~" />
+                                <Button
+                                    Padding="8,6"
+                                    Background="#FF1A1A2E"
+                                    BorderThickness="0"
+                                    Click="PositionPreset_Click"
+                                    Content="~ ~2 ~"
+                                    CornerRadius="3"
+                                    FontFamily="Consolas"
+                                    FontSize="9"
+                                    Foreground="#FF00C8FF"
+                                    Tag="~ ~2 ~" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>
 
-                    <!-- Custom HP -->
+                    <!--  Custom HP  -->
                     <Grid ColumnSpacing="12">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -135,158 +373,545 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0" Spacing="4">
-                            <TextBlock Text="CUSTOM HP (0 = default)" FontSize="9" FontWeight="Bold"
-                                       Foreground="#FF8888AA" CharacterSpacing="100" />
-                            <NumberBox x:Name="CustomHealthBox" Value="0" Minimum="0" Maximum="2048"
-                                       SpinButtonPlacementMode="Compact" FontSize="12"
-                                       PlaceholderText="e.g. 100"
-                                       Background="#FF0D0D1A" />
+                            <TextBlock
+                                CharacterSpacing="100"
+                                FontSize="9"
+                                FontWeight="Bold"
+                                Foreground="#FF8888AA"
+                                Text="CUSTOM HP (0 = default)" />
+                            <NumberBox
+                                x:Name="CustomHealthBox"
+                                Background="#FF0D0D1A"
+                                FontSize="12"
+                                Maximum="100000"
+                                Minimum="0"
+                                PlaceholderText="e.g. 100"
+                                SpinButtonPlacementMode="Compact"
+                                ValueChanged="CustomStatBox_ValueChanged"
+                                Value="0" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Spacing="4">
-                            <TextBlock Text="CUSTOM ATTACK (0 = default)" FontSize="9" FontWeight="Bold"
-                                       Foreground="#FF8888AA" CharacterSpacing="100" />
-                            <NumberBox x:Name="CustomAttackBox" Value="0" Minimum="0" Maximum="2048"
-                                       SpinButtonPlacementMode="Compact" FontSize="12"
-                                       PlaceholderText="e.g. 10"
-                                       Background="#FF0D0D1A" />
+                            <TextBlock
+                                CharacterSpacing="100"
+                                FontSize="9"
+                                FontWeight="Bold"
+                                Foreground="#FF8888AA"
+                                Text="CUSTOM ATTACK (0 = default)" />
+                            <NumberBox
+                                x:Name="CustomAttackBox"
+                                Background="#FF0D0D1A"
+                                FontSize="12"
+                                Maximum="100000"
+                                Minimum="0"
+                                PlaceholderText="e.g. 10"
+                                SpinButtonPlacementMode="Compact"
+                                ValueChanged="CustomStatBox_ValueChanged"
+                                Value="0" />
                         </StackPanel>
                     </Grid>
 
-                    <!-- HP/Attack presets -->
+                    <!--  HP/Attack presets  -->
                     <StackPanel Spacing="4">
-                        <TextBlock Text="QUICK PRESETS" FontSize="9" FontWeight="Bold"
-                                   Foreground="#FF8888AA" CharacterSpacing="100" />
+                        <TextBlock
+                            CharacterSpacing="100"
+                            FontSize="9"
+                            FontWeight="Bold"
+                            Foreground="#FF8888AA"
+                            Text="QUICK PRESETS" />
                         <StackPanel Orientation="Horizontal" Spacing="4">
-                            <Button Content="Weak (10 HP, 2 ATK)" Click="StatPreset_Click" Tag="10,2"
-                                    Background="#FF1A1A2E" Foreground="#FF00FF88"
-                                    BorderThickness="0" Padding="8,5" CornerRadius="3" FontSize="9" />
-                            <Button Content="Normal (20 HP, 5 ATK)" Click="StatPreset_Click" Tag="20,5"
-                                    Background="#FF1A1A2E" Foreground="#FFFF9500"
-                                    BorderThickness="0" Padding="8,5" CornerRadius="3" FontSize="9" />
-                            <Button Content="Boss (100 HP, 15 ATK)" Click="StatPreset_Click" Tag="100,15"
-                                    Background="#FF1A1A2E" Foreground="#FFFF3278"
-                                    BorderThickness="0" Padding="8,5" CornerRadius="3" FontSize="9" />
-                            <Button Content="Tank (500 HP, 3 ATK)" Click="StatPreset_Click" Tag="500,3"
-                                    Background="#FF1A1A2E" Foreground="#FFB400FF"
-                                    BorderThickness="0" Padding="8,5" CornerRadius="3" FontSize="9" />
+                            <Button
+                                Padding="8,5"
+                                Background="#FF1A1A2E"
+                                BorderThickness="0"
+                                Click="StatPreset_Click"
+                                Content="Weak (10 HP, 2 ATK)"
+                                CornerRadius="3"
+                                FontSize="9"
+                                Foreground="#FF00FF88"
+                                Tag="10,2" />
+                            <Button
+                                Padding="8,5"
+                                Background="#FF1A1A2E"
+                                BorderThickness="0"
+                                Click="StatPreset_Click"
+                                Content="Normal (20 HP, 5 ATK)"
+                                CornerRadius="3"
+                                FontSize="9"
+                                Foreground="#FFFF9500"
+                                Tag="20,5" />
+                            <Button
+                                Padding="8,5"
+                                Background="#FF1A1A2E"
+                                BorderThickness="0"
+                                Click="StatPreset_Click"
+                                Content="Boss (100 HP, 15 ATK)"
+                                CornerRadius="3"
+                                FontSize="9"
+                                Foreground="#FFFF3278"
+                                Tag="100,15" />
+                            <Button
+                                Padding="8,5"
+                                Background="#FF1A1A2E"
+                                BorderThickness="0"
+                                Click="StatPreset_Click"
+                                Content="Tank (500 HP, 3 ATK)"
+                                CornerRadius="3"
+                                FontSize="9"
+                                Foreground="#FFB400FF"
+                                Tag="500,3" />
                         </StackPanel>
                     </StackPanel>
 
-                    <!-- Toggles -->
+                    <!--  Toggles  -->
                     <Grid ColumnSpacing="8">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
-                            <ToggleSwitch x:Name="UseNicknameToggle" IsOn="True" MinWidth="0"
-                                          OnContent="" OffContent="" />
+                        <StackPanel
+                            Grid.Column="0"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                            <ToggleSwitch
+                                x:Name="UseNicknameToggle"
+                                MinWidth="0"
+                                IsOn="True"
+                                OffContent=""
+                                OnContent="" />
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Use TikTok Name" FontSize="11" Foreground="#FFE0E0FF" />
-                                <TextBlock Text="Name creature after viewer" FontSize="8" Foreground="#FF8888AA" />
+                                <TextBlock
+                                    FontSize="11"
+                                    Foreground="#FFE0E0FF"
+                                    Text="Use TikTok Name" />
+                                <TextBlock
+                                    FontSize="8"
+                                    Foreground="#FF8888AA"
+                                    Text="Name creature after viewer" />
                             </StackPanel>
                         </StackPanel>
 
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
-                            <ToggleSwitch x:Name="TrackCreatureToggle" IsOn="True" MinWidth="0"
-                                          OnContent="" OffContent="" />
+                        <StackPanel
+                            Grid.Column="1"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                            <ToggleSwitch
+                                x:Name="TrackCreatureToggle"
+                                MinWidth="0"
+                                IsOn="True"
+                                OffContent=""
+                                OnContent="" />
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Track in Arena" FontSize="11" Foreground="#FFE0E0FF" />
-                                <TextBlock Text="Add viewer tag + tracking" FontSize="8" Foreground="#FF8888AA" />
+                                <TextBlock
+                                    FontSize="11"
+                                    Foreground="#FFE0E0FF"
+                                    Text="Track in Arena" />
+                                <TextBlock
+                                    FontSize="8"
+                                    Foreground="#FF8888AA"
+                                    Text="Add viewer tag + tracking" />
                             </StackPanel>
                         </StackPanel>
                     </Grid>
 
-                    <!-- Boss toggle -->
+                    <!--  Boss toggle  -->
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <ToggleSwitch x:Name="BossToggle" IsOn="False" MinWidth="0"
-                                      OnContent="" OffContent=""
-                                      Toggled="BossToggle_Toggled" />
+                        <ToggleSwitch
+                            x:Name="BossToggle"
+                            MinWidth="0"
+                            IsOn="False"
+                            OffContent=""
+                            OnContent=""
+                            Toggled="BossToggle_Toggled" />
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="Boss Creature" FontSize="11" Foreground="#FFFF3278" FontWeight="SemiBold" />
-                            <TextBlock Text="Can be summoned infinitely (no one-per-viewer limit)" FontSize="8" Foreground="#FF8888AA" />
+                            <TextBlock
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                Foreground="#FFFF3278"
+                                Text="Boss Creature" />
+                            <TextBlock
+                                FontSize="8"
+                                Foreground="#FF8888AA"
+                                Text="Can be summoned infinitely (no one-per-viewer limit)" />
                         </StackPanel>
                     </StackPanel>
 
-                    <!-- Boss Name (only visible when Boss is toggled on) -->
-                    <StackPanel x:Name="BossNamePanel" Spacing="4" Visibility="Collapsed">
-                        <TextBlock Text="BOSS NAME" FontSize="9" FontWeight="Bold"
-                                   Foreground="#FFFF3278" CharacterSpacing="100" />
-                        <TextBox x:Name="BossNameBox" PlaceholderText="e.g. Dragon Lord, The Destroyer..."
-                                 Background="#FF0D0D1A" Foreground="#FFFF3278"
-                                 BorderBrush="#FF1A1A2E" BorderThickness="1"
-                                 Padding="10,7" CornerRadius="4" FontSize="12" />
-                        <TextBlock Text="This name will appear above the boss in-game instead of the viewer's TikTok name"
-                                   FontSize="8" Foreground="#FF8888AA" TextWrapping="Wrap" />
+                    <!--  Boss Name (only visible when Boss is toggled on)  -->
+                    <StackPanel
+                        x:Name="BossNamePanel"
+                        Spacing="4"
+                        Visibility="Collapsed">
+                        <TextBlock
+                            CharacterSpacing="100"
+                            FontSize="9"
+                            FontWeight="Bold"
+                            Foreground="#FFFF3278"
+                            Text="BOSS NAME" />
+                        <TextBox
+                            x:Name="BossNameBox"
+                            Padding="10,7"
+                            Background="#FF0D0D1A"
+                            BorderBrush="#FF1A1A2E"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            FontSize="12"
+                            Foreground="#FFFF3278"
+                            PlaceholderText="e.g. Dragon Lord, The Destroyer..." />
+                        <TextBlock
+                            FontSize="8"
+                            Foreground="#FF8888AA"
+                            Text="This name will appear above the boss in-game instead of the viewer's TikTok name"
+                            TextWrapping="Wrap" />
                     </StackPanel>
 
-                    <!-- Summon Preview -->
-                    <Border Background="#FF0D0D1A" CornerRadius="4" Padding="10,6"
-                            BorderBrush="#FF1A1A2E" BorderThickness="1">
+                    <!--  Summon Preview  -->
+                    <Border
+                        Padding="10,6"
+                        Background="#FF0D0D1A"
+                        BorderBrush="#FF1A1A2E"
+                        BorderThickness="1"
+                        CornerRadius="4">
                         <StackPanel Spacing="2">
-                            <TextBlock Text="SUMMON PREVIEW" FontSize="8" FontWeight="Bold"
-                                       Foreground="#FF8888AA" CharacterSpacing="120" />
-                            <TextBlock x:Name="SummonPreviewText" FontSize="10" FontFamily="Consolas"
-                                       Foreground="#FF00FF88" TextWrapping="Wrap"
-                                       Text="summon minecraft:zombie ~ ~ ~" />
+                            <TextBlock
+                                CharacterSpacing="120"
+                                FontSize="8"
+                                FontWeight="Bold"
+                                Foreground="#FF8888AA"
+                                Text="SUMMON PREVIEW" />
+                            <TextBlock
+                                x:Name="SummonPreviewText"
+                                FontFamily="Consolas"
+                                FontSize="10"
+                                Foreground="#FF00FF88"
+                                Text="summon minecraft:zombie ~ ~ ~"
+                                TextWrapping="Wrap" />
                         </StackPanel>
                     </Border>
                 </StackPanel>
             </Border>
 
-            <!-- ═══ HEALTH CHECK OPTIONS (only visible for HealthCheck type) ═══ -->
-            <Border x:Name="HealthCheckPanel" Background="#FF12121E" CornerRadius="6" Padding="14,12"
-                    Visibility="Collapsed">
-                <StackPanel Spacing="10">
-                    <TextBlock Text="HEALTH CHECK OPTIONS" FontSize="10" FontWeight="Bold"
-                               Foreground="#FF8888AA" CharacterSpacing="120" />
+            <!--  ═══ BUFF OPTIONS (only visible for Buff type) ═══  -->
+            <Border
+                x:Name="HealthCheckPanel"
+                Padding="14,12"
+                Background="#FF12121E"
+                CornerRadius="6"
+                Visibility="Collapsed">
+                <StackPanel Spacing="12">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="14"
+                            Foreground="#FF00C8FF"
+                            Glyph="&#xE95E;" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            CharacterSpacing="120"
+                            FontSize="10"
+                            FontWeight="Bold"
+                            Foreground="#FF00C8FF"
+                            Text="BUFF SETTINGS" />
+                    </StackPanel>
 
+                    <TextBlock
+                        FontSize="10"
+                        Foreground="#FF8888AA"
+                        Text="Choose which buffs to apply to the viewer's active creature when triggered"
+                        TextWrapping="Wrap" />
+
+                    <!--  Heal option  -->
+                    <Border
+                        Padding="12,10"
+                        Background="#FF0D0D1A"
+                        BorderBrush="#FF1A1A2E"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Spacing="8">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <CheckBox
+                                    x:Name="BuffHealCheck"
+                                    MinWidth="0"
+                                    Content="" />
+                                <FontIcon
+                                    VerticalAlignment="Center"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontSize="14"
+                                    Foreground="#FF00FF88"
+                                    Glyph="&#xE8AA;" />
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock
+                                        FontSize="12"
+                                        FontWeight="SemiBold"
+                                        Foreground="#FF00FF88"
+                                        Text="Heal" />
+                                    <TextBlock
+                                        FontSize="9"
+                                        Foreground="#FF8888AA"
+                                        Text="Restore HP to the viewer's creature" />
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Margin="32,0,0,0" Spacing="4">
+                                <TextBlock
+                                    CharacterSpacing="100"
+                                    FontSize="9"
+                                    FontWeight="Bold"
+                                    Foreground="#FF8888AA"
+                                    Text="HP TO RESTORE" />
+                                <NumberBox
+                                    x:Name="BuffHealAmountBox"
+                                    Background="#FF12121E"
+                                    FontSize="12"
+                                    Maximum="100000"
+                                    Minimum="0"
+                                    PlaceholderText="e.g. 10"
+                                    SpinButtonPlacementMode="Compact"
+                                    Value="0" />
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <Button
+                                        Padding="8,4"
+                                        Background="#FF1A1A2E"
+                                        BorderThickness="0"
+                                        Click="HealPreset_Click"
+                                        Content="+5 HP"
+                                        CornerRadius="3"
+                                        FontSize="9"
+                                        Foreground="#FF00FF88"
+                                        Tag="5" />
+                                    <Button
+                                        Padding="8,4"
+                                        Background="#FF1A1A2E"
+                                        BorderThickness="0"
+                                        Click="HealPreset_Click"
+                                        Content="+10 HP"
+                                        CornerRadius="3"
+                                        FontSize="9"
+                                        Foreground="#FF00FF88"
+                                        Tag="10" />
+                                    <Button
+                                        Padding="8,4"
+                                        Background="#FF1A1A2E"
+                                        BorderThickness="0"
+                                        Click="HealPreset_Click"
+                                        Content="+20 HP"
+                                        CornerRadius="3"
+                                        FontSize="9"
+                                        Foreground="#FF00FF88"
+                                        Tag="20" />
+                                    <Button
+                                        Padding="8,4"
+                                        Background="#FF1A1A2E"
+                                        BorderThickness="0"
+                                        Click="HealPreset_Click"
+                                        Content="+50 HP"
+                                        CornerRadius="3"
+                                        FontSize="9"
+                                        Foreground="#FFFF9500"
+                                        Tag="50" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!--  Damage buff option  -->
+                    <Border
+                        Padding="12,10"
+                        Background="#FF0D0D1A"
+                        BorderBrush="#FF1A1A2E"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Spacing="8">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <CheckBox
+                                    x:Name="BuffDamageCheck"
+                                    MinWidth="0"
+                                    Content="" />
+                                <FontIcon
+                                    VerticalAlignment="Center"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontSize="14"
+                                    Foreground="#FFFF3278"
+                                    Glyph="&#xEA18;" />
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock
+                                        FontSize="12"
+                                        FontWeight="SemiBold"
+                                        Foreground="#FFFF3278"
+                                        Text="Damage Buff" />
+                                    <TextBlock
+                                        FontSize="9"
+                                        Foreground="#FF8888AA"
+                                        Text="Increase attack damage via strength effect" />
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Margin="32,0,0,0" Spacing="4">
+                                <TextBlock
+                                    CharacterSpacing="100"
+                                    FontSize="9"
+                                    FontWeight="Bold"
+                                    Foreground="#FF8888AA"
+                                    Text="EXTRA ATTACK DAMAGE" />
+                                <NumberBox
+                                    x:Name="BuffDamageAmountBox"
+                                    Background="#FF12121E"
+                                    FontSize="12"
+                                    Maximum="100000"
+                                    Minimum="0"
+                                    PlaceholderText="e.g. 5"
+                                    SpinButtonPlacementMode="Compact"
+                                    Value="0" />
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <Button
+                                        Padding="8,4"
+                                        Background="#FF1A1A2E"
+                                        BorderThickness="0"
+                                        Click="DamagePreset_Click"
+                                        Content="+3 ATK"
+                                        CornerRadius="3"
+                                        FontSize="9"
+                                        Foreground="#FFFF3278"
+                                        Tag="3" />
+                                    <Button
+                                        Padding="8,4"
+                                        Background="#FF1A1A2E"
+                                        BorderThickness="0"
+                                        Click="DamagePreset_Click"
+                                        Content="+6 ATK"
+                                        CornerRadius="3"
+                                        FontSize="9"
+                                        Foreground="#FFFF3278"
+                                        Tag="6" />
+                                    <Button
+                                        Padding="8,4"
+                                        Background="#FF1A1A2E"
+                                        BorderThickness="0"
+                                        Click="DamagePreset_Click"
+                                        Content="+10 ATK"
+                                        CornerRadius="3"
+                                        FontSize="9"
+                                        Foreground="#FFFF9500"
+                                        Tag="10" />
+                                    <Button
+                                        Padding="8,4"
+                                        Background="#FF1A1A2E"
+                                        BorderThickness="0"
+                                        Click="DamagePreset_Click"
+                                        Content="+20 ATK"
+                                        CornerRadius="3"
+                                        FontSize="9"
+                                        Foreground="#FFB400FF"
+                                        Tag="20" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!--  Use Nickname toggle for buff  -->
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <ToggleSwitch
+                            x:Name="BuffUseNicknameToggle"
+                            MinWidth="0"
+                            IsOn="True"
+                            OffContent=""
+                            OnContent="" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock
+                                FontSize="11"
+                                Foreground="#FFE0E0FF"
+                                Text="Use TikTok Name" />
+                            <TextBlock
+                                FontSize="8"
+                                Foreground="#FF8888AA"
+                                Text="Substitute {nickname}/{username} in additional commands" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!--  Continuous option  -->
                     <StackPanel x:Name="ContinuousOption" Spacing="8">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <ToggleSwitch x:Name="ContinuousToggle" IsOn="False" MinWidth="0"
-                                          OnContent="" OffContent=""
-                                          Toggled="ContinuousToggle_Toggled" />
+                            <ToggleSwitch
+                                x:Name="ContinuousToggle"
+                                MinWidth="0"
+                                IsOn="False"
+                                OffContent=""
+                                OnContent=""
+                                Toggled="ContinuousToggle_Toggled" />
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Run Continuously" FontSize="12"
-                                           Foreground="#FFE0E0FF" />
-                                <TextBlock Text="Repeat the command sequence at a set interval"
-                                           FontSize="9" Foreground="#FF8888AA" TextWrapping="Wrap" />
+                                <TextBlock
+                                    FontSize="12"
+                                    Foreground="#FFE0E0FF"
+                                    Text="Run Continuously" />
+                                <TextBlock
+                                    FontSize="9"
+                                    Foreground="#FF8888AA"
+                                    Text="Repeat the command sequence at a set interval"
+                                    TextWrapping="Wrap" />
                             </StackPanel>
                         </StackPanel>
 
-                        <StackPanel x:Name="IntervalPanel" Visibility="Collapsed" Orientation="Horizontal" Spacing="8"
-                                    Margin="48,0,0,0">
-                            <TextBlock Text="Every" FontSize="12" Foreground="#FF8888AA" VerticalAlignment="Center" />
-                            <NumberBox x:Name="IntervalBox" Value="30" Minimum="1" Maximum="3600"
-                                       SpinButtonPlacementMode="Compact" FontSize="12" Width="100" />
-                            <TextBlock Text="seconds" FontSize="12" Foreground="#FF8888AA" VerticalAlignment="Center" />
+                        <StackPanel
+                            x:Name="IntervalPanel"
+                            Margin="48,0,0,0"
+                            Orientation="Horizontal"
+                            Spacing="8"
+                            Visibility="Collapsed">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="#FF8888AA"
+                                Text="Every" />
+                            <NumberBox
+                                x:Name="IntervalBox"
+                                Width="100"
+                                FontSize="12"
+                                Maximum="3600"
+                                Minimum="1"
+                                SpinButtonPlacementMode="Compact"
+                                Value="30" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="#FF8888AA"
+                                Text="seconds" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </Border>
 
-            <!-- Additional Commands list -->
+            <!--  Additional Commands list  -->
             <StackPanel Spacing="5">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock x:Name="CommandsLabel" Grid.Column="0" Text="ADDITIONAL COMMANDS (optional, run after summon)"
-                               FontSize="10" FontWeight="Bold"
-                               Foreground="#FF8888AA" CharacterSpacing="120" VerticalAlignment="Center" />
-                    <TextBlock Grid.Column="1" Text="Drag to reorder" FontSize="9"
-                               Foreground="#FF00FF88" VerticalAlignment="Center" />
+                    <TextBlock
+                        x:Name="CommandsLabel"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        CharacterSpacing="120"
+                        FontSize="10"
+                        FontWeight="Bold"
+                        Foreground="#FF8888AA"
+                        Text="ADDITIONAL COMMANDS (optional, run after summon)" />
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        FontSize="9"
+                        Foreground="#FF00FF88"
+                        Text="Drag to reorder" />
                 </Grid>
 
-                <ListView x:Name="CommandsList" CanReorderItems="True" AllowDrop="True"
-                          ReorderMode="Enabled"
-                          Background="#FF12121E"
-                          MinHeight="60" MaxHeight="160"
-                          Padding="4"
-                          CornerRadius="6">
+                <ListView
+                    x:Name="CommandsList"
+                    MinHeight="60"
+                    MaxHeight="160"
+                    Padding="4"
+                    AllowDrop="True"
+                    Background="#FF12121E"
+                    CanReorderItems="True"
+                    CornerRadius="6"
+                    ReorderMode="Enabled">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -296,77 +921,132 @@
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="x:String">
-                            <Grid Background="#FF1E1E36" CornerRadius="4" Padding="10,8" ColumnSpacing="8">
+                            <Grid
+                                Padding="10,8"
+                                Background="#FF1E1E36"
+                                ColumnSpacing="8"
+                                CornerRadius="4">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <FontIcon Grid.Column="0" Glyph="&#xE76F;" FontFamily="Segoe MDL2 Assets"
-                                          FontSize="10" Foreground="#FF8888AA" VerticalAlignment="Center" />
-                                <TextBlock Grid.Column="1" Text="{x:Bind}" FontSize="11" FontFamily="Consolas"
-                                           Foreground="#FF00FF88" VerticalAlignment="Center"
-                                           TextTrimming="CharacterEllipsis" />
-                                <Button Grid.Column="2" Click="RemoveCommand_Click" Tag="{x:Bind}"
-                                        Background="Transparent" BorderThickness="0" Padding="4,2"
-                                        VerticalAlignment="Center">
-                                    <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="10"
-                                              Foreground="#FFFF3278" />
+                                <FontIcon
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontSize="10"
+                                    Foreground="#FF8888AA"
+                                    Glyph="&#xE76F;" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Consolas"
+                                    FontSize="11"
+                                    Foreground="#FF00FF88"
+                                    Text="{x:Bind}"
+                                    TextTrimming="CharacterEllipsis" />
+                                <Button
+                                    Grid.Column="2"
+                                    Padding="4,2"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="RemoveCommand_Click"
+                                    Tag="{x:Bind}">
+                                    <FontIcon
+                                        FontFamily="Segoe MDL2 Assets"
+                                        FontSize="10"
+                                        Foreground="#FFFF3278"
+                                        Glyph="&#xE74D;" />
                                 </Button>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
 
-                <!-- Add command row -->
-                <Grid ColumnSpacing="8" Margin="0,4,0,0">
+                <!--  Add command row  -->
+                <Grid Margin="0,4,0,0" ColumnSpacing="8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <controls:CommandSuggestionBox x:Name="NewCommandBox" Grid.Column="0"
-                             PlaceholderText="Enter RCON command... (use {tag} for creature's tag)" />
-                    <Button Grid.Column="1" Click="AddCommand_Click"
-                            Background="#FF1E1E36" Foreground="#FF00FF88"
-                            BorderBrush="#FF00FF88" BorderThickness="1"
-                            CornerRadius="4" FontWeight="SemiBold" FontSize="11" Padding="12,8">
+                    <controls:CommandSuggestionBox
+                        x:Name="NewCommandBox"
+                        Grid.Column="0"
+                        PlaceholderText="Enter RCON command... (use {tag} for creature's tag)" />
+                    <Button
+                        Grid.Column="1"
+                        Padding="12,8"
+                        Background="#FF1E1E36"
+                        BorderBrush="#FF00FF88"
+                        BorderThickness="1"
+                        Click="AddCommand_Click"
+                        CornerRadius="4"
+                        FontSize="11"
+                        FontWeight="SemiBold"
+                        Foreground="#FF00FF88">
                         <StackPanel Orientation="Horizontal" Spacing="6">
-                            <FontIcon Glyph="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="10" />
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="10"
+                                Glyph="&#xE710;" />
                             <TextBlock Text="Add" />
                         </StackPanel>
                     </Button>
                 </Grid>
 
-                <!-- {tag} hint for summon type -->
-                <TextBlock x:Name="TagHint" FontSize="9" Foreground="#FF8888AA" TextWrapping="Wrap"
-                           Text="💡 Use {tag} in commands to reference this creature's tracking tag. Example: effect give @e[tag={tag}] minecraft:speed 30" />
+                <!--  {tag} hint for summon type  -->
+                <TextBlock
+                    x:Name="TagHint"
+                    FontSize="9"
+                    Foreground="#FF8888AA"
+                    Text="💡 Use {tag} in commands to reference this creature's tracking tag. Example: effect give @e[tag={tag}] minecraft:speed 30"
+                    TextWrapping="Wrap" />
             </StackPanel>
 
-            <!-- Action buttons -->
-            <Grid ColumnSpacing="10" Margin="0,8,0,0">
+            <!--  Action buttons  -->
+            <Grid Margin="0,8,0,0" ColumnSpacing="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Content="Cancel" Click="Cancel_Click"
-                        HorizontalAlignment="Stretch" Padding="0,10"
-                        Background="#FF1E1E36" Foreground="#FFFF3278"
-                        BorderBrush="#FFFF3278" BorderThickness="1"
-                        CornerRadius="4" FontWeight="SemiBold" FontSize="13" />
-                <Button Grid.Column="1" Click="Save_Click"
-                        HorizontalAlignment="Stretch" Padding="0,10"
-                        CornerRadius="4" FontWeight="Bold" FontSize="13"
-                        Foreground="White" BorderThickness="0">
+                <Button
+                    Grid.Column="0"
+                    Padding="0,10"
+                    HorizontalAlignment="Stretch"
+                    Background="#FF1E1E36"
+                    BorderBrush="#FFFF3278"
+                    BorderThickness="1"
+                    Click="Cancel_Click"
+                    Content="Cancel"
+                    CornerRadius="4"
+                    FontSize="13"
+                    FontWeight="SemiBold"
+                    Foreground="#FFFF3278" />
+                <Button
+                    Grid.Column="1"
+                    Padding="0,10"
+                    HorizontalAlignment="Stretch"
+                    BorderThickness="0"
+                    Click="Save_Click"
+                    CornerRadius="4"
+                    FontSize="13"
+                    FontWeight="Bold"
+                    Foreground="White">
                     <Button.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#FFFF9500" Offset="0" />
-                            <GradientStop Color="#FFFF3278" Offset="1" />
+                            <GradientStop Offset="0" Color="#FFFF9500" />
+                            <GradientStop Offset="1" Color="#FFFF3278" />
                         </LinearGradientBrush>
                     </Button.Background>
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon Glyph="&#xE74E;" FontFamily="Segoe MDL2 Assets" FontSize="14"
-                                  Foreground="White" />
-                        <TextBlock Text="Save Button" Foreground="White" />
+                        <FontIcon
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="14"
+                            Foreground="White"
+                            Glyph="&#xE74E;" />
+                        <TextBlock Foreground="White" Text="Save Button" />
                     </StackPanel>
                 </Button>
             </Grid>

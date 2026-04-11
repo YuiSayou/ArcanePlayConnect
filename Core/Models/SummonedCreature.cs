@@ -71,6 +71,15 @@ public class SummonedCreature
 
     /// <summary>When true, this creature is a boss and can be summoned infinitely by the same viewer.</summary>
     public bool IsBoss { get; set; }
+
+    /// <summary>ID of the CommandButton that spawned this creature. Used for auto-respawn.</summary>
+    public string LastButtonId { get; set; } = string.Empty;
+
+    /// <summary>Accumulated extra HP from buff effects (carried across respawns).</summary>
+    public float AccumulatedBuffHeal { get; set; }
+
+    /// <summary>Accumulated extra attack damage from buff effects (carried across respawns).</summary>
+    public float AccumulatedBuffDamage { get; set; }
 }
 
 /// <summary>

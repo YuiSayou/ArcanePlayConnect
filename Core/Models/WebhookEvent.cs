@@ -6,7 +6,10 @@ public enum WebhookEventType
     Gift,
     Follow,
     Chat,
-    Like
+    Like,
+    Join,
+    Share,
+    Subscribe
 }
 
 public class WebhookEvent
@@ -23,6 +26,10 @@ public class WebhookEvent
     // Gift-specific fields
     public string GiftName { get; set; } = string.Empty;
     public string GiftPictureUrl { get; set; } = string.Empty;
+    public int GiftId { get; set; }
+    public int GiftDiamondCost { get; set; }
+    public int GiftRepeatCount { get; set; }
+    public bool GiftStreakEnd { get; set; }
 
     // Chat-specific field
     public string Comment { get; set; } = string.Empty;
@@ -30,4 +37,7 @@ public class WebhookEvent
     // Like-specific fields
     public int LikeCount { get; set; }
     public int TotalLikeCount { get; set; }
+
+    // Join-specific fields
+    public int ViewerCount { get; set; }
 }

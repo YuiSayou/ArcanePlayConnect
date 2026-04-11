@@ -100,6 +100,22 @@
                         <TextBlock Text="Like" FontSize="12" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
                     </StackPanel>
                 </CheckBox>
+                <CheckBox IsChecked="{x:Bind ViewModel.ShowShareLogs, Mode=TwoWay}" MinWidth="0" Padding="4,0,0,0">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <Ellipse Width="7" Height="7" VerticalAlignment="Center">
+                            <Ellipse.Fill><SolidColorBrush Color="#FFFF9500" /></Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock Text="Share" FontSize="12" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                    </StackPanel>
+                </CheckBox>
+                <CheckBox IsChecked="{x:Bind ViewModel.ShowSubscribeLogs, Mode=TwoWay}" MinWidth="0" Padding="4,0,0,0">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <Ellipse Width="7" Height="7" VerticalAlignment="Center">
+                            <Ellipse.Fill><SolidColorBrush Color="#FFFFD700" /></Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock Text="Subscribe" FontSize="12" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                    </StackPanel>
+                </CheckBox>
                 <CheckBox IsChecked="{x:Bind ViewModel.ShowWebhookLogs, Mode=TwoWay}" MinWidth="0" Padding="4,0,0,0">
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <Ellipse Width="7" Height="7" VerticalAlignment="Center">

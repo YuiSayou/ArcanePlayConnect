@@ -19,13 +19,17 @@ public partial class MainViewModel : ObservableObject
     public static MainViewModel Instance => _instance ??= new MainViewModel();
 
     private readonly LoggingService _logger;
-    private readonly WebhookListenerService _webhookService;
+    private readonly TikTokLiveService _tikTokService;
     private readonly RconService _rconService;
     private readonly ProfileService _profileService;
     private readonly EventProcessor _eventProcessor;
     private readonly CommandButtonExecutor _buttonExecutor;
     private readonly CreatureTrackerService _creatureTracker;
     private readonly OverlayServerService _overlayServer;
+    private readonly OverlayDataPushService _overlayPushService;
+    private readonly FollowerService _followerService;
+    private readonly KeyboardShortcutService _shortcutService;
+    private readonly LiveStatsTrackerService _liveStatsTracker;
 
     public ObservableCollection<LogEntry> FilteredLogs { get; } = new();
     public ObservableCollection<Profile> Profiles { get; } = new();
@@ -33,9 +37,9 @@ public partial class MainViewModel : ObservableObject
     public ObservableCollection<CommandButton> CommandButtons { get; } = new();
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(StartListenerCommand))]
-    [NotifyCanExecuteChangedFor(nameof(StopListenerCommand))]
-    private bool _isListenerRunning;
+    [NotifyCanExecuteChangedFor(nameof(ConnectTikTokCommand))]
+    [NotifyCanExecuteChangedFor(nameof(DisconnectTikTokCommand))]
+    private bool _isTikTokConnected;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ConnectRconCommand))]
@@ -44,20 +48,23 @@ public partial class MainViewModel : ObservableObject
     private bool _isRconConnected;
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(StartListenerCommand))]
+    [NotifyCanExecuteChangedFor(nameof(ConnectTikTokCommand))]
     [NotifyCanExecuteChangedFor(nameof(ConnectRconCommand))]
     [NotifyCanExecuteChangedFor(nameof(SaveProfileCommand))]
     [NotifyCanExecuteChangedFor(nameof(DeleteProfileCommand))]
     private Profile? _selectedProfile;
 
     [ObservableProperty]
-    private string _webhookStatus = "Stopped";
+    private string _tikTokLiveStatus = "Disconnected";
 
     [ObservableProperty]
     private string _rconStatus = "Disconnected";
 
     [ObservableProperty]
-    private string _tiktokStatus = "Simulated";
+    private int _viewerCount;
+
+    [ObservableProperty]
+    private long _totalLikes;
 
     [ObservableProperty]
     private string _editProfileName = string.Empty;
@@ -66,7 +73,7 @@ public partial class MainViewModel : ObservableObject
     private string _editGameType = "Minecraft";
 
     [ObservableProperty]
-    private int _editWebhookPort = 5000;
+    private string _editTikTokUsername = string.Empty;
 
     [ObservableProperty]
     private string _editRconIP = "127.0.0.1";
@@ -96,6 +103,15 @@ public partial class MainViewModel : ObservableObject
     private bool _showLikeLogs = true;
 
     [ObservableProperty]
+    private bool _showJoinLogs = true;
+
+    [ObservableProperty]
+    private bool _showShareLogs = true;
+
+    [ObservableProperty]
+    private bool _showSubscribeLogs = true;
+
+    [ObservableProperty]
     private bool _showWebhookLogs = true;
 
     [ObservableProperty]
@@ -106,24 +122,36 @@ public partial class MainViewModel : ObservableObject
     public CommandButtonExecutor ButtonExecutor => _buttonExecutor;
     public CreatureTrackerService CreatureTracker => _creatureTracker;
     public OverlayServerService OverlayServer => _overlayServer;
+    public OverlayDataPushService OverlayPushService => _overlayPushService;
+    public FollowerService FollowerService => _followerService;
+    public KeyboardShortcutService ShortcutService => _shortcutService;
+    public LiveStatsTrackerService LiveStatsTracker => _liveStatsTracker;
 
     public event Action? AddActionRequested;
-    public event Action<SavedCommand>? SaveCommandRequested;
+    public event Action? NavigateToMappingsRequested;
 
     private MainViewModel()
     {
         _logger = LoggingService.Instance;
-        _webhookService = new WebhookListenerService(_logger);
+        _tikTokService = new TikTokLiveService(_logger);
         _rconService = new RconService(_logger);
         _profileService = new ProfileService(_logger);
         _buttonExecutor = new CommandButtonExecutor(_rconService, _logger);
         _creatureTracker = new CreatureTrackerService(_rconService, _logger);
-        _overlayServer = new OverlayServerService(_logger, _creatureTracker);
-        _eventProcessor = new EventProcessor(_rconService, _logger, _buttonExecutor, _creatureTracker);
+        _liveStatsTracker = new LiveStatsTrackerService();
+        _overlayServer = new OverlayServerService(_logger, _creatureTracker, _liveStatsTracker);
+        _overlayPushService = new OverlayDataPushService(_logger, _overlayServer);
+        _followerService = new FollowerService(_logger);
+        _shortcutService = new KeyboardShortcutService(_logger);
+        _eventProcessor = new EventProcessor(_rconService, _logger, _buttonExecutor, _creatureTracker, _followerService);
 
-        _webhookService.EventReceived += OnWebhookEvent;
-        _webhookService.StatusChanged += OnWebhookStatusChanged;
+        _tikTokService.EventReceived += OnTikTokEvent;
+        _tikTokService.StatusChanged += OnTikTokStatusChanged;
+        _tikTokService.ViewerCountUpdated += OnViewerCountUpdated;
+        _tikTokService.TotalLikesUpdated += OnTotalLikesUpdated;
         _rconService.ConnectionChanged += OnRconStatusChanged;
+        _creatureTracker.CreatureDied += OnCreatureDied;
+        _shortcutService.ShortcutTriggered += OnShortcutTriggered;
 
         _logger.Logs.CollectionChanged += OnRawLogsChanged;
 
@@ -173,7 +201,7 @@ public partial class MainViewModel : ObservableObject
         {
             EditProfileName = value.ProfileName;
             EditGameType = value.GameType;
-            EditWebhookPort = value.WebhookPort;
+            EditTikTokUsername = value.TikTokUsername;
             EditRconIP = value.RconIP;
             EditRconPort = value.RconPort;
             EditRconPassword = value.RconPassword;
@@ -191,6 +219,9 @@ public partial class MainViewModel : ObservableObject
     partial void OnShowFollowLogsChanged(bool value) => RebuildFilteredLogs();
     partial void OnShowGiftLogsChanged(bool value) => RebuildFilteredLogs();
     partial void OnShowLikeLogsChanged(bool value) => RebuildFilteredLogs();
+    partial void OnShowJoinLogsChanged(bool value) => RebuildFilteredLogs();
+    partial void OnShowShareLogsChanged(bool value) => RebuildFilteredLogs();
+    partial void OnShowSubscribeLogsChanged(bool value) => RebuildFilteredLogs();
     partial void OnShowWebhookLogsChanged(bool value) => RebuildFilteredLogs();
     partial void OnShowSystemLogsChanged(bool value) => RebuildFilteredLogs();
 
@@ -228,6 +259,9 @@ public partial class MainViewModel : ObservableObject
             LogCategory.Follow  => ShowFollowLogs,
             LogCategory.Gift    => ShowGiftLogs,
             LogCategory.Like    => ShowLikeLogs,
+            LogCategory.Join    => ShowJoinLogs,
+            LogCategory.Share   => ShowShareLogs,
+            LogCategory.Subscribe => ShowSubscribeLogs,
             LogCategory.Webhook => ShowWebhookLogs,
             LogCategory.System  => ShowSystemLogs,
             _                   => ShowSystemLogs
@@ -252,7 +286,8 @@ public partial class MainViewModel : ObservableObject
                 TriggerKey       = mapping.TriggerKey,
                 Command          = mapping.Command,
                 TargetButtonId   = mapping.TargetButtonId,
-                TargetButtonName = btnName
+                TargetButtonName = btnName,
+                ReplaceJoinMob   = mapping.ReplaceJoinMob
             });
         }
     }
@@ -263,6 +298,7 @@ public partial class MainViewModel : ObservableObject
         CommandButtons.Clear();
         foreach (var btn in profile.CommandButtons)
             CommandButtons.Add(btn);
+        _shortcutService.RegisterAll(CommandButtons);
     }
 
     // ?? Profile CRUD ????????????????????????????????????????????????????????
@@ -284,7 +320,7 @@ public partial class MainViewModel : ObservableObject
 
         SelectedProfile.ProfileName = EditProfileName;
         SelectedProfile.GameType = EditGameType;
-        SelectedProfile.WebhookPort = EditWebhookPort;
+        SelectedProfile.TikTokUsername = EditTikTokUsername;
         SelectedProfile.RconIP = EditRconIP;
         SelectedProfile.RconPort = EditRconPort;
         SelectedProfile.RconPassword = EditRconPassword;
@@ -299,7 +335,8 @@ public partial class MainViewModel : ObservableObject
                     TriggerType    = item.TriggerType,
                     TriggerKey     = item.TriggerKey,
                     Command        = item.Command,
-                    TargetButtonId = item.TargetButtonId
+                    TargetButtonId = item.TargetButtonId,
+                    ReplaceJoinMob = item.ReplaceJoinMob
                 });
             }
         }
@@ -370,7 +407,8 @@ public partial class MainViewModel : ObservableObject
                     TriggerType    = item.TriggerType,
                     TriggerKey     = item.TriggerKey,
                     Command        = item.Command,
-                    TargetButtonId = item.TargetButtonId
+                    TargetButtonId = item.TargetButtonId,
+                    ReplaceJoinMob = item.ReplaceJoinMob
                 });
             }
         }
@@ -441,11 +479,25 @@ public partial class MainViewModel : ObservableObject
 
     public async Task ExecuteCommandButton(CommandButton button, string nickname = "", string username = "")
     {
+        // General buttons just run commands directly
+        if (button.ButtonType == CommandButtonType.General)
+        {
+            await _buttonExecutor.ExecuteAsync(button, nickname, username);
+            return;
+        }
+
         // For Summon-type buttons with structured settings, route through creature tracker
         if (button.ButtonType == CommandButtonType.Summon &&
             !string.IsNullOrEmpty(button.SummonEntityType))
         {
             await ExecuteSummonButtonAsync(button, nickname, username);
+            return;
+        }
+
+        // For Buff-type buttons, apply heal/damage to the viewer's creature
+        if (button.ButtonType == CommandButtonType.Buff)
+        {
+            await ExecuteBuffButtonAsync(button, nickname, username);
             return;
         }
 
@@ -482,6 +534,9 @@ public partial class MainViewModel : ObservableObject
 
         if (creature == null) return; // blocked or failed
 
+        // Track which button spawned this creature for auto-respawn
+        creature.LastButtonId = button.Id;
+
         // Execute any additional commands in the button
         foreach (var template in button.Commands)
         {
@@ -498,6 +553,50 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    /// Executes a Buff button: applies heal and/or damage buff to the viewer's active creature,
+    /// then runs additional commands.
+    /// </summary>
+    private async Task ExecuteBuffButtonAsync(CommandButton button, string nickname, string username)
+    {
+        if (!_rconService.IsConnected)
+        {
+            _logger.LogWarning("RCON not connected. Cannot execute buff button.", LogCategory.System);
+            return;
+        }
+
+        var nick = string.IsNullOrWhiteSpace(nickname) ? "TestPlayer" : nickname;
+        var user = string.IsNullOrWhiteSpace(username) ? "testplayer" : username;
+
+        var healAmount = button.BuffApplyHeal ? button.BuffHealAmount : 0;
+        var damageAmount = button.BuffApplyDamage ? button.BuffDamageAmount : 0;
+
+        if (healAmount > 0 || damageAmount > 0)
+        {
+            var applied = await _creatureTracker.BuffCreatureAsync(user, healAmount, damageAmount);
+            if (!applied)
+            {
+                _logger.LogInfo($"[Buff] No active creature for {nick} to buff.", LogCategory.System);
+            }
+        }
+
+        // Execute any additional commands in the button
+        var creature = _creatureTracker.GetActiveCreature(user);
+        foreach (var template in button.Commands)
+        {
+            if (string.IsNullOrWhiteSpace(template)) continue;
+
+            var cmd = template;
+            if (button.UseNickname)
+                cmd = EventProcessor.BuildCommand(template, nick, user);
+
+            if (creature != null)
+                cmd = cmd.Replace("{tag}", creature.TrackingId);
+
+            await _rconService.SendCommand(cmd);
+        }
+    }
+
     private void SyncAndSaveButtons()
     {
         if (SelectedProfile == null) return;
@@ -507,6 +606,7 @@ public partial class MainViewModel : ObservableObject
             SelectedProfile.CommandButtons.Add(btn);
 
         _profileService.Save(SelectedProfile);
+        _shortcutService.RegisterAll(CommandButtons);
     }
 
     // ?? Saved Commands ??????????????????????????????????????????????????????
@@ -551,11 +651,18 @@ public partial class MainViewModel : ObservableObject
         foreach (var entry in FilteredLogs)
             sb.AppendLine($"[{entry.FormattedTime}] [{entry.Level}] [{entry.Category}] {entry.Message}");
 
-        var dp = new DataPackage();
-        dp.SetText(sb.ToString());
-        Clipboard.SetContent(dp);
-        Clipboard.Flush();
-        _logger.LogInfo("Log entries copied to clipboard.");
+        try
+        {
+            var dp = new DataPackage();
+            dp.SetText(sb.ToString());
+            Clipboard.SetContent(dp);
+            Clipboard.Flush();
+            _logger.LogInfo("Log entries copied to clipboard.");
+        }
+        catch (System.Runtime.InteropServices.COMException)
+        {
+            _logger.LogWarning("Clipboard is unavailable. Please try again.");
+        }
     }
 
     [RelayCommand]
@@ -563,10 +670,17 @@ public partial class MainViewModel : ObservableObject
     {
         if (entry == null) return;
         var text = $"[{entry.FormattedTime}] [{entry.Level}] [{entry.Category}] {entry.Message}";
-        var dp = new DataPackage();
-        dp.SetText(text);
-        Clipboard.SetContent(dp);
-        Clipboard.Flush();
+        try
+        {
+            var dp = new DataPackage();
+            dp.SetText(text);
+            Clipboard.SetContent(dp);
+            Clipboard.Flush();
+        }
+        catch (System.Runtime.InteropServices.COMException)
+        {
+            _logger.LogWarning("Clipboard is unavailable. Please try again.");
+        }
     }
 
     [RelayCommand]
@@ -578,26 +692,31 @@ public partial class MainViewModel : ObservableObject
 
     // ?? Connection ??????????????????????????????????????????????????????????
 
-    [RelayCommand(CanExecute = nameof(CanStartListener))]
-    private void StartListener()
+    [RelayCommand(CanExecute = nameof(CanConnectTikTok))]
+    private async Task ConnectTikTok()
     {
         if (SelectedProfile == null)
         {
-            _logger.LogWarning("Create and select a profile before starting the listener.");
+            _logger.LogWarning("Create and select a profile before connecting to TikTok Live.");
             return;
         }
-        _webhookService.Start(SelectedProfile.WebhookPort);
+        if (string.IsNullOrWhiteSpace(SelectedProfile.TikTokUsername))
+        {
+            _logger.LogWarning("Set a TikTok username in the profile settings first.");
+            return;
+        }
+        await _tikTokService.ConnectAsync(SelectedProfile.TikTokUsername);
     }
 
-    private bool CanStartListener() => !IsListenerRunning && SelectedProfile != null;
+    private bool CanConnectTikTok() => !IsTikTokConnected && SelectedProfile != null;
 
-    [RelayCommand(CanExecute = nameof(CanStopListener))]
-    private void StopListener()
+    [RelayCommand(CanExecute = nameof(CanDisconnectTikTok))]
+    private async Task DisconnectTikTok()
     {
-        _webhookService.Stop();
+        await _tikTokService.DisconnectAsync();
     }
 
-    private bool CanStopListener() => IsListenerRunning;
+    private bool CanDisconnectTikTok() => IsTikTokConnected;
 
     [RelayCommand(CanExecute = nameof(CanConnectRcon))]
     private async Task ConnectRcon()
@@ -635,15 +754,36 @@ public partial class MainViewModel : ObservableObject
 
     private bool CanTestCommand() => IsRconConnected;
 
-    private void OnWebhookEvent(WebhookEvent evt)
+    private void OnTikTokEvent(WebhookEvent evt)
     {
+        // Feed live stats tracker for overlay rankings
+        if (evt.EventType == WebhookEventType.Like)
+        {
+            _liveStatsTracker.RecordLikes(evt.Username, evt.Nickname, evt.ProfilePictureUrl, evt.LikeCount);
+        }
+        else if (evt.EventType == WebhookEventType.Gift)
+        {
+            _liveStatsTracker.RecordGift(evt.Username, evt.Nickname, evt.ProfilePictureUrl,
+                evt.GiftName, evt.GiftDiamondCost, evt.GiftRepeatCount);
+        }
+
         _ = _eventProcessor.ProcessEvent(evt, SelectedProfile);
     }
 
-    private void OnWebhookStatusChanged()
+    private void OnTikTokStatusChanged()
     {
-        IsListenerRunning = _webhookService.IsRunning;
-        WebhookStatus = IsListenerRunning ? "Running" : "Stopped";
+        IsTikTokConnected = _tikTokService.IsConnected;
+        TikTokLiveStatus = IsTikTokConnected ? "Connected" : "Disconnected";
+    }
+
+    private void OnViewerCountUpdated(int count)
+    {
+        ViewerCount = count;
+    }
+
+    private void OnTotalLikesUpdated(long total)
+    {
+        TotalLikes = total;
     }
 
     private void OnRconStatusChanged()
@@ -651,6 +791,119 @@ public partial class MainViewModel : ObservableObject
         IsRconConnected = _rconService.IsConnected;
         RconStatus = IsRconConnected ? "Connected" : "Disconnected";
     }
+
+    // ?? Auto-Respawn ????????????????????????????????????????????????????????
+
+    private void OnCreatureDied(SummonedCreature creature)
+    {
+        if (!_creatureTracker.AutoRespawnEnabled) return;
+        if (creature.IsBoss) return; // Don't auto-respawn bosses
+
+        _ = RespawnCreatureAsync(creature);
+    }
+
+    private async Task RespawnCreatureAsync(SummonedCreature deadCreature)
+    {
+        try
+        {
+            var delay = Math.Max(1, _creatureTracker.AutoRespawnDelaySeconds);
+            _logger.LogInfo($"[Arena] Auto-respawning {deadCreature.OwnerNickname}'s creature in {delay}s...", LogCategory.System);
+
+            await Task.Delay(TimeSpan.FromSeconds(delay));
+
+            if (!_rconService.IsConnected || !_creatureTracker.AutoRespawnEnabled)
+                return;
+
+            // Determine which button to use based on follower status
+            var isFollower = _followerService.IsFollower(deadCreature.OwnerUsername);
+            var buttonId = isFollower
+                ? _creatureTracker.AutoRespawnFollowerButtonId
+                : _creatureTracker.AutoRespawnNonFollowerButtonId;
+
+            // Fall back to the original button if no specific respawn button is set
+            if (string.IsNullOrEmpty(buttonId))
+                buttonId = deadCreature.LastButtonId;
+
+            if (string.IsNullOrEmpty(buttonId))
+            {
+                _logger.LogInfo($"[Arena] No respawn button configured for {deadCreature.OwnerNickname} ({(isFollower ? "follower" : "non-follower")}). Skipping.", LogCategory.System);
+                return;
+            }
+
+            var button = CommandButtons.FirstOrDefault(b => b.Id == buttonId);
+            if (button == null)
+            {
+                _logger.LogWarning($"[Arena] Respawn button not found: {buttonId}", LogCategory.System);
+                return;
+            }
+
+            // Only respawn with Summon-type buttons
+            if (button.ButtonType != CommandButtonType.Summon || string.IsNullOrEmpty(button.SummonEntityType))
+            {
+                _logger.LogWarning($"[Arena] Respawn button '{button.Name}' is not a Summon button. Skipping.", LogCategory.System);
+                return;
+            }
+
+            _logger.LogInfo($"[Arena] Respawning {deadCreature.OwnerNickname}'s creature via '{button.Name}' ({(isFollower ? "follower" : "non-follower")})", LogCategory.System);
+
+            // Summon new creature
+            var creature = await _creatureTracker.SummonCreatureAsync(
+                deadCreature.OwnerNickname,
+                deadCreature.OwnerUsername,
+                button.SummonEntityType,
+                button.SummonPosition,
+                extraNbt: "",
+                customHealth: button.SummonCustomHealth,
+                customAttackDamage: button.SummonCustomAttack,
+                isBoss: button.SummonIsBoss,
+                ownerProfilePictureUrl: deadCreature.OwnerProfilePictureUrl,
+                bossName: button.SummonBossName);
+
+            if (creature == null) return;
+
+            // Remember which button spawned this creature for future respawns
+            creature.LastButtonId = buttonId;
+
+            // Re-apply accumulated buff stats from previous lives
+            var buffStats = _creatureTracker.GetViewerBuffStats(deadCreature.OwnerUsername);
+            if (buffStats.AccumulatedDamage > 0)
+            {
+                creature.AccumulatedBuffDamage = buffStats.AccumulatedDamage;
+                var amplifier = (int)Math.Max(0, Math.Ceiling(buffStats.AccumulatedDamage / 3.0) - 1);
+                await _rconService.SendCommand(
+                    $"effect give @e[tag={creature.TrackingId},limit=1] minecraft:strength 999999 {amplifier} true");
+                _logger.LogInfo($"[Arena] Re-applied buff: +{buffStats.AccumulatedDamage:F0} ATK to {creature.OwnerNickname}'s respawned creature", LogCategory.System);
+            }
+
+            // Execute any additional commands in the button
+            foreach (var template in button.Commands)
+            {
+                if (string.IsNullOrWhiteSpace(template)) continue;
+
+                var cmd = template;
+                if (button.UseNickname)
+                    cmd = EventProcessor.BuildCommand(template, deadCreature.OwnerNickname, deadCreature.OwnerUsername);
+
+                cmd = cmd.Replace("{tag}", creature.TrackingId);
+                await _rconService.SendCommand(cmd);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"[Arena] Auto-respawn failed for {deadCreature.OwnerNickname}: {ex.Message}");
+        }
+    }
+
+    private void OnShortcutTriggered(string buttonId)
+    {
+        var button = CommandButtons.FirstOrDefault(b => b.Id == buttonId);
+        if (button == null) return;
+
+        _logger.LogInfo($"[Hotkey] {button.KeyboardShortcut} ? Executing '{button.Name}'", LogCategory.System);
+        _ = ExecuteCommandButton(button);
+    }
+
+    public void RequestNavigateToMappings() => NavigateToMappingsRequested?.Invoke();
 }
 
 public class ActionMappingItem
@@ -660,6 +913,7 @@ public class ActionMappingItem
     public string Command { get; set; } = string.Empty;
     public string TargetButtonId { get; set; } = string.Empty;
     public string TargetButtonName { get; set; } = string.Empty;
+    public bool ReplaceJoinMob { get; set; }
 
     public string TriggerTypeLabel => TriggerType switch
     {
@@ -667,15 +921,35 @@ public class ActionMappingItem
         ActionTriggerType.Follow => "\uE77B",
         ActionTriggerType.Chat   => "\uE8BD",
         ActionTriggerType.Like   => "\uEB51",
+        ActionTriggerType.Join   => "\uE72A",
+        ActionTriggerType.Share  => "\uE72D",
+        ActionTriggerType.Subscribe => "\uE8FA",
         _ => "?"
+    };
+
+    public string TriggerTypeName => TriggerType switch
+    {
+        ActionTriggerType.Gift   => "GIFT",
+        ActionTriggerType.Follow => "FOLLOW",
+        ActionTriggerType.Chat   => "CHAT",
+        ActionTriggerType.Like   => "LIKE",
+        ActionTriggerType.Join   => "JOIN",
+        ActionTriggerType.Share  => "SHARE",
+        ActionTriggerType.Subscribe => "SUBSCRIBE",
+        _ => "EVENT"
     };
 
     public string TriggerDisplay => TriggerType switch
     {
         ActionTriggerType.Follow => "Any Follow",
+        ActionTriggerType.Join   => "Any Join",
+        ActionTriggerType.Share  => "Any Share",
+        ActionTriggerType.Subscribe => "Any Subscribe",
         ActionTriggerType.Chat   when string.IsNullOrWhiteSpace(TriggerKey) => "Any Chat",
         ActionTriggerType.Like   when string.IsNullOrWhiteSpace(TriggerKey) => "Any Like",
         ActionTriggerType.Like   => $"\u2265{TriggerKey} likes",
+        ActionTriggerType.Gift   when TriggerKey.Contains('|') =>
+            string.Join(", ", TriggerKey.Split('|', StringSplitOptions.RemoveEmptyEntries)),
         _ => TriggerKey
     };
 
@@ -686,6 +960,8 @@ public class ActionMappingItem
         : Command;
 
     public string ActionGlyph => IsButtonTrigger ? "\uE946" : "\uE756";
+
+    public string ActionTypeLabel => IsButtonTrigger ? "BUTTON" : "COMMAND";
 
     public Microsoft.UI.Xaml.Media.SolidColorBrush ActionColor => IsButtonTrigger
         ? new Microsoft.UI.Xaml.Media.SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 149, 0))

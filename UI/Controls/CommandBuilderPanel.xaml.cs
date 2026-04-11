@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -273,7 +273,7 @@ public sealed partial class CommandBuilderPanel : UserControl
 
     private void Skip_Click(object sender, RoutedEventArgs e)
     {
-        // Skip optional step — don't add to collected values, just advance
+        // Skip optional step - don't add to collected values, just advance
         _currentStepIndex++;
         UpdatePreview();
 

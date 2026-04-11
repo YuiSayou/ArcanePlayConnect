@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
@@ -8,13 +8,16 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using ArcanePlayConnect.Core;
 using ArcanePlayConnect.Core.Models;
+using ArcanePlayConnect.Services;
 
 namespace ArcanePlayConnect.UI.Views;
 
 public sealed partial class ButtonEditorPage : Page
 {
-    private CommandButtonType _selectedType = CommandButtonType.Summon;
+    private CommandButtonType _selectedType = CommandButtonType.General;
     private readonly ObservableCollection<string> _commands = new();
+    private bool _isRecordingShortcut;
+    private string _recordedShortcut = string.Empty;
 
     /// <summary>All summonable entity types from the Minecraft command engine.</summary>
     private static readonly string[] AllEntities;
@@ -31,10 +34,47 @@ public sealed partial class ButtonEditorPage : Page
     public event Action<CommandButton>? Saved;
     public event Action? Cancelled;
 
+    /// <summary>
+    /// Helper to safely read a NumberBox value, returning 0 for NaN.
+    /// Prioritizes parsing the displayed Text (which reflects what the user
+    /// actually typed) because NumberBox.Value may not yet be committed if the
+    /// user hasn't pressed Enter or moved focus.
+    /// </summary>
+    private static float SafeFloat(NumberBox? box)
+    {
+        if (box == null) return 0f;
+
+        // 1. Always try to parse the displayed text first - it reflects what
+        //    the user actually typed, even when Value hasn't been committed yet.
+        var text = box.Text?.Trim();
+        if (!string.IsNullOrWhiteSpace(text))
+        {
+            // Try the current UI culture first (matches NumberBox's locale formatting)
+            if (float.TryParse(text, NumberStyles.Float | NumberStyles.AllowThousands,
+                               CultureInfo.CurrentCulture, out var fromCulture) && fromCulture >= 0)
+                return fromCulture;
+
+            // Fallback: invariant culture (dot decimal separator)
+            if (float.TryParse(text, NumberStyles.Float | NumberStyles.AllowThousands,
+                               CultureInfo.InvariantCulture, out var fromInvariant) && fromInvariant >= 0)
+                return fromInvariant;
+        }
+
+        // 2. Fall back to the committed Value property
+        var v = box.Value;
+        if (!double.IsNaN(v))
+            return (float)v;
+
+        return 0f;
+    }
+
     public ButtonEditorPage(CommandButton? existing)
     {
         InitializeComponent();
         CommandsList.ItemsSource = _commands;
+
+        // Attach keyboard listener for shortcut recording
+        this.KeyDown += OnPageKeyDown;
 
         if (existing != null)
         {
@@ -48,6 +88,14 @@ public sealed partial class ButtonEditorPage : Page
             ContinuousToggle.IsOn = existing.RunContinuously;
             IntervalBox.Value = existing.IntervalSeconds;
 
+            // Keyboard shortcut
+            if (!string.IsNullOrWhiteSpace(existing.KeyboardShortcut))
+            {
+                _recordedShortcut = existing.KeyboardShortcut;
+                ShortcutText.Text = existing.KeyboardShortcut;
+                ShortcutText.Foreground = new SolidColorBrush(ParseColor("#FFFF9500"));
+            }
+
             // Summon settings
             if (!string.IsNullOrEmpty(existing.SummonEntityType))
                 EntityTypeBox.Text = existing.SummonEntityType;
@@ -55,6 +103,13 @@ public sealed partial class ButtonEditorPage : Page
                 PositionBox.Text = existing.SummonPosition;
             CustomHealthBox.Value = existing.SummonCustomHealth;
             CustomAttackBox.Value = existing.SummonCustomAttack;
+
+            // Buff settings
+            BuffHealCheck.IsChecked = existing.BuffApplyHeal;
+            BuffHealAmountBox.Value = existing.BuffHealAmount;
+            BuffDamageCheck.IsChecked = existing.BuffApplyDamage;
+            BuffDamageAmountBox.Value = existing.BuffDamageAmount;
+            BuffUseNicknameToggle.IsOn = existing.UseNickname;
 
             foreach (var cmd in existing.Commands)
                 _commands.Add(cmd);
@@ -78,11 +133,19 @@ public sealed partial class ButtonEditorPage : Page
     {
         _selectedType = type;
 
+        SetTypeInactive(GeneralTypeBtn, GeneralIcon, GeneralLabel);
         SetTypeInactive(SummonTypeBtn, SummonIcon, SummonLabel);
         SetTypeInactive(HealthCheckTypeBtn, HealthIcon, HealthLabel);
 
         switch (type)
         {
+            case CommandButtonType.General:
+                SetTypeActive(GeneralTypeBtn, GeneralIcon, GeneralLabel, "#FF00C8FF");
+                SummonBuilderPanel.Visibility = Visibility.Collapsed;
+                HealthCheckPanel.Visibility = Visibility.Collapsed;
+                CommandsLabel.Text = "COMMANDS (executed in order)";
+                TagHint.Visibility = Visibility.Collapsed;
+                break;
             case CommandButtonType.Summon:
                 SetTypeActive(SummonTypeBtn, SummonIcon, SummonLabel, "#FFFF9500");
                 SummonBuilderPanel.Visibility = Visibility.Visible;
@@ -90,13 +153,13 @@ public sealed partial class ButtonEditorPage : Page
                 CommandsLabel.Text = "ADDITIONAL COMMANDS (optional, run after summon)";
                 TagHint.Visibility = Visibility.Visible;
                 break;
-            case CommandButtonType.HealthCheck:
+            case CommandButtonType.Buff:
                 SetTypeActive(HealthCheckTypeBtn, HealthIcon, HealthLabel, "#FF00C8FF");
                 SummonBuilderPanel.Visibility = Visibility.Collapsed;
                 HealthCheckPanel.Visibility = Visibility.Visible;
                 IntervalPanel.Visibility = ContinuousToggle.IsOn ? Visibility.Visible : Visibility.Collapsed;
-                CommandsLabel.Text = "COMMANDS (executed in order)";
-                TagHint.Visibility = Visibility.Collapsed;
+                CommandsLabel.Text = "ADDITIONAL COMMANDS (optional, run after buff)";
+                TagHint.Visibility = Visibility.Visible;
                 break;
         }
     }
@@ -121,7 +184,7 @@ public sealed partial class ButtonEditorPage : Page
         label.Foreground = inactive;
     }
 
-    // ?? Summon builder events ???????????????????????????????????????????????
+    // ?? Summon builder events ??
 
     private void BossToggle_Toggled(object sender, RoutedEventArgs e)
     {
@@ -184,22 +247,30 @@ public sealed partial class ButtonEditorPage : Page
             {
                 CustomHealthBox.Value = hp;
                 CustomAttackBox.Value = atk;
+                UpdateSummonPreview();
             }
         }
     }
 
+    private void CustomStatBox_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+    {
+        UpdateSummonPreview();
+    }
+
     private void UpdateSummonPreview()
     {
-        var entity = EntityTypeBox.Text?.Trim();
+        if (SummonPreviewText == null) return;
+
+        var entity = EntityTypeBox?.Text?.Trim();
         if (string.IsNullOrWhiteSpace(entity))
             entity = "minecraft:zombie";
 
-        var pos = PositionBox.Text?.Trim();
+        var pos = PositionBox?.Text?.Trim();
         if (string.IsNullOrWhiteSpace(pos))
             pos = "~ ~ ~";
 
-        var hp = (float)CustomHealthBox.Value;
-        var atk = (float)CustomAttackBox.Value;
+        var hp = SafeFloat(CustomHealthBox);
+        var atk = SafeFloat(CustomAttackBox);
 
         var preview = $"summon {entity} {pos}";
         var notes = "";
@@ -211,14 +282,36 @@ public sealed partial class ButtonEditorPage : Page
         SummonPreviewText.Text = preview + (notes.Length > 0 ? $"  ({notes.Trim()})" : "");
     }
 
-    // ?? HealthCheck events ??????????????????????????????????????????????????
+    // ?? Buff preset events ??
+
+    private void HealPreset_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button btn && btn.Tag is string val &&
+            float.TryParse(val, NumberStyles.Float, CultureInfo.InvariantCulture, out var amount))
+        {
+            BuffHealAmountBox.Value = amount;
+            BuffHealCheck.IsChecked = true;
+        }
+    }
+
+    private void DamagePreset_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button btn && btn.Tag is string val &&
+            float.TryParse(val, NumberStyles.Float, CultureInfo.InvariantCulture, out var amount))
+        {
+            BuffDamageAmountBox.Value = amount;
+            BuffDamageCheck.IsChecked = true;
+        }
+    }
+
+    // ?? Continuous toggle ??
 
     private void ContinuousToggle_Toggled(object sender, RoutedEventArgs e)
     {
         IntervalPanel.Visibility = ContinuousToggle.IsOn ? Visibility.Visible : Visibility.Collapsed;
     }
 
-    // ?? Commands list ???????????????????????????????????????????????????????
+    // ?? Commands list ??
 
     private void AddCommand_Click(object sender, RoutedEventArgs e)
     {
@@ -236,7 +329,97 @@ public sealed partial class ButtonEditorPage : Page
             _commands.Remove(cmd);
     }
 
-    // ?? Save / Cancel ???????????????????????????????????????????????????????
+    // Keyboard Shortcut Recording
+
+    private void ShortcutDisplay_PointerPressed(object sender, PointerRoutedEventArgs e)
+    {
+        StartRecording();
+    }
+
+    private void RecordShortcut_Click(object sender, RoutedEventArgs e)
+    {
+        if (_isRecordingShortcut)
+            StopRecording();
+        else
+            StartRecording();
+    }
+
+    private void ClearShortcut_Click(object sender, RoutedEventArgs e)
+    {
+        StopRecording();
+        _recordedShortcut = string.Empty;
+        ShortcutText.Text = "Click to record shortcut...";
+        ShortcutText.Foreground = new SolidColorBrush(ParseColor("#FF8888AA"));
+        ShortcutDisplay.BorderBrush = new SolidColorBrush(ParseColor("#FF1A1A2E"));
+    }
+
+    private void StartRecording()
+    {
+        _isRecordingShortcut = true;
+        ShortcutText.Text = "Press a key combination...";
+        ShortcutText.Foreground = new SolidColorBrush(ParseColor("#FF00FF88"));
+        ShortcutDisplay.BorderBrush = new SolidColorBrush(ParseColor("#FF00FF88"));
+        RecordBtnText.Text = "Stop";
+        this.Focus(FocusState.Programmatic);
+    }
+
+    private void StopRecording()
+    {
+        _isRecordingShortcut = false;
+        ShortcutDisplay.BorderBrush = new SolidColorBrush(ParseColor("#FF1A1A2E"));
+        RecordBtnText.Text = "Record";
+
+        if (string.IsNullOrEmpty(_recordedShortcut))
+        {
+            ShortcutText.Text = "Click to record shortcut...";
+            ShortcutText.Foreground = new SolidColorBrush(ParseColor("#FF8888AA"));
+        }
+    }
+
+    private void OnPageKeyDown(object sender, KeyRoutedEventArgs e)
+    {
+        if (!_isRecordingShortcut) return;
+
+        // Ignore standalone modifier presses
+        if (e.Key is Windows.System.VirtualKey.Control or
+            Windows.System.VirtualKey.Shift or
+            Windows.System.VirtualKey.Menu or
+            Windows.System.VirtualKey.LeftControl or
+            Windows.System.VirtualKey.RightControl or
+            Windows.System.VirtualKey.LeftShift or
+            Windows.System.VirtualKey.RightShift or
+            Windows.System.VirtualKey.LeftMenu or
+            Windows.System.VirtualKey.RightMenu or
+            Windows.System.VirtualKey.LeftWindows or
+            Windows.System.VirtualKey.RightWindows)
+            return;
+
+        var ctrl = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control)
+            .HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+        var shift = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Shift)
+            .HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+        var alt = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Menu)
+            .HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+
+        var shortcut = KeyboardShortcutService.FormatShortcut(ctrl, shift, alt, e.Key);
+
+        if (!string.IsNullOrEmpty(shortcut))
+        {
+            _recordedShortcut = shortcut;
+            ShortcutText.Text = shortcut;
+            ShortcutText.Foreground = new SolidColorBrush(ParseColor("#FFFF9500"));
+            StopRecording();
+        }
+        else
+        {
+            ShortcutText.Text = "Need modifier (Ctrl/Shift/Alt) + key";
+            ShortcutText.Foreground = new SolidColorBrush(ParseColor("#FFFF3278"));
+        }
+
+        e.Handled = true;
+    }
+
+    // Save / Cancel
 
     private void Save_Click(object sender, RoutedEventArgs e)
     {
@@ -247,7 +430,20 @@ public sealed partial class ButtonEditorPage : Page
             return;
         }
 
-        if (_selectedType == CommandButtonType.Summon)
+        if (_selectedType == CommandButtonType.General)
+        {
+            if (_commands.Count == 0) return;
+
+            Result = new CommandButton
+            {
+                Name = name,
+                ButtonType = CommandButtonType.General,
+                Commands = _commands.ToList(),
+                UseNickname = false,
+                KeyboardShortcut = _recordedShortcut,
+            };
+        }
+        else if (_selectedType == CommandButtonType.Summon)
         {
             var entityType = EntityTypeBox.Text?.Trim();
             if (string.IsNullOrWhiteSpace(entityType))
@@ -262,10 +458,11 @@ public sealed partial class ButtonEditorPage : Page
                 ButtonType = CommandButtonType.Summon,
                 Commands = _commands.ToList(),
                 UseNickname = UseNicknameToggle.IsOn,
+                KeyboardShortcut = _recordedShortcut,
                 SummonEntityType = entityType,
                 SummonPosition = PositionBox.Text?.Trim() ?? "~ ~ ~",
-                SummonCustomHealth = (float)CustomHealthBox.Value,
-                SummonCustomAttack = (float)CustomAttackBox.Value,
+                SummonCustomHealth = SafeFloat(CustomHealthBox),
+                SummonCustomAttack = SafeFloat(CustomAttackBox),
                 SummonTrackCreature = TrackCreatureToggle.IsOn,
                 SummonIsBoss = BossToggle.IsOn,
                 SummonBossName = BossToggle.IsOn ? (BossNameBox.Text?.Trim() ?? string.Empty) : string.Empty,
@@ -273,15 +470,27 @@ public sealed partial class ButtonEditorPage : Page
         }
         else
         {
-            if (_commands.Count == 0) return;
+            var applyHeal = BuffHealCheck.IsChecked == true;
+            var applyDamage = BuffDamageCheck.IsChecked == true;
+            var healAmount = SafeFloat(BuffHealAmountBox);
+            var damageAmount = SafeFloat(BuffDamageAmountBox);
+
+            // Must have at least one buff option checked or commands
+            if (!applyHeal && !applyDamage && _commands.Count == 0) return;
 
             Result = new CommandButton
             {
                 Name = name,
-                ButtonType = CommandButtonType.HealthCheck,
+                ButtonType = CommandButtonType.Buff,
                 Commands = _commands.ToList(),
+                UseNickname = BuffUseNicknameToggle.IsOn,
+                KeyboardShortcut = _recordedShortcut,
+                BuffApplyHeal = applyHeal,
+                BuffHealAmount = healAmount,
+                BuffApplyDamage = applyDamage,
+                BuffDamageAmount = damageAmount,
                 RunContinuously = ContinuousToggle.IsOn,
-                IntervalSeconds = (int)IntervalBox.Value
+                IntervalSeconds = (int)Math.Max(1, IntervalBox.Value)
             };
         }
 

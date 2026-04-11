@@ -1,11 +1,8 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using Microsoft.UI.Windowing;
 using ArcanePlayConnect.Core.Models;
 using ArcanePlayConnect.UI.ViewModels;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Graphics;
 
 namespace ArcanePlayConnect.UI.Views;
 
@@ -48,41 +45,8 @@ public sealed partial class MainPage : Page
 
     private void OnAddActionRequested()
     {
-        var page = new AddActionPage();
-
-        var window = new Window
-        {
-            Title = "Add Action Mapping",
-            ExtendsContentIntoTitleBar = true,
-            Content = page
-        };
-
-        var appWindow = window.AppWindow;
-        appWindow.Resize(new SizeInt32(700, 620));
-
-        if (appWindow.Presenter is OverlappedPresenter presenter)
-        {
-            presenter.IsResizable = false;
-            presenter.IsMaximizable = false;
-            presenter.IsMinimizable = false;
-        }
-
-        page.LoadSavedCommands(ViewModel.SavedCommands);
-        page.LoadCommandButtons(ViewModel.CommandButtons);
-
-        page.SaveCommandToLibrary += cmd => ViewModel.AddSavedCommand(cmd);
-        page.DeleteCommandFromLibrary += cmd => ViewModel.DeleteSavedCommand(cmd);
-
-        page.Confirmed += () =>
-        {
-            if (page.Result != null)
-                ViewModel.AddActionMapping(page.Result);
-            window.Close();
-        };
-
-        page.Cancelled += () => window.Close();
-
-        window.Activate();
+        // Navigate to Mappings page via the ViewModel
+        ViewModel.RequestNavigateToMappings();
     }
 
     private void LogListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)

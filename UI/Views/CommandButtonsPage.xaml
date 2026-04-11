@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="ArcanePlayConnect.UI.Views.CommandButtonsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:ArcanePlayConnect.UI.Views"
-    xmlns:models="using:ArcanePlayConnect.Core.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:ArcanePlayConnect.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{StaticResource DarkBgBrush}">
+    xmlns:models="using:ArcanePlayConnect.Core.Models"
+    Background="{StaticResource DarkBgBrush}"
+    mc:Ignorable="d">
 
     <Grid Padding="24">
         <Grid.RowDefinitions>
@@ -17,42 +17,60 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- Header -->
+        <!--  Header  -->
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Spacing="4">
-                <TextBlock Text="COMMAND BUTTONS" FontSize="22" FontWeight="Bold"
-                           Foreground="#FFFF9500" CharacterSpacing="100" />
-                <TextBlock Text="Create reusable multi-command buttons for Minecraft control"
-                           FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" />
+                <TextBlock
+                    CharacterSpacing="100"
+                    FontSize="22"
+                    FontWeight="Bold"
+                    Foreground="#FFFF9500"
+                    Text="ACTIONS" />
+                <TextBlock
+                    FontSize="13"
+                    Foreground="{StaticResource TextSecondaryBrush}"
+                    Text="Create reusable multi-command actions — general or Minecraft-specific" />
             </StackPanel>
-            <Button Grid.Column="1" Click="CreateButton_Click"
-                    Style="{StaticResource CyberpunkAccentButtonStyle}" FontSize="12" Padding="16,8"
-                    VerticalAlignment="Top">
+            <Button
+                Grid.Column="1"
+                Padding="16,8"
+                VerticalAlignment="Top"
+                Click="CreateButton_Click"
+                FontSize="12"
+                Style="{StaticResource CyberpunkAccentButtonStyle}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                    <FontIcon Glyph="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="12" />
-                    <TextBlock Text="New Button" />
+                    <FontIcon
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="12"
+                        Glyph="&#xE710;" />
+                    <TextBlock Text="New Action" />
                 </StackPanel>
             </Button>
         </Grid>
 
-        <!-- Button grid -->
+        <!--  Button grid  -->
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-            <ItemsRepeater x:Name="ButtonsRepeater"
-                           ItemsSource="{x:Bind ViewModel.CommandButtons, Mode=OneWay}">
+            <ItemsRepeater x:Name="ButtonsRepeater" ItemsSource="{x:Bind ViewModel.CommandButtons, Mode=OneWay}">
                 <ItemsRepeater.Layout>
-                    <UniformGridLayout MinItemWidth="320" MinItemHeight="160"
-                                       MinColumnSpacing="12" MinRowSpacing="12"
-                                       ItemsStretch="Fill" />
+                    <UniformGridLayout
+                        ItemsStretch="Fill"
+                        MinColumnSpacing="12"
+                        MinItemHeight="160"
+                        MinItemWidth="320"
+                        MinRowSpacing="12" />
                 </ItemsRepeater.Layout>
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="models:CommandButton">
-                        <Border Background="{StaticResource PanelBgBrush}"
-                                BorderBrush="{StaticResource DarkBg3Brush}" BorderThickness="1"
-                                CornerRadius="8" Padding="16,14">
+                        <Border
+                            Padding="16,14"
+                            Background="{StaticResource PanelBgBrush}"
+                            BorderBrush="{StaticResource DarkBg3Brush}"
+                            BorderThickness="1"
+                            CornerRadius="8">
                             <Grid RowSpacing="8">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -61,7 +79,7 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
-                                <!-- Top row: icon + name + actions -->
+                                <!--  Top row: icon + name + actions  -->
                                 <Grid Grid.Row="0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
@@ -70,104 +88,206 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <!-- Type icon -->
-                                    <Border Grid.Column="0" CornerRadius="4" Padding="6,4" Margin="0,0,10,0"
-                                            VerticalAlignment="Center">
+                                    <!--  Type icon  -->
+                                    <Border
+                                        Grid.Column="0"
+                                        Margin="0,0,10,0"
+                                        Padding="6,4"
+                                        VerticalAlignment="Center"
+                                        CornerRadius="4">
                                         <Border.Background>
-                                            <SolidColorBrush Color="#FFFF9500" Opacity="0.15" />
+                                            <SolidColorBrush Opacity="0.15" Color="#FFFF9500" />
                                         </Border.Background>
-                                        <FontIcon Glyph="{x:Bind local:CommandButtonsPage.GetTypeGlyph(ButtonType)}"
-                                                  FontFamily="Segoe MDL2 Assets" FontSize="14"
-                                                  Foreground="#FFFF9500" />
+                                        <FontIcon
+                                            FontFamily="Segoe MDL2 Assets"
+                                            FontSize="14"
+                                            Foreground="#FFFF9500"
+                                            Glyph="{x:Bind local:CommandButtonsPage.GetTypeGlyph(ButtonType)}" />
                                     </Border>
 
                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Text="{x:Bind Name}" FontSize="14" FontWeight="SemiBold"
-                                                   Foreground="{StaticResource TextPrimaryBrush}"
-                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock
+                                            FontSize="14"
+                                            FontWeight="SemiBold"
+                                            Foreground="{StaticResource TextPrimaryBrush}"
+                                            Text="{x:Bind Name}"
+                                            TextTrimming="CharacterEllipsis" />
                                         <TextBlock FontSize="10" Foreground="{StaticResource TextSecondaryBrush}">
                                             <Run Text="{x:Bind local:CommandButtonsPage.GetTypeLabel(ButtonType)}" />
-                                            <Run Text=" � " />
+                                            <Run Text=" - " />
                                             <Run Text="{x:Bind Commands.Count}" />
                                             <Run Text=" cmds" />
                                         </TextBlock>
                                     </StackPanel>
 
-                                    <!-- Edit -->
-                                    <Button Grid.Column="2" Click="EditButton_Click" Tag="{x:Bind}"
-                                            Background="Transparent" BorderThickness="0" Padding="6,4"
-                                            ToolTipService.ToolTip="Edit button">
-                                        <FontIcon Glyph="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="12"
-                                                  Foreground="{StaticResource NeonBlueBrush}" />
+                                    <!--  Edit  -->
+                                    <Button
+                                        Grid.Column="2"
+                                        Padding="6,4"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="EditButton_Click"
+                                        Tag="{x:Bind}"
+                                        ToolTipService.ToolTip="Edit button">
+                                        <FontIcon
+                                            FontFamily="Segoe MDL2 Assets"
+                                            FontSize="12"
+                                            Foreground="{StaticResource NeonBlueBrush}"
+                                            Glyph="&#xE70F;" />
                                     </Button>
 
-                                    <!-- Delete -->
-                                    <Button Grid.Column="3" Click="DeleteButton_Click" Tag="{x:Bind}"
-                                            Background="Transparent" BorderThickness="0" Padding="6,4"
-                                            ToolTipService.ToolTip="Delete button">
-                                        <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="12"
-                                                  Foreground="{StaticResource NeonPinkBrush}" />
+                                    <!--  Delete  -->
+                                    <Button
+                                        Grid.Column="3"
+                                        Padding="6,4"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="DeleteButton_Click"
+                                        Tag="{x:Bind}"
+                                        ToolTipService.ToolTip="Delete button">
+                                        <FontIcon
+                                            FontFamily="Segoe MDL2 Assets"
+                                            FontSize="12"
+                                            Foreground="{StaticResource NeonPinkBrush}"
+                                            Glyph="&#xE74D;" />
                                     </Button>
                                 </Grid>
 
-                                <!-- Options tags -->
-                                <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="6">
-                                    <Border CornerRadius="3" Padding="6,2"
-                                            Visibility="{x:Bind local:CommandButtonsPage.BoolVis(UseNickname)}"
-                                            Background="#FF0D1F0D">
-                                        <TextBlock Text="TikTok Name" FontSize="9" Foreground="#FF00FF88" />
+                                <!--  Options tags  -->
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Orientation="Horizontal"
+                                    Spacing="6">
+                                    <Border
+                                        Padding="6,2"
+                                        Background="#FF0D1F0D"
+                                        CornerRadius="3"
+                                        Visibility="{x:Bind local:CommandButtonsPage.BoolVis(UseNickname)}">
+                                        <TextBlock
+                                            FontSize="9"
+                                            Foreground="#FF00FF88"
+                                            Text="TikTok Name" />
                                     </Border>
-                                    <Border CornerRadius="3" Padding="6,2"
-                                            Visibility="{x:Bind local:CommandButtonsPage.BoolVis(SummonTrackCreature)}"
-                                            Background="#FF1F0D1A">
-                                        <TextBlock Text="Tracked" FontSize="9" Foreground="#FFFF3278" />
+                                    <Border
+                                        Padding="6,2"
+                                        Background="#FF1F0D1A"
+                                        CornerRadius="3"
+                                        Visibility="{x:Bind local:CommandButtonsPage.BoolVis(SummonTrackCreature)}">
+                                        <TextBlock
+                                            FontSize="9"
+                                            Foreground="#FFFF3278"
+                                            Text="Tracked" />
                                     </Border>
-                                    <Border CornerRadius="3" Padding="6,2"
-                                            Visibility="{x:Bind local:CommandButtonsPage.BoolVis(RunContinuously)}"
-                                            Background="#FF1F0D1F">
+                                    <Border
+                                        Padding="6,2"
+                                        Background="#FF0D1F0D"
+                                        CornerRadius="3"
+                                        Visibility="{x:Bind local:CommandButtonsPage.BoolVis(BuffApplyHeal)}">
+                                        <TextBlock
+                                            FontSize="9"
+                                            Foreground="#FF00FF88"
+                                            Text="Heal" />
+                                    </Border>
+                                    <Border
+                                        Padding="6,2"
+                                        Background="#FF1F0D0D"
+                                        CornerRadius="3"
+                                        Visibility="{x:Bind local:CommandButtonsPage.BoolVis(BuffApplyDamage)}">
+                                        <TextBlock
+                                            FontSize="9"
+                                            Foreground="#FFFF3278"
+                                            Text="DMG Buff" />
+                                    </Border>
+                                    <Border
+                                        Padding="6,2"
+                                        Background="#FF1F0D1F"
+                                        CornerRadius="3"
+                                        Visibility="{x:Bind local:CommandButtonsPage.BoolVis(RunContinuously)}">
                                         <StackPanel Orientation="Horizontal" Spacing="4">
-                                            <TextBlock Text="Continuous" FontSize="9" Foreground="#FFB400FF" />
+                                            <TextBlock
+                                                FontSize="9"
+                                                Foreground="#FFB400FF"
+                                                Text="Continuous" />
                                             <TextBlock FontSize="9" Foreground="#FF8888AA">
                                                 <Run Text="(" /><Run Text="{x:Bind IntervalSeconds}" /><Run Text="s)" />
                                             </TextBlock>
                                         </StackPanel>
                                     </Border>
-                                    <Border CornerRadius="3" Padding="6,2"
-                                            Visibility="{x:Bind local:CommandButtonsPage.HasSummonEntity(SummonEntityType)}"
-                                            Background="#FF1A1A2E">
-                                        <TextBlock Text="{x:Bind SummonEntityType}" FontSize="9" FontFamily="Consolas"
-                                                   Foreground="#FF00C8FF" />
+                                    <Border
+                                        Padding="6,2"
+                                        Background="#FF1A1A2E"
+                                        CornerRadius="3"
+                                        Visibility="{x:Bind local:CommandButtonsPage.HasSummonEntity(SummonEntityType)}">
+                                        <TextBlock
+                                            FontFamily="Consolas"
+                                            FontSize="9"
+                                            Foreground="#FF00C8FF"
+                                            Text="{x:Bind SummonEntityType}" />
+                                    </Border>
+                                    <Border
+                                        Padding="6,2"
+                                        Background="#FF1A1A0D"
+                                        CornerRadius="3"
+                                        Visibility="{x:Bind local:CommandButtonsPage.HasShortcut(KeyboardShortcut)}">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <FontIcon
+                                                FontFamily="Segoe MDL2 Assets"
+                                                FontSize="8"
+                                                Foreground="#FFFF9500"
+                                                Glyph="&#xE765;" />
+                                            <TextBlock
+                                                FontFamily="Consolas"
+                                                FontSize="9"
+                                                Foreground="#FFFF9500"
+                                                Text="{x:Bind KeyboardShortcut}" />
+                                        </StackPanel>
                                     </Border>
                                 </StackPanel>
 
-                                <!-- Command preview -->
-                                <Border Grid.Row="2" Background="{StaticResource DarkBg2Brush}"
-                                        CornerRadius="4" Padding="8,6">
+                                <!--  Command preview  -->
+                                <Border
+                                    Grid.Row="2"
+                                    Padding="8,6"
+                                    Background="{StaticResource DarkBg2Brush}"
+                                    CornerRadius="4">
                                     <ItemsRepeater ItemsSource="{x:Bind Commands}">
                                         <ItemsRepeater.Layout>
                                             <StackLayout Spacing="2" />
                                         </ItemsRepeater.Layout>
                                         <ItemsRepeater.ItemTemplate>
                                             <DataTemplate x:DataType="x:String">
-                                                <TextBlock Text="{x:Bind}" FontSize="10" FontFamily="Consolas"
-                                                           Foreground="{StaticResource NeonGreenBrush}"
-                                                           TextTrimming="CharacterEllipsis" Opacity="0.8" />
+                                                <TextBlock
+                                                    FontFamily="Consolas"
+                                                    FontSize="10"
+                                                    Foreground="{StaticResource NeonGreenBrush}"
+                                                    Opacity="0.8"
+                                                    Text="{x:Bind}"
+                                                    TextTrimming="CharacterEllipsis" />
                                             </DataTemplate>
                                         </ItemsRepeater.ItemTemplate>
                                     </ItemsRepeater>
                                 </Border>
 
-                                <!-- Run button -->
-                                <Button Grid.Row="3" Click="RunButton_Click" Tag="{x:Bind}"
-                                        HorizontalAlignment="Stretch" Padding="0,8" CornerRadius="4"
-                                        FontSize="12" FontWeight="SemiBold">
+                                <!--  Run button  -->
+                                <Button
+                                    Grid.Row="3"
+                                    Padding="0,8"
+                                    HorizontalAlignment="Stretch"
+                                    Click="RunButton_Click"
+                                    CornerRadius="4"
+                                    FontSize="12"
+                                    FontWeight="SemiBold"
+                                    Tag="{x:Bind}">
                                     <Button.Background>
-                                        <SolidColorBrush Color="#FFFF9500" Opacity="0.15" />
+                                        <SolidColorBrush Opacity="0.15" Color="#FFFF9500" />
                                     </Button.Background>
                                     <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <FontIcon Glyph="&#xE768;" FontFamily="Segoe MDL2 Assets" FontSize="12"
-                                                  Foreground="#FFFF9500" />
-                                        <TextBlock Text="Execute" Foreground="#FFFF9500" />
+                                        <FontIcon
+                                            FontFamily="Segoe MDL2 Assets"
+                                            FontSize="12"
+                                            Foreground="#FFFF9500"
+                                            Glyph="&#xE768;" />
+                                        <TextBlock Foreground="#FFFF9500" Text="Execute" />
                                     </StackPanel>
                                 </Button>
                             </Grid>

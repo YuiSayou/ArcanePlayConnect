@@ -51,19 +51,20 @@
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="20" 
                             VerticalAlignment="Center" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal" Spacing="6">
-                        <Ellipse Width="8" Height="8" Fill="{StaticResource NeonPurpleBrush}" VerticalAlignment="Center" />
+                        <Ellipse Width="8" Height="8" Fill="{x:Bind ViewModel.IsTikTokConnected, Converter={StaticResource BoolToStatusBrush}, Mode=OneWay}" VerticalAlignment="Center" />
                         <TextBlock Text="TikTok:" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11" VerticalAlignment="Center" />
-                        <TextBlock Text="{x:Bind ViewModel.TiktokStatus, Mode=OneWay}" Foreground="{StaticResource NeonPurpleBrush}" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Spacing="6">
-                        <Ellipse Width="8" Height="8" Fill="{x:Bind ViewModel.IsListenerRunning, Converter={StaticResource BoolToStatusBrush}, Mode=OneWay}" VerticalAlignment="Center" />
-                        <TextBlock Text="Webhook:" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11" VerticalAlignment="Center" />
-                        <TextBlock Text="{x:Bind ViewModel.WebhookStatus, Mode=OneWay}" Foreground="{StaticResource TextPrimaryBrush}" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Bind ViewModel.TikTokLiveStatus, Mode=OneWay}" Foreground="{StaticResource NeonPurpleBrush}" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="6">
                         <Ellipse Width="8" Height="8" Fill="{x:Bind ViewModel.IsRconConnected, Converter={StaticResource BoolToStatusBrush}, Mode=OneWay}" VerticalAlignment="Center" />
                         <TextBlock Text="RCON:" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11" VerticalAlignment="Center" />
                         <TextBlock Text="{x:Bind ViewModel.RconStatus, Mode=OneWay}" Foreground="{StaticResource TextPrimaryBrush}" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <FontIcon Glyph="&#xE716;" FontFamily="Segoe MDL2 Assets" FontSize="11" Foreground="{StaticResource NeonBlueBrush}" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Bind ViewModel.ViewerCount, Mode=OneWay}" Foreground="{StaticResource TextPrimaryBrush}" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <FontIcon Glyph="&#xEB51;" FontFamily="Segoe MDL2 Assets" FontSize="11" Foreground="{StaticResource NeonPinkBrush}" VerticalAlignment="Center" Margin="8,0,0,0" />
+                        <TextBlock Text="{x:Bind ViewModel.TotalLikes, Mode=OneWay}" Foreground="{StaticResource TextPrimaryBrush}" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -134,7 +135,7 @@
                                                 <TextBlock Text="•" 
                                                            Foreground="{StaticResource TextSecondaryBrush}" FontSize="10" />
                                                 <TextBlock Foreground="{StaticResource TextSecondaryBrush}" FontSize="10">
-                                                    <Run Text="Port " /><Run Text="{Binding WebhookPort}" />
+                                                    <Run Text="@" /><Run Text="{Binding TikTokUsername}" />
                                                 </TextBlock>
                                             </StackPanel>
                                         </StackPanel>
@@ -194,7 +195,7 @@
                             <Grid ColumnSpacing="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0" Spacing="3">
                                     <TextBlock Text="Game" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" />
@@ -202,10 +203,10 @@
                                              Style="{StaticResource CyberpunkTextBoxStyle}" FontSize="12" />
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" Spacing="3">
-                                    <TextBlock Text="WH Port" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" />
-                                    <NumberBox Value="{x:Bind ViewModel.EditWebhookPort, Mode=TwoWay}"
-                                               Minimum="1" Maximum="65535"
-                                               SpinButtonPlacementMode="Hidden" FontSize="12" />
+                                    <TextBlock Text="TikTok User" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" />
+                                    <TextBox Text="{x:Bind ViewModel.EditTikTokUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Style="{StaticResource CyberpunkTextBoxStyle}" FontSize="12"
+                                             PlaceholderText="@username" />
                                 </StackPanel>
                             </Grid>
 
@@ -337,6 +338,16 @@
                                                 </Ellipse.Fill>
                                             </Ellipse>
                                             <TextBlock Text="Like" FontSize="11" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </CheckBox>
+                                    <CheckBox IsChecked="{x:Bind ViewModel.ShowJoinLogs, Mode=TwoWay}" MinWidth="0" Padding="4,0,0,0">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <Ellipse Width="6" Height="6" VerticalAlignment="Center">
+                                                <Ellipse.Fill>
+                                                    <SolidColorBrush Color="#FF00E6B4" />
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <TextBlock Text="Join" FontSize="11" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
                                         </StackPanel>
                                     </CheckBox>
                                     <CheckBox IsChecked="{x:Bind ViewModel.ShowWebhookLogs, Mode=TwoWay}" MinWidth="0" Padding="4,0,0,0">
@@ -506,9 +517,9 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                            <Button Content="▶ Start Listener" Command="{x:Bind ViewModel.StartListenerCommand}"
+                            <Button Content="▶ Connect TikTok" Command="{x:Bind ViewModel.ConnectTikTokCommand}"
                                     Style="{StaticResource CyberpunkAccentButtonStyle}" FontSize="12" />
-                            <Button Content="⏹ Stop Listener" Command="{x:Bind ViewModel.StopListenerCommand}"
+                            <Button Content="⏹ Disconnect TikTok" Command="{x:Bind ViewModel.DisconnectTikTokCommand}"
                                     Style="{StaticResource CyberpunkDangerButtonStyle}" FontSize="12" />
                             <Border Width="1" Background="{StaticResource DarkBg3Brush}" Margin="8,4" />
                             <Button Content="🔌 Connect RCON" Command="{x:Bind ViewModel.ConnectRconCommand}"

@@ -1,8 +1,5 @@
 {
   "profiles": {
-    "ArcanePlayConnect (Package)": {
-      "commandName": "MsixPackage"
-    },
     "ArcanePlayConnect (Unpackaged)": {
       "commandName": "Project"
     }

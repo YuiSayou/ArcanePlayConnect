@@ -82,35 +82,35 @@
                         </StackPanel>
                     </Button>
 
-                    <Button x:Name="NavMappings" Click="NavButton_Click" Tag="Mappings"
+                    <Button x:Name="NavTriggers" Click="NavButton_Click" Tag="Triggers"
                             HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
                             Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">
                         <StackPanel Orientation="Horizontal" Spacing="12">
                             <FontIcon Glyph="&#xE8CB;" FontFamily="Segoe MDL2 Assets" FontSize="16"
                                       Foreground="{StaticResource NeonPurpleBrush}" />
-                            <TextBlock Text="Action Mappings" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
+                            <TextBlock Text="Triggers" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
                                        VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
-                    <Button x:Name="NavButtons" Click="NavButton_Click" Tag="Buttons"
+                    <Button x:Name="NavActions" Click="NavButton_Click" Tag="Actions"
                             HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
                             Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">
                         <StackPanel Orientation="Horizontal" Spacing="12">
                             <FontIcon Glyph="&#xE946;" FontFamily="Segoe MDL2 Assets" FontSize="16"
                                       Foreground="#FFFF9500" />
-                            <TextBlock Text="Command Buttons" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
+                            <TextBlock Text="Actions" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
                                        VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
-                    <Button x:Name="NavArena" Click="NavButton_Click" Tag="Arena"
+                    <Button x:Name="NavMinecraft" Click="NavButton_Click" Tag="Minecraft"
                             HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
                             Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <FontIcon Glyph="&#xEA18;" FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                      Foreground="#FFFF3278" />
-                            <TextBlock Text="Creature Arena" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
+                            <FontIcon Glyph="&#xE968;" FontFamily="Segoe MDL2 Assets" FontSize="16"
+                                      Foreground="{StaticResource NeonGreenBrush}" />
+                            <TextBlock Text="Minecraft" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
                                        VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
@@ -122,6 +122,17 @@
                             <FontIcon Glyph="&#xE774;" FontFamily="Segoe MDL2 Assets" FontSize="16"
                                       Foreground="{StaticResource NeonGreenBrush}" />
                             <TextBlock Text="OBS Overlays" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="NavFollowers" Click="NavButton_Click" Tag="Followers"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                            Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <FontIcon Glyph="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="16"
+                                      Foreground="#FFB400FF" />
+                            <TextBlock Text="Follower Database" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
                                        VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
@@ -154,11 +165,11 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Ellipse Grid.Column="0" Width="6" Height="6"
-                                     Fill="{x:Bind ViewModel.IsListenerRunning, Converter={StaticResource BoolToStatusBrush}, Mode=OneWay}"
+                                     Fill="{x:Bind ViewModel.IsTikTokConnected, Converter={StaticResource BoolToStatusBrush}, Mode=OneWay}"
                                      VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="Webhook" FontSize="11"
+                            <TextBlock Grid.Column="1" Text="TikTok" FontSize="11"
                                        Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="2" Text="{x:Bind ViewModel.WebhookStatus, Mode=OneWay}"
+                            <TextBlock Grid.Column="2" Text="{x:Bind ViewModel.TikTokLiveStatus, Mode=OneWay}"
                                        FontSize="11" FontWeight="SemiBold"
                                        Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
                         </Grid>

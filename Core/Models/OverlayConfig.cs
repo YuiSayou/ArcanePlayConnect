@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace ArcanePlayConnect.Core.Models;
@@ -7,7 +7,12 @@ public enum OverlayType
 {
     RankingVertical,
     RankingHorizontal,
-    GiftWall
+    GiftWall,
+    GiftWallVertical,
+    LikesRankingVertical,
+    LikesRankingHorizontal,
+    GiftRankingVertical,
+    GiftRankingHorizontal
 }
 
 public enum OverlayTheme
@@ -44,4 +49,35 @@ public class OverlayConfig
 
     /// <summary>Gift names selected for the GiftWall overlay.</summary>
     public List<string> SelectedGiftNames { get; set; } = new();
+
+    /// <summary>Custom text labels for each gift (keyed by gift name). Displayed beside the gift in the overlay.</summary>
+    public Dictionary<string, string> GiftTextLabels { get; set; } = new();
+
+    /// <summary>
+    /// Unique streamer channel ID for per-streamer overlay isolation on Cloudflare Pages.
+    /// Auto-generated once per overlay. Alphanumeric + hyphens, 3-64 chars.
+    /// </summary>
+    public string StreamerId { get; set; } = GenerateStreamerId();
+
+    /// <summary>
+    /// Base URL of the Cloudflare Pages deployment.
+    /// Defaults to the official ArcanePlayConnect Cloudflare Pages site.
+    /// </summary>
+    public string CloudflareBaseUrl { get; set; } = DefaultCloudflareUrl;
+
+    /// <summary>
+    /// Whether to enable cloud relay - pushes data to Cloudflare Pages Functions
+    /// so overlays work without port forwarding.
+    /// </summary>
+    public bool CloudPushEnabled { get; set; } = true;
+
+    /// <summary>
+    /// The default Cloudflare Pages URL for ArcanePlayConnect.
+    /// </summary>
+    public const string DefaultCloudflareUrl = "https://arcaneplayconnect.pages.dev";
+
+    private static string GenerateStreamerId()
+    {
+        return $"s-{Guid.NewGuid().ToString("N")[..12]}";
+    }
 }

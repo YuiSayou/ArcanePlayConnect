@@ -40,6 +40,11 @@ public static class TikTokGiftLibrary
         void Add(string name, int price, string url) =>
             gifts.Add(new TikTokGift { Name = name, CoinPrice = price, ImageUrl = url });
 
+        // ?? Special Interactions (free) ??
+        Add("Like", 0, "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjggMTI4IiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJsZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZjNiNWMiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZjAwNTAiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48Y2lyY2xlIGN4PSI2NCIgY3k9IjY0IiByPSI2MCIgZmlsbD0iIzFhMWEyZSIvPjxwYXRoIGQ9Ik02NCAxMDggQzQwIDg4IDE2IDY4IDE2IDQ4IEMxNiAzMCAzMCAxOCA0NiAxOCBDNTQgMTggNjAgMjIgNjQgMjggQzY4IDIyIDc0IDE4IDgyIDE4IEM5OCAxOCAxMTIgMzAgMTEyIDQ4IEMxMTIgNjggODggODggNjQgMTA4WiIgZmlsbD0idXJsKCNsZykiLz48L3N2Zz4=");
+        Add("Follow", 0, "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjggMTI4IiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJsZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMwMGM4ZmYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNiNDAwZmYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48Y2lyY2xlIGN4PSI2NCIgY3k9IjY0IiByPSI2MCIgZmlsbD0iIzFhMWEyZSIvPjxjaXJjbGUgY3g9IjUyIiBjeT0iNDQiIHI9IjE4IiBmaWxsPSJ1cmwoI2xnKSIvPjxwYXRoIGQ9Ik0yMiAxMDAgQzIyIDc4IDM2IDY2IDUyIDY2IEM2OCA2NiA4MiA3OCA4MiAxMDBaIiBmaWxsPSJ1cmwoI2xnKSIvPjxsaW5lIHgxPSI5NiIgeTE9IjU2IiB4Mj0iOTYiIHkyPSI4NCIgc3Ryb2tlPSIjMDBmZjg4IiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxsaW5lIHgxPSI4MiIgeTE9IjcwIiB4Mj0iMTEwIiB5Mj0iNzAiIHN0cm9rZT0iIzAwZmY4OCIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=");
+
+        // ?? TikTok Gifts ??
         Add("Rose", 1, "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/eba3a9bb85c33e017f3648eaf88d7189~tplv-obj.webp");
         Add("TikTok", 1, "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/802a21ae29f9fae5abe3693de9f874bd~tplv-obj.webp");
         Add("GG", 1, "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/3f02fa9594bd1495ff4e8aa5ae265eef~tplv-obj.webp");

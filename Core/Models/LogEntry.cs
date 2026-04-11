@@ -17,7 +17,10 @@ public enum LogCategory
     Chat,
     Follow,
     Gift,
-    Like
+    Like,
+    Join,
+    Share,
+    Subscribe
 }
 
 public class LogEntry

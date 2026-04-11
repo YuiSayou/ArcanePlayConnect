@@ -20,6 +20,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -32,7 +35,7 @@
                     <TextBlock Text="CREATURE ARENA" FontSize="18" FontWeight="Bold"
                                Foreground="#FFFF3278" CharacterSpacing="100" VerticalAlignment="Center" />
                 </StackPanel>
-                <TextBlock Text="Summoned creatures are tracked in real-time via entity tags. Each viewer can only have 1 active creature."
+                <TextBlock Text="Summoned creatures are tracked in real-time via entity tags. Configure the summon limit below."
                            FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap"
                            Margin="0,2,0,0" />
                 <Border Height="2" CornerRadius="1" Margin="0,8,0,0">
@@ -92,8 +95,102 @@
                 </Border>
             </Grid>
 
+            <!-- Summon Limit Mode -->
+            <Border Grid.Row="2" Background="#FF12121E" CornerRadius="6"
+                    Padding="14,10" Margin="0,10,0,0">
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <FontIcon Glyph="&#xE748;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                  Foreground="#FFB400FF" />
+                        <StackPanel>
+                            <TextBlock Text="Summon Limit" FontSize="12" FontWeight="SemiBold"
+                                       Foreground="#FFB400FF" />
+                            <TextBlock x:Name="SummonLimitDescription" Text="Each viewer can only have 1 active creature"
+                                       FontSize="9" Foreground="{StaticResource TextSecondaryBrush}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <ComboBox x:Name="SummonLimitCombo" Grid.Column="1"
+                              HorizontalAlignment="Right" VerticalAlignment="Center"
+                              FontSize="11" MinWidth="150"
+                              Background="#FF0D0D1A"
+                              SelectionChanged="SummonLimitCombo_SelectionChanged">
+                        <ComboBoxItem Content="One Per Player" Tag="OnePerPlayer" />
+                        <ComboBoxItem Content="Unlimited" Tag="Unlimited" />
+                    </ComboBox>
+                </Grid>
+            </Border>
+
+            <!-- Auto-Respawn settings panel -->
+            <Border x:Name="AutoRespawnPanel" Grid.Row="3" Background="#FF12121E" CornerRadius="6"
+                    Padding="14,10" Margin="0,10,0,0">
+                <StackPanel Spacing="8">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <ToggleSwitch x:Name="AutoRespawnToggle" IsOn="False" MinWidth="0"
+                                      OnContent="" OffContent=""
+                                      Toggled="AutoRespawnToggle_Toggled" />
+                        <FontIcon Glyph="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                  Foreground="#FF00C8FF" VerticalAlignment="Center" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Auto Respawn" FontSize="12" FontWeight="SemiBold"
+                                       Foreground="#FF00C8FF" />
+                            <TextBlock Text="Automatically respawn dead creatures with their buff stats"
+                                       FontSize="9" Foreground="{StaticResource TextSecondaryBrush}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel x:Name="AutoRespawnOptions" Visibility="Collapsed" Spacing="8"
+                                Margin="48,0,0,0">
+                        <!-- Delay -->
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="Delay:" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"
+                                       VerticalAlignment="Center" />
+                            <NumberBox x:Name="RespawnDelayBox" Value="5" Minimum="1" Maximum="60"
+                                       SpinButtonPlacementMode="Compact" FontSize="11" Width="90"
+                                       Background="#FF0D0D1A"
+                                       ValueChanged="RespawnDelayBox_ValueChanged" />
+                            <TextBlock Text="seconds" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <!-- Follower button picker -->
+                        <StackPanel Spacing="4">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <FontIcon Glyph="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="11"
+                                          Foreground="#FFFF9500" VerticalAlignment="Center" />
+                                <TextBlock Text="FOLLOWER RESPAWN BUTTON" FontSize="9" FontWeight="Bold"
+                                           Foreground="#FFFF9500" CharacterSpacing="100" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <ComboBox x:Name="FollowerButtonCombo" PlaceholderText="Select button for followers..."
+                                      HorizontalAlignment="Stretch" FontSize="11"
+                                      Background="#FF0D0D1A"
+                                      SelectionChanged="FollowerButtonCombo_SelectionChanged" />
+                        </StackPanel>
+
+                        <!-- Non-follower button picker -->
+                        <StackPanel Spacing="4">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" FontSize="11"
+                                          Foreground="#FF8888AA" VerticalAlignment="Center" />
+                                <TextBlock Text="NON-FOLLOWER RESPAWN BUTTON" FontSize="9" FontWeight="Bold"
+                                           Foreground="#FF8888AA" CharacterSpacing="100" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <ComboBox x:Name="NonFollowerButtonCombo" PlaceholderText="Select button for non-followers..."
+                                      HorizontalAlignment="Stretch" FontSize="11"
+                                      Background="#FF0D0D1A"
+                                      SelectionChanged="NonFollowerButtonCombo_SelectionChanged" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
             <!-- Active creatures list -->
-            <ListView x:Name="ActiveCreaturesList" Grid.Row="2" Margin="0,12,0,0"
+            <ListView x:Name="ActiveCreaturesList" Grid.Row="4" Margin="0,12,0,0"
                       Background="Transparent" SelectionMode="None" Padding="0">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -174,7 +271,7 @@
             </ListView>
 
             <!-- Empty state -->
-            <StackPanel x:Name="EmptyState" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"
+            <StackPanel x:Name="EmptyState" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center"
                         Spacing="8" Visibility="Collapsed">
                 <FontIcon Glyph="&#xEA18;" FontFamily="Segoe MDL2 Assets" FontSize="40" Foreground="#FF1A1A2E" />
                 <TextBlock Text="No active creatures" FontSize="14" Foreground="#FF8888AA"
@@ -184,7 +281,7 @@
             </StackPanel>
 
             <!-- Controls bar -->
-            <Grid Grid.Row="3" Margin="0,12,0,0" ColumnSpacing="8">
+            <Grid Grid.Row="5" Margin="0,12,0,0" ColumnSpacing="8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />

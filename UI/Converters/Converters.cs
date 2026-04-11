@@ -67,6 +67,9 @@ public class LogCategoryToBrushConverter : IValueConverter
                 LogCategory.Follow  => new SolidColorBrush(ColorHelper.FromArgb(255, 180, 0, 255)),    // Neon purple
                 LogCategory.Gift    => new SolidColorBrush(ColorHelper.FromArgb(255, 255, 50, 120)),      // Neon red/pink
                 LogCategory.Like    => new SolidColorBrush(ColorHelper.FromArgb(255, 255, 80, 80)),   // red/coral
+                LogCategory.Join    => new SolidColorBrush(ColorHelper.FromArgb(255, 0, 230, 180)),   // Teal/cyan
+                LogCategory.Share   => new SolidColorBrush(ColorHelper.FromArgb(255, 255, 149, 0)),   // Orange
+                LogCategory.Subscribe => new SolidColorBrush(ColorHelper.FromArgb(255, 255, 215, 0)), // Gold
                 LogCategory.Webhook => new SolidColorBrush(ColorHelper.FromArgb(255, 0, 255, 136)),      // Neon green
                 LogCategory.System  => new SolidColorBrush(ColorHelper.FromArgb(255, 136, 136, 170)),      // Grey
                 _ => new SolidColorBrush(Colors.White)
@@ -93,6 +96,9 @@ public class LogCategoryToTagConverter : IValueConverter
                 LogCategory.Follow  => "FOLLOW",
                 LogCategory.Gift    => "GIFT",
                 LogCategory.Like    => "LIKE",
+                LogCategory.Join    => "JOIN",
+                LogCategory.Share   => "SHARE",
+                LogCategory.Subscribe => "SUB",
                 LogCategory.Webhook => "HOOK",
                 LogCategory.System  => "SYS",
                 _ => "LOG"
@@ -167,6 +173,9 @@ public class ActionTypeToBrushConverter : IValueConverter
                 ActionTriggerType.Follow => new SolidColorBrush(ColorHelper.FromArgb(255, 180, 0, 255)), // NeonPurple
                 ActionTriggerType.Chat   => new SolidColorBrush(ColorHelper.FromArgb(255, 0, 200, 255)),   // NeonBlue
                 ActionTriggerType.Like   => new SolidColorBrush(ColorHelper.FromArgb(255, 255, 80, 80)),    // red/coral
+                ActionTriggerType.Join   => new SolidColorBrush(ColorHelper.FromArgb(255, 0, 230, 180)),    // Teal/cyan
+                ActionTriggerType.Share  => new SolidColorBrush(ColorHelper.FromArgb(255, 255, 149, 0)),    // Orange
+                ActionTriggerType.Subscribe => new SolidColorBrush(ColorHelper.FromArgb(255, 255, 215, 0)), // Gold
                 _ => new SolidColorBrush(Colors.White)
             };
         }

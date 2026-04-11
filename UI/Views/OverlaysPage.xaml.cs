@@ -17,6 +17,7 @@ using Windows.ApplicationModel.DataTransfer;
 using IOPath = System.IO.Path;
 using IODirectory = System.IO.Directory;
 using IOFile = System.IO.File;
+using SvgImageSource = Microsoft.UI.Xaml.Media.Imaging.SvgImageSource;
 
 namespace ArcanePlayConnect.UI.Views;
 
@@ -29,6 +30,9 @@ public sealed partial class OverlaysPage : Page
 
     private string _selectedLayout = "Vertical";
     private string _selectedTheme = "Cyberpunk";
+
+    /// <summary>When non-null, the form is in edit mode for the overlay with this ID.</summary>
+    private string? _editingOverlayId = null;
 
     // Theme definitions for the preview picker
     private static readonly ThemePreviewInfo[] _themes =
@@ -46,10 +50,12 @@ public sealed partial class OverlaysPage : Page
         InitializeComponent();
         OverlayListView.ItemsSource = _overlayItems;
         ViewModel.OverlayServer.StatusChanged += OnServerStatusChanged;
+        ViewModel.OverlayPushService.StatusChanged += OnCloudRelayStatusChanged;
 
         BuildThemePicker();
         LoadOverlays();
         UpdateServerStatus();
+        UpdateCloudRelayStatus();
         UpdateEmptyState();
         UpdateLayoutSelection();
         UpdateThemeSelection();
@@ -169,10 +175,16 @@ public sealed partial class OverlaysPage : Page
         LayoutVertical.BorderBrush = _selectedLayout == "Vertical" ? selectedBrush : unselectedBrush;
         LayoutHorizontal.BorderBrush = _selectedLayout == "Horizontal" ? selectedBrush : unselectedBrush;
         LayoutGiftWall.BorderBrush = _selectedLayout == "GiftWall" ? selectedBrush : unselectedBrush;
+        LayoutGiftWallVertical.BorderBrush = _selectedLayout == "GiftWallVertical" ? selectedBrush : unselectedBrush;
+        LayoutLikesVertical.BorderBrush = _selectedLayout == "LikesVertical" ? selectedBrush : unselectedBrush;
+        LayoutLikesHorizontal.BorderBrush = _selectedLayout == "LikesHorizontal" ? selectedBrush : unselectedBrush;
+        LayoutGiftRankVertical.BorderBrush = _selectedLayout == "GiftRankVertical" ? selectedBrush : unselectedBrush;
+        LayoutGiftRankHorizontal.BorderBrush = _selectedLayout == "GiftRankHorizontal" ? selectedBrush : unselectedBrush;
 
         // Toggle panels based on layout selection
-        var isGiftWall = _selectedLayout == "GiftWall";
-        RankingSettingsPanel.Visibility = isGiftWall ? Visibility.Collapsed : Visibility.Visible;
+        var isGiftWall = _selectedLayout == "GiftWall" || _selectedLayout == "GiftWallVertical";
+        var isLiveRanking = _selectedLayout is "LikesVertical" or "LikesHorizontal" or "GiftRankVertical" or "GiftRankHorizontal";
+        RankingSettingsPanel.Visibility = (isGiftWall || isLiveRanking) ? Visibility.Collapsed : Visibility.Visible;
         GiftWallPanel.Visibility = isGiftWall ? Visibility.Visible : Visibility.Collapsed;
     }
 
@@ -348,7 +360,7 @@ public sealed partial class OverlaysPage : Page
             {
                 Width = 18,
                 Height = 18,
-                Source = new BitmapImage(new Uri(gift.ImageUrl))
+                Source = GetGiftImageSource(gift)
             };
             stack.Children.Add(img);
 
@@ -364,9 +376,11 @@ public sealed partial class OverlaysPage : Page
 
             var priceBlock = new TextBlock
             {
-                Text = $"{gift.CoinPrice}\U0001FA99",
+                Text = gift.IsFreeInteraction ? "FREE" : $"{gift.CoinPrice}\U0001FA99",
                 FontSize = 9,
-                Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 149, 0)),
+                Foreground = new SolidColorBrush(gift.IsFreeInteraction
+                    ? Windows.UI.Color.FromArgb(255, 180, 0, 255)
+                    : Windows.UI.Color.FromArgb(255, 255, 149, 0)),
                 VerticalAlignment = VerticalAlignment.Center
             };
             stack.Children.Add(priceBlock);
@@ -392,6 +406,76 @@ public sealed partial class OverlaysPage : Page
             chip.Child = stack;
             SelectedGiftsList.Items.Add(chip);
         }
+
+        // Build gift text label inputs
+        RefreshGiftTextInputs();
+    }
+
+    private readonly Dictionary<string, string> _giftTextLabels = new();
+
+    private void RefreshGiftTextInputs()
+    {
+        GiftTextLabelsPanel.Visibility = _selectedGifts.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        GiftTextInputsList.Children.Clear();
+
+        foreach (var gift in _selectedGifts)
+        {
+            var row = new Grid { ColumnSpacing = 8 };
+            row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(32, GridUnitType.Pixel) });
+            row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) });
+            row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+            var img = new Image
+            {
+                Width = 28,
+                Height = 28,
+                Source = GetGiftImageSource(gift),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            var imgBorder = new Border
+            {
+                Width = 32, Height = 32, CornerRadius = new CornerRadius(6),
+                Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 26, 26, 46)),
+                Child = img, VerticalAlignment = VerticalAlignment.Center
+            };
+            Grid.SetColumn(imgBorder, 0);
+
+            var nameBlock = new TextBlock
+            {
+                Text = gift.Name,
+                FontSize = 11,
+                FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
+                Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 224, 224, 255)),
+                VerticalAlignment = VerticalAlignment.Center,
+                MinWidth = 80
+            };
+            Grid.SetColumn(nameBlock, 1);
+
+            _giftTextLabels.TryGetValue(gift.Name, out var existingText);
+            var textBox = new TextBox
+            {
+                Text = existingText ?? string.Empty,
+                PlaceholderText = "e.g. Summon Zombie",
+                FontSize = 11,
+                Padding = new Thickness(8, 6, 8, 6),
+                Tag = gift.Name,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            if (Application.Current.Resources.TryGetValue("CyberpunkTextBoxStyle", out var style) && style is Style s)
+                textBox.Style = s;
+
+            textBox.TextChanged += (sender, args) =>
+            {
+                if (sender is TextBox tb && tb.Tag is string gName)
+                    _giftTextLabels[gName] = tb.Text;
+            };
+            Grid.SetColumn(textBox, 2);
+
+            row.Children.Add(imgBorder);
+            row.Children.Add(nameBlock);
+            row.Children.Add(textBox);
+            GiftTextInputsList.Children.Add(row);
+        }
     }
 
     // ── Create Overlay ──
@@ -406,64 +490,133 @@ public sealed partial class OverlaysPage : Page
         RefreshBox.Text = refreshMs.ToString();
         ServerPortBox.Text = port.ToString();
 
-        var isGiftWall = _selectedLayout == "GiftWall";
+        var isGiftWall = _selectedLayout == "GiftWall" || _selectedLayout == "GiftWallVertical";
 
-        var config = new OverlayConfig
+        if (_editingOverlayId != null)
         {
-            Name = string.IsNullOrWhiteSpace(OverlayNameBox.Text) ? "My Overlay" : OverlayNameBox.Text.Trim(),
-            Type = _selectedLayout switch
+            // ── Update existing overlay ──
+            var existingItem = _overlayItems.FirstOrDefault(o => o.Id == _editingOverlayId);
+            if (existingItem != null)
             {
-                "Horizontal" => OverlayType.RankingHorizontal,
-                "GiftWall" => OverlayType.GiftWall,
-                _ => OverlayType.RankingVertical
-            },
-            Theme = Enum.TryParse<OverlayTheme>(_selectedTheme, out var t) ? t : OverlayTheme.Cyberpunk,
-            ShowHP = ShowHPCheck.IsChecked == true,
-            ShowDamage = ShowDmgCheck.IsChecked == true,
-            ShowKills = ShowKillsCheck.IsChecked == true,
-            MaxPlayers = maxPlayers,
-            RefreshIntervalMs = refreshMs,
-            Port = port,
-            SelectedGiftNames = isGiftWall ? _selectedGifts.Select(g => g.Name).ToList() : new()
-        };
+                var cfg = existingItem.Config;
+                cfg.Name = string.IsNullOrWhiteSpace(OverlayNameBox.Text) ? "My Overlay" : OverlayNameBox.Text.Trim();
+                cfg.Type = _selectedLayout switch
+                {
+                    "Horizontal" => OverlayType.RankingHorizontal,
+                    "GiftWall" => OverlayType.GiftWall,
+                    "GiftWallVertical" => OverlayType.GiftWallVertical,
+                    "LikesVertical" => OverlayType.LikesRankingVertical,
+                    "LikesHorizontal" => OverlayType.LikesRankingHorizontal,
+                    "GiftRankVertical" => OverlayType.GiftRankingVertical,
+                    "GiftRankHorizontal" => OverlayType.GiftRankingHorizontal,
+                    _ => OverlayType.RankingVertical
+                };
+                cfg.Theme = Enum.TryParse<OverlayTheme>(_selectedTheme, out var t) ? t : OverlayTheme.Cyberpunk;
+                cfg.ShowHP = ShowHPCheck.IsChecked == true;
+                cfg.ShowDamage = ShowDmgCheck.IsChecked == true;
+                cfg.ShowKills = ShowKillsCheck.IsChecked == true;
+                cfg.MaxPlayers = maxPlayers;
+                cfg.RefreshIntervalMs = refreshMs;
+                cfg.Port = port;
+                cfg.SelectedGiftNames = isGiftWall ? _selectedGifts.Select(g => g.Name).ToList() : new();
+                cfg.GiftTextLabels = isGiftWall ? new Dictionary<string, string>(_giftTextLabels.Where(kv => !string.IsNullOrWhiteSpace(kv.Value))) : new();
+                cfg.CloudflareBaseUrl = OverlayConfig.DefaultCloudflareUrl;
 
-        ViewModel.OverlayServer.RegisterOverlay(config);
+                ViewModel.OverlayServer.RegisterOverlay(cfg);
 
-        var url = ViewModel.OverlayServer.IsRunning
-            ? ViewModel.OverlayServer.GetOverlayUrl(config.Id)
-            : $"http://localhost:{config.Port}/overlay/{config.Id}";
+                existingItem.Name = cfg.Name;
+                existingItem.Url = ViewModel.OverlayServer.IsRunning
+                    ? ViewModel.OverlayServer.GetOverlayUrl(cfg.Id)
+                    : $"http://localhost:{cfg.Port}/overlay/{cfg.Id}";
+                existingItem.CloudUrl = OverlayServerService.GetCloudOverlayUrl(cfg);
 
-        _overlayItems.Add(OverlayDisplayItem.From(config, url));
-        SaveOverlays();
-        UpdateEmptyState();
+                // Refresh the list to reflect changes
+                RefreshList();
+                SaveOverlays();
+            }
+
+            // Exit edit mode
+            _editingOverlayId = null;
+            SetEditMode(false);
+        }
+        else
+        {
+            // ── Create new overlay ──
+            var config = new OverlayConfig
+            {
+                Name = string.IsNullOrWhiteSpace(OverlayNameBox.Text) ? "My Overlay" : OverlayNameBox.Text.Trim(),
+                Type = _selectedLayout switch
+                {
+                    "Horizontal" => OverlayType.RankingHorizontal,
+                    "GiftWall" => OverlayType.GiftWall,
+                    "GiftWallVertical" => OverlayType.GiftWallVertical,
+                    "LikesVertical" => OverlayType.LikesRankingVertical,
+                    "LikesHorizontal" => OverlayType.LikesRankingHorizontal,
+                    "GiftRankVertical" => OverlayType.GiftRankingVertical,
+                    "GiftRankHorizontal" => OverlayType.GiftRankingHorizontal,
+                    _ => OverlayType.RankingVertical
+                },
+                Theme = Enum.TryParse<OverlayTheme>(_selectedTheme, out var t) ? t : OverlayTheme.Cyberpunk,
+                ShowHP = ShowHPCheck.IsChecked == true,
+                ShowDamage = ShowDmgCheck.IsChecked == true,
+                ShowKills = ShowKillsCheck.IsChecked == true,
+                MaxPlayers = maxPlayers,
+                RefreshIntervalMs = refreshMs,
+                Port = port,
+                SelectedGiftNames = isGiftWall ? _selectedGifts.Select(g => g.Name).ToList() : new(),
+                GiftTextLabels = isGiftWall ? new Dictionary<string, string>(_giftTextLabels.Where(kv => !string.IsNullOrWhiteSpace(kv.Value))) : new(),
+                CloudflareBaseUrl = OverlayConfig.DefaultCloudflareUrl
+            };
+
+            ViewModel.OverlayServer.RegisterOverlay(config);
+
+            var url = ViewModel.OverlayServer.IsRunning
+                ? ViewModel.OverlayServer.GetOverlayUrl(config.Id)
+                : $"http://localhost:{config.Port}/overlay/{config.Id}";
+
+            _overlayItems.Add(OverlayDisplayItem.From(config, url));
+            SaveOverlays();
+            UpdateEmptyState();
+        }
     }
 
     // ── Actions ──
 
     private void CopyUrl_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is Button btn && btn.Tag is string url)
+        if (sender is not Button btn)
+            return;
+
+        var url = btn.Tag as string;
+        if (string.IsNullOrEmpty(url))
+            return;
+
+        try
         {
             var dp = new DataPackage();
             dp.SetText(url);
             Clipboard.SetContent(dp);
-            Clipboard.Flush();
+        }
+        catch
+        {
+            // Clipboard may be locked by another process – silently ignore
+            return;
+        }
 
-            if (btn.Content is FontIcon icon)
+        if (btn.Content is FontIcon icon)
+        {
+            var original = icon.Glyph;
+            icon.Glyph = "\uE73E";
+            icon.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 255, 136));
+
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1.5) };
+            timer.Tick += (s, args) =>
             {
-                var original = icon.Glyph;
-                icon.Glyph = "\uE73E";
-                icon.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 255, 136));
-
-                var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1.5) };
-                timer.Tick += (s, args) =>
-                {
-                    icon.Glyph = original;
-                    icon.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 200, 255));
-                    timer.Stop();
-                };
-                timer.Start();
-            }
+                icon.Glyph = original;
+                icon.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 200, 255));
+                timer.Stop();
+            };
+            timer.Start();
         }
     }
 
@@ -489,6 +642,97 @@ public sealed partial class OverlaysPage : Page
                 UpdateEmptyState();
             }
         }
+    }
+
+    // ── Edit Overlay ──
+
+    private void EditOverlay_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button btn && btn.Tag is string id)
+        {
+            var item = _overlayItems.FirstOrDefault(o => o.Id == id);
+            if (item == null) return;
+
+            var cfg = item.Config;
+
+            // Populate the form with the overlay's config
+            _editingOverlayId = cfg.Id;
+            OverlayNameBox.Text = cfg.Name;
+
+            // Layout
+            _selectedLayout = cfg.Type switch
+            {
+                OverlayType.RankingHorizontal => "Horizontal",
+                OverlayType.GiftWall => "GiftWall",
+                OverlayType.GiftWallVertical => "GiftWallVertical",
+                OverlayType.LikesRankingVertical => "LikesVertical",
+                OverlayType.LikesRankingHorizontal => "LikesHorizontal",
+                OverlayType.GiftRankingVertical => "GiftRankVertical",
+                OverlayType.GiftRankingHorizontal => "GiftRankHorizontal",
+                _ => "Vertical"
+            };
+            UpdateLayoutSelection();
+
+            // Theme
+            _selectedTheme = cfg.Theme.ToString();
+            UpdateThemeSelection();
+
+            // Stats
+            ShowHPCheck.IsChecked = cfg.ShowHP;
+            ShowDmgCheck.IsChecked = cfg.ShowDamage;
+            ShowKillsCheck.IsChecked = cfg.ShowKills;
+
+            // Max players & refresh
+            MaxPlayersBox.Text = cfg.MaxPlayers.ToString();
+            RefreshBox.Text = cfg.RefreshIntervalMs.ToString();
+
+            // Gift wall selections
+            _selectedGifts.Clear();
+            _giftTextLabels.Clear();
+            foreach (var giftName in cfg.SelectedGiftNames)
+            {
+                var gift = TikTokGiftLibrary.FindByName(giftName);
+                if (gift != null) _selectedGifts.Add(gift);
+            }
+            foreach (var kv in cfg.GiftTextLabels)
+                _giftTextLabels[kv.Key] = kv.Value;
+
+            RefreshSelectedGiftsDisplay();
+
+            // Update UI to edit mode
+            SetEditMode(true);
+        }
+    }
+
+    private void CancelEdit_Click(object sender, RoutedEventArgs e)
+    {
+        _editingOverlayId = null;
+
+        // Reset the form to defaults
+        OverlayNameBox.Text = "My Overlay";
+        _selectedLayout = "Vertical";
+        _selectedTheme = "Cyberpunk";
+        UpdateLayoutSelection();
+        UpdateThemeSelection();
+        ShowHPCheck.IsChecked = true;
+        ShowDmgCheck.IsChecked = true;
+        ShowKillsCheck.IsChecked = true;
+        MaxPlayersBox.Text = "5";
+        RefreshBox.Text = "2000";
+        _selectedGifts.Clear();
+        _giftTextLabels.Clear();
+        RefreshSelectedGiftsDisplay();
+
+        SetEditMode(false);
+    }
+
+    private void SetEditMode(bool editing)
+    {
+        CreateEditIcon.Glyph = editing ? "\uE70F" : "\uE710";
+        CreateEditTitle.Text = editing ? "EDIT OVERLAY" : "CREATE OVERLAY";
+        CancelEditBtn.Visibility = editing ? Visibility.Visible : Visibility.Collapsed;
+        CreateSaveBtnIcon.Glyph = editing ? "\uE74E" : "\uE710";
+        CreateSaveBtnText.Text = editing ? "Save Changes" : "Create Overlay";
     }
 
     // ── Persistence ──
@@ -549,6 +793,43 @@ public sealed partial class OverlaysPage : Page
             _overlayItems.Add(item);
     }
 
+    // ── Cloud Relay ──
+
+    private void StartCloudRelay_Click(object sender, RoutedEventArgs e)
+    {
+        // Start pushing data for all overlays that have cloud push enabled
+        foreach (var item in _overlayItems)
+        {
+            if (item.Config.CloudPushEnabled)
+            {
+                ViewModel.OverlayPushService.StartPushing(item.Config);
+            }
+        }
+        UpdateCloudRelayStatus();
+    }
+
+    private void StopCloudRelay_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.OverlayPushService.StopAll();
+        UpdateCloudRelayStatus();
+    }
+
+    private void OnCloudRelayStatusChanged()
+    {
+        DispatcherQueue.TryEnqueue(UpdateCloudRelayStatus);
+    }
+
+    private void UpdateCloudRelayStatus()
+    {
+        var running = ViewModel.OverlayPushService.IsRunning;
+        CloudRelayStatusDot.Fill = new SolidColorBrush(running
+            ? Windows.UI.Color.FromArgb(255, 180, 0, 255)
+            : Windows.UI.Color.FromArgb(255, 255, 50, 80));
+        CloudRelayStatusText.Text = running ? "Pushing" : "Stopped";
+        StartCloudRelayBtn.IsEnabled = !running;
+        StopCloudRelayBtn.IsEnabled = running;
+    }
+
     private void UpdateEmptyState()
     {
         OverlayEmptyState.Visibility = _overlayItems.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -562,6 +843,23 @@ public sealed partial class OverlaysPage : Page
             return Math.Clamp(v, min, max);
         return fallback;
     }
+
+    /// <summary>
+    /// Returns an appropriate ImageSource for a gift. Uses local cached SVG for built-in icons
+    /// (Like/Follow) since BitmapImage doesn't support data: URIs, otherwise uses the remote URL.
+    /// </summary>
+    private static Microsoft.UI.Xaml.Media.ImageSource GetGiftImageSource(TikTokGift gift)
+    {
+        // For built-in icons, load from the locally cached SVG file
+        var cachedPath = GiftImageService.GetCachedImagePath(gift);
+        if (cachedPath != null && cachedPath.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
+        {
+            return new SvgImageSource(new Uri(cachedPath));
+        }
+
+        // For regular gifts, use the remote image URL
+        return new BitmapImage(new Uri(gift.ImageUrl));
+    }
 }
 
 /// <summary>Theme preview metadata for the picker.</summary>
@@ -573,13 +871,21 @@ public class OverlayDisplayItem
     public string Id { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
+    public string CloudUrl { get; set; } = string.Empty;
     public OverlayConfig Config { get; set; } = new();
+
+    public Visibility HasCloudUrl => string.IsNullOrEmpty(CloudUrl) ? Visibility.Collapsed : Visibility.Visible;
 
     public string LayoutLabel => Config.Type switch
     {
         OverlayType.RankingVertical => "Vertical",
         OverlayType.RankingHorizontal => "Horizontal",
-        OverlayType.GiftWall => "Gift Wall",
+        OverlayType.GiftWall => "Gift Grid",
+        OverlayType.GiftWallVertical => "Gift List",
+        OverlayType.LikesRankingVertical => "Likes Vertical",
+        OverlayType.LikesRankingHorizontal => "Likes Horizontal",
+        OverlayType.GiftRankingVertical => "Gift Rank Vertical",
+        OverlayType.GiftRankingHorizontal => "Gift Rank Horizontal",
         _ => "Unknown"
     };
 
@@ -588,6 +894,11 @@ public class OverlayDisplayItem
         OverlayType.RankingVertical => "\uF0E2",
         OverlayType.RankingHorizontal => "\uE8A9",
         OverlayType.GiftWall => "\uE8E1",
+        OverlayType.GiftWallVertical => "\uE8E1",
+        OverlayType.LikesRankingVertical => "\uEB51",
+        OverlayType.LikesRankingHorizontal => "\uEB51",
+        OverlayType.GiftRankingVertical => "\uE8E1",
+        OverlayType.GiftRankingHorizontal => "\uE8E1",
         _ => "\uE8A9"
     };
 
@@ -617,8 +928,14 @@ public class OverlayDisplayItem
     {
         get
         {
-            if (Config.Type == OverlayType.GiftWall)
+            if (Config.Type == OverlayType.GiftWall || Config.Type == OverlayType.GiftWallVertical)
                 return $"{Config.SelectedGiftNames.Count} gifts";
+
+            if (Config.Type is OverlayType.LikesRankingVertical or OverlayType.LikesRankingHorizontal)
+                return "Live Likes";
+
+            if (Config.Type is OverlayType.GiftRankingVertical or OverlayType.GiftRankingHorizontal)
+                return "Live Gifts";
 
             var parts = new List<string>();
             if (Config.ShowHP) parts.Add("HP");
@@ -633,6 +950,7 @@ public class OverlayDisplayItem
         Id = config.Id,
         Name = config.Name,
         Url = url,
+        CloudUrl = OverlayServerService.GetCloudOverlayUrl(config),
         Config = config
     };
 }

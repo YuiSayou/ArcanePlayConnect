@@ -15,6 +15,8 @@ public sealed partial class ShellPage : Page
     {
         InitializeComponent();
         NavigateTo("Dashboard");
+
+        ViewModel.NavigateToMappingsRequested += () => NavigateTo("Triggers");
     }
 
     private void NavButton_Click(object sender, RoutedEventArgs e)
@@ -33,10 +35,11 @@ public sealed partial class ShellPage : Page
         {
             "Dashboard" => NavDashboard,
             "EventLog"  => NavEventLog,
-            "Mappings"  => NavMappings,
-            "Buttons"   => NavButtons,
-            "Arena"     => NavArena,
+            "Triggers"  => NavTriggers,
+            "Actions"   => NavActions,
+            "Minecraft" => NavMinecraft,
             "Overlays"  => NavOverlays,
+            "Followers" => NavFollowers,
             "Profiles"  => NavProfiles,
             _ => NavDashboard
         };
@@ -49,10 +52,11 @@ public sealed partial class ShellPage : Page
         {
             "Dashboard" => typeof(DashboardPage),
             "EventLog"  => typeof(EventLogPage),
-            "Mappings"  => typeof(MappingsPage),
-            "Buttons"   => typeof(CommandButtonsPage),
-            "Arena"     => typeof(CreatureArenaPage),
+            "Triggers"  => typeof(MappingsPage),
+            "Actions"   => typeof(CommandButtonsPage),
+            "Minecraft" => typeof(MinecraftPage),
             "Overlays"  => typeof(OverlaysPage),
+            "Followers" => typeof(FollowerDatabasePage),
             "Profiles"  => typeof(ProfilesPage),
             _ => typeof(DashboardPage)
         };

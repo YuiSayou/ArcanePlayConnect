@@ -25,11 +25,11 @@ public class CommandButtonExecutor
     /// <summary>
     /// Executes all commands in the button sequentially.
     /// For Summon buttons, nickname/username are substituted.
-    /// For HealthCheck buttons with RunContinuously, starts a repeating timer.
+    /// For Buff buttons with RunContinuously, starts a repeating timer.
     /// </summary>
     public async Task ExecuteAsync(CommandButton button, string nickname = "", string username = "")
     {
-        if (button.ButtonType == CommandButtonType.HealthCheck && button.RunContinuously)
+        if (button.ButtonType == CommandButtonType.Buff && button.RunContinuously)
         {
             ToggleContinuous(button, nickname, username);
             return;

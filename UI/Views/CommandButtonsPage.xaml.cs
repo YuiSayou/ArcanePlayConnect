@@ -22,15 +22,17 @@ public sealed partial class CommandButtonsPage : Page
     // Static helpers for x:Bind in DataTemplate
     public static string GetTypeGlyph(CommandButtonType type) => type switch
     {
-        CommandButtonType.Summon      => "\uEA18",
-        CommandButtonType.HealthCheck => "\uE95E",
+        CommandButtonType.Summon => "\uEA18",
+        CommandButtonType.Buff   => "\uE95E",
+        CommandButtonType.General => "\uE756",
         _ => "\uE946"
     };
 
     public static string GetTypeLabel(CommandButtonType type) => type switch
     {
-        CommandButtonType.Summon      => "Summon",
-        CommandButtonType.HealthCheck => "Health Check",
+        CommandButtonType.Summon => "Summon",
+        CommandButtonType.Buff   => "Buff",
+        CommandButtonType.General => "General",
         _ => "Unknown"
     };
 
@@ -39,6 +41,9 @@ public sealed partial class CommandButtonsPage : Page
 
     public static Visibility HasSummonEntity(string entityType) =>
         !string.IsNullOrWhiteSpace(entityType) ? Visibility.Visible : Visibility.Collapsed;
+
+    public static Visibility HasShortcut(string shortcut) =>
+        !string.IsNullOrWhiteSpace(shortcut) ? Visibility.Visible : Visibility.Collapsed;
 
     private void CreateButton_Click(object sender, RoutedEventArgs e)
     {
@@ -109,6 +114,7 @@ public sealed partial class CommandButtonsPage : Page
                 existing.ButtonType = result.ButtonType;
                 existing.Commands = result.Commands;
                 existing.UseNickname = result.UseNickname;
+                existing.KeyboardShortcut = result.KeyboardShortcut;
                 existing.RunContinuously = result.RunContinuously;
                 existing.IntervalSeconds = result.IntervalSeconds;
                 existing.SummonEntityType = result.SummonEntityType;
@@ -117,6 +123,11 @@ public sealed partial class CommandButtonsPage : Page
                 existing.SummonCustomAttack = result.SummonCustomAttack;
                 existing.SummonTrackCreature = result.SummonTrackCreature;
                 existing.SummonIsBoss = result.SummonIsBoss;
+                existing.SummonBossName = result.SummonBossName;
+                existing.BuffApplyHeal = result.BuffApplyHeal;
+                existing.BuffHealAmount = result.BuffHealAmount;
+                existing.BuffApplyDamage = result.BuffApplyDamage;
+                existing.BuffDamageAmount = result.BuffDamageAmount;
                 ViewModel.UpdateCommandButton(existing);
             }
             window.Close();

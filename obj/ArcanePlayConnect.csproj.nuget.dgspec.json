@@ -63,6 +63,10 @@
               "target": "Package",
               "version": "[1.8.260317003, )"
             },
+            "TikTokLive_Sharp": {
+              "target": "Package",
+              "version": "[1.2.3, )"
+            },
             "WinUIEx": {
               "target": "Package",
               "version": "[2.9.0, )"
@@ -90,6 +94,10 @@
             },
             {
               "name": "Microsoft.AspNetCore.App.Runtime.win-x86",
+              "version": "[8.0.22, 8.0.22]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
               "version": "[8.0.22, 8.0.22]"
             },
             {

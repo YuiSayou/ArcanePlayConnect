@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="ArcanePlayConnect.UI.Controls.CommandSuggestionBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:ArcanePlayConnect.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Mode toggle bar -->
+        <Grid Grid.Row="0" Margin="0,0,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4">
+                <Border x:ConnectionId='12' x:Name="TypeModeBtn" CornerRadius="3" Padding="8,3"
+                        Background="#FF1E1E36" BorderThickness="1" BorderBrush="#FF00FF88"
+                                                                >
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <FontIcon Glyph="&#xE765;" FontFamily="Segoe MDL2 Assets" FontSize="9"
+                                  Foreground="#FF00FF88" VerticalAlignment="Center" />
+                        <TextBlock x:ConnectionId='15' x:Name="TypeModeLabel" Text="Type" FontSize="9" FontWeight="Bold"
+                                   Foreground="#FF00FF88" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+                <Border x:ConnectionId='13' x:Name="BuilderModeBtn" CornerRadius="3" Padding="8,3"
+                        Background="#FF16162A" BorderThickness="1" BorderBrush="#FF1A1A2E"
+                                                                   >
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <FontIcon Glyph="&#xE946;" FontFamily="Segoe MDL2 Assets" FontSize="9"
+                                  Foreground="#FF8888AA" VerticalAlignment="Center" />
+                        <TextBlock x:ConnectionId='14' x:Name="BuilderModeLabel" Text="Builder" FontSize="9" FontWeight="Bold"
+                                   Foreground="#FF8888AA" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+
+        <!-- Manual typing mode -->
+        <StackPanel x:ConnectionId='2' x:Name="TypeModePanel" Grid.Row="1">
+            <!-- Main input TextBox -->
+            <TextBox x:ConnectionId='11' x:Name="InputBox"
+                     Background="#FF12121E" Foreground="#FF00FF88"
+                     BorderBrush="#FF1A1A2E" BorderThickness="1"
+                     Padding="10,8" CornerRadius="4" FontSize="12"
+                     FontFamily="Consolas" AcceptsReturn="False"
+                                                       
+                                               
+                                                 
+                                                    />
+        </StackPanel>
+
+        <!-- Syntax hint bar -->
+        <Border x:ConnectionId='3' x:Name="SyntaxHintBar" Grid.Row="2"
+                Background="#FF0D0D1A" Padding="8,4"
+                CornerRadius="0,0,4,4"
+                BorderBrush="#FF1A1A2E" BorderThickness="1,0,1,1"
+                Visibility="Collapsed">
+            <TextBlock x:ConnectionId='10' x:Name="SyntaxHintText"
+                       FontSize="10" FontFamily="Consolas"
+                       Foreground="#FF8888AA" TextTrimming="CharacterEllipsis" />
+        </Border>
+
+        <!-- Suggestion popup list -->
+        <Border x:ConnectionId='4' x:Name="SuggestionPopup" Grid.Row="3"
+                Background="#FF12121E"
+                BorderBrush="#FF00C8FF" BorderThickness="1"
+                CornerRadius="4"
+                MaxHeight="250"
+                Visibility="Collapsed"
+                Margin="0,2,0,0">
+            <ListView x:ConnectionId='7' x:Name="SuggestionList"
+                      Background="Transparent"
+                      SelectionMode="Single"
+                      IsItemClickEnabled="True"
+                                                          
+                      Padding="2"
+                      MaxHeight="240">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="MinHeight" Value="0" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="8,5" ColumnSpacing="8" Background="Transparent">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Category badge -->
+                            <Border Grid.Column="0" CornerRadius="3" Padding="5,1"
+                                    VerticalAlignment="Center"
+                                    Background="#FF1A1A2E">
+                                <TextBlock x:Name="CategoryBadge"
+                                           Text="{Binding Category}"
+                                           FontSize="8" FontWeight="Bold"
+                                           Foreground="#FF00C8FF"
+                                           CharacterSpacing="80" />
+                            </Border>
+
+                            <!-- Label -->
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Label}"
+                                       FontSize="12" FontFamily="Consolas"
+                                       Foreground="#FF00FF88"
+                                       VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis" />
+
+                            <!-- Description -->
+                            <TextBlock Grid.Column="2"
+                                       Text="{Binding Description}"
+                                       FontSize="9"
+                                       Foreground="#FF8888AA"
+                                       VerticalAlignment="Center"
+                                       Opacity="0.7" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Border>
+
+        <!-- Builder mode panel -->
+        <Border x:ConnectionId='5' x:Name="BuilderModePanel" Grid.Row="4" Visibility="Collapsed"
+                Background="#FF0D0D1A" CornerRadius="6" Padding="12,10"
+                BorderBrush="#FF1A1A2E" BorderThickness="1"
+                Margin="0,2,0,0">
+            <controls:CommandBuilderPanel x:ConnectionId='6' x:Name="BuilderControl"
+                                                                                     />
+        </Border>
+    </Grid>
+</UserControl>
+

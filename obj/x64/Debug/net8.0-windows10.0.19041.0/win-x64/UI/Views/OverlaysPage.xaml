@@ -26,17 +26,17 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Spacing="4">
-                    <TextBlock Text="OBS OVERLAYS" FontSize="22" FontWeight="Bold"
+                    <TextBlock Text="OBS &amp; CLOUD OVERLAYS" FontSize="22" FontWeight="Bold"
                                Foreground="{StaticResource NeonBlueBrush}" CharacterSpacing="100" />
-                    <TextBlock Text="Create ranking overlays for OBS Browser Source"
+                    <TextBlock Text="Create overlays for OBS Browser Source or TikTok Studio via Cloudflare Pages"
                                FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-                        <Ellipse x:ConnectionId='34' x:Name="ServerStatusDot" Width="8" Height="8" Fill="#FFFF3250"
+                        <Ellipse x:ConnectionId='52' x:Name="ServerStatusDot" Width="8" Height="8" Fill="#FFFF3250"
                                  VerticalAlignment="Center" />
-                        <TextBlock x:ConnectionId='35' x:Name="ServerStatusText" Text="Stopped" FontSize="12" FontWeight="SemiBold"
+                        <TextBlock x:ConnectionId='53' x:Name="ServerStatusText" Text="Stopped" FontSize="12" FontWeight="SemiBold"
                                    Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
@@ -73,17 +73,17 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Port:" FontSize="12"
                                    Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
-                        <TextBox x:ConnectionId='31' x:Name="ServerPortBox" Grid.Column="1" Text="7700"
+                        <TextBox x:ConnectionId='49' x:Name="ServerPortBox" Grid.Column="1" Text="7700"
                                  Style="{StaticResource CyberpunkTextBoxStyle}" FontSize="12"
                                  MaxLength="5" InputScope="Number" />
-                        <Button x:ConnectionId='32' x:Name="StartServerBtn" Grid.Column="2"                          
+                        <Button x:ConnectionId='50' x:Name="StartServerBtn" Grid.Column="2"                          
                                 Style="{StaticResource CyberpunkAccentButtonStyle}" FontSize="12" Padding="16,8">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon Glyph="&#xE768;" FontFamily="Segoe MDL2 Assets" FontSize="12" />
                                 <TextBlock Text="Start Server" />
                             </StackPanel>
                         </Button>
-                        <Button x:ConnectionId='33' x:Name="StopServerBtn" Grid.Column="3"                         
+                        <Button x:ConnectionId='51' x:Name="StopServerBtn" Grid.Column="3"                         
                                 Style="{StaticResource CyberpunkDangerButtonStyle}" FontSize="12" Padding="16,8"
                                 IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Spacing="8">
@@ -95,15 +95,70 @@
                 </Grid>
             </Border>
 
+            <!-- ═══ CLOUD RELAY SETTINGS ═══ -->
+            <Border Style="{StaticResource PanelBorderStyle}">
+                <StackPanel Spacing="12">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <FontIcon Glyph="&#xE753;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                  Foreground="{StaticResource NeonPurpleBrush}" />
+                        <TextBlock Text="CLOUD OVERLAY RELAY" FontSize="12" FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" CharacterSpacing="100"
+                                   VerticalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                            <Ellipse x:ConnectionId='47' x:Name="CloudRelayStatusDot" Width="8" Height="8" Fill="#FFFF3250"
+                                     VerticalAlignment="Center" />
+                            <TextBlock x:ConnectionId='48' x:Name="CloudRelayStatusText" Text="Stopped" FontSize="11" FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                    <TextBlock Text="Publishes overlay data to Cloudflare — no port forwarding needed. Overlays auto-connect to arcaneplayconnect.pages.dev"
+                               FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" />
+
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Button x:ConnectionId='45' x:Name="StartCloudRelayBtn"                              
+                                Style="{StaticResource CyberpunkAccentButtonStyle}" FontSize="12" Padding="16,8">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE753;" FontFamily="Segoe MDL2 Assets" FontSize="12" />
+                                <TextBlock Text="Start Cloud Relay" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:ConnectionId='46' x:Name="StopCloudRelayBtn"                             
+                                Style="{StaticResource CyberpunkDangerButtonStyle}" FontSize="12" Padding="16,8"
+                                IsEnabled="False">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE71A;" FontFamily="Segoe MDL2 Assets" FontSize="12" />
+                                <TextBlock Text="Stop" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <TextBlock FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" Opacity="0.7">
+                        <Run FontWeight="SemiBold" Foreground="{StaticResource NeonPurpleBrush}">How it works:</Run>
+                        <Run> Your app pushes live data to Cloudflare. The overlay pages read it from the same site — no port forwarding or tunneling needed. Each overlay gets a unique cloud URL you can paste into TikTok Studio or OBS.</Run>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
             <!-- ═══ CREATE NEW OVERLAY ═══ -->
             <Border Style="{StaticResource PanelBorderStyle}">
                 <StackPanel Spacing="16">
                     <StackPanel Orientation="Horizontal" Spacing="10">
-                        <FontIcon Glyph="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                        <FontIcon x:ConnectionId='42' x:Name="CreateEditIcon" Glyph="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="18"
                                   Foreground="{StaticResource NeonPurpleBrush}" />
-                        <TextBlock Text="CREATE OVERLAY" FontSize="12" FontWeight="Bold"
+                        <TextBlock x:ConnectionId='43' x:Name="CreateEditTitle" Text="CREATE OVERLAY" FontSize="12" FontWeight="Bold"
                                    Foreground="{StaticResource TextPrimaryBrush}" CharacterSpacing="100"
                                    VerticalAlignment="Center" />
+                        <Button x:ConnectionId='44' x:Name="CancelEditBtn"                         
+                                Visibility="Collapsed"
+                                Background="Transparent" BorderThickness="0" Padding="6,4"
+                                VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <FontIcon Glyph="&#xE711;" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                                          Foreground="{StaticResource NeonPinkBrush}" />
+                                <TextBlock Text="Cancel Edit" FontSize="10" FontWeight="SemiBold"
+                                           Foreground="{StaticResource NeonPinkBrush}" />
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
 
                     <!-- Name -->
@@ -114,7 +169,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Name" FontSize="12"
                                    Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
-                        <TextBox x:ConnectionId='30' x:Name="OverlayNameBox" Grid.Column="1" Text="My Overlay"
+                        <TextBox x:ConnectionId='41' x:Name="OverlayNameBox" Grid.Column="1" Text="My Overlay"
                                  Style="{StaticResource CyberpunkTextBoxStyle}" FontSize="12"
                                  PlaceholderText="Overlay name..." />
                     </Grid>
@@ -123,11 +178,11 @@
                     <StackPanel Spacing="8">
                         <TextBlock Text="LAYOUT" FontSize="10" FontWeight="Bold"
                                    Foreground="{StaticResource TextSecondaryBrush}" CharacterSpacing="150" />
-                        <StackPanel x:ConnectionId='26' x:Name="LayoutPicker" Orientation="Horizontal" Spacing="10">
+                        <StackPanel x:ConnectionId='32' x:Name="LayoutPicker" Orientation="Horizontal" Spacing="10">
                             <!-- Vertical -->
-                            <Border x:ConnectionId='27' x:Name="LayoutVertical" Tag="Vertical"
+                            <Border x:ConnectionId='37' x:Name="LayoutVertical" Tag="Vertical"
                                                                      
-                                    Width="170" CornerRadius="8" Padding="0"
+                                    Width="130" CornerRadius="8" Padding="0"
                                     BorderThickness="2" BorderBrush="{StaticResource NeonBlueBrush}"
                                     Background="{StaticResource CardBgBrush}">
                                 <Grid>
@@ -148,7 +203,6 @@
                                                     Background="#22FFFFFF" VerticalAlignment="Center" Margin="0,0,4,0" />
                                             <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="4">
                                                 <Border Width="14" Height="8" CornerRadius="2" Background="#2200C8FF" />
-                                                <Border Width="14" Height="8" CornerRadius="2" Background="#2200C8FF" />
                                             </StackPanel>
                                         </Grid>
                                         <!-- mini row 2 (silver) -->
@@ -166,29 +220,10 @@
                                                     Background="#15FFFFFF" VerticalAlignment="Center" Margin="0,0,4,0" />
                                             <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="4">
                                                 <Border Width="14" Height="8" CornerRadius="2" Background="#1500C8FF" />
-                                                <Border Width="14" Height="8" CornerRadius="2" Background="#1500C8FF" />
-                                            </StackPanel>
-                                        </Grid>
-                                        <!-- mini row 3 (bronze) -->
-                                        <Grid Height="20" ColumnSpacing="6">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="16" />
-                                                <ColumnDefinition Width="16" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border Grid.Column="0" Width="16" Height="16" CornerRadius="8"
-                                                    Background="#33CD7F32" />
-                                            <Ellipse Grid.Column="1" Width="14" Height="14" Fill="#33CD7F32" />
-                                            <Border Grid.Column="2" Height="6" CornerRadius="3"
-                                                    Background="#10FFFFFF" VerticalAlignment="Center" Margin="0,0,4,0" />
-                                            <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="4">
-                                                <Border Width="14" Height="8" CornerRadius="2" Background="#1000C8FF" />
-                                                <Border Width="14" Height="8" CornerRadius="2" Background="#1000C8FF" />
                                             </StackPanel>
                                         </Grid>
                                         <!-- Label -->
-                                        <TextBlock Text="Vertical Ranking" FontSize="10" FontWeight="SemiBold"
+                                        <TextBlock Text="Vertical Ranking" FontSize="9" FontWeight="SemiBold"
                                                    Foreground="{StaticResource TextPrimaryBrush}"
                                                    HorizontalAlignment="Center" Margin="0,4,0,0" />
                                     </StackPanel>
@@ -196,69 +231,58 @@
                             </Border>
 
                             <!-- Horizontal -->
-                            <Border x:ConnectionId='28' x:Name="LayoutHorizontal" Tag="Horizontal"
+                            <Border x:ConnectionId='38' x:Name="LayoutHorizontal" Tag="Horizontal"
                                                                      
-                                    Width="170" CornerRadius="8" Padding="0"
+                                    Width="130" CornerRadius="8" Padding="0"
                                     BorderThickness="2" BorderBrush="{StaticResource DarkBg3Brush}"
                                     Background="{StaticResource CardBgBrush}">
                                 <Grid>
                                     <StackPanel Padding="10,10,10,8" Spacing="4">
                                         <!-- mini podium -->
-                                        <Grid Height="56" Margin="6,0">
+                                        <Grid Height="42" Margin="4,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
-                                            <!-- 2nd -->
                                             <StackPanel Grid.Column="0" VerticalAlignment="Bottom" Spacing="3"
                                                         HorizontalAlignment="Center">
-                                                <Ellipse Width="18" Height="18" Fill="#33C0C0C0"
+                                                <Ellipse Width="16" Height="16" Fill="#33C0C0C0"
                                                          HorizontalAlignment="Center" />
-                                                <Border Height="4" Width="26" CornerRadius="2"
+                                                <Border Height="3" Width="22" CornerRadius="2"
                                                         Background="#15FFFFFF" />
-                                                <Border Height="3" Width="20" CornerRadius="1"
-                                                        Background="#1500C8FF" HorizontalAlignment="Center" />
                                             </StackPanel>
-                                            <!-- 1st (taller) -->
                                             <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Spacing="3"
                                                         HorizontalAlignment="Center" Margin="0,0,0,6">
-                                                <Ellipse Width="24" Height="24" Fill="#33FFD700"
+                                                <Ellipse Width="20" Height="20" Fill="#33FFD700"
                                                          HorizontalAlignment="Center" />
-                                                <Border Height="4" Width="30" CornerRadius="2"
+                                                <Border Height="3" Width="26" CornerRadius="2"
                                                         Background="#22FFFFFF" />
-                                                <Border Height="3" Width="24" CornerRadius="1"
-                                                        Background="#2200C8FF" HorizontalAlignment="Center" />
                                             </StackPanel>
-                                            <!-- 3rd -->
                                             <StackPanel Grid.Column="2" VerticalAlignment="Bottom" Spacing="3"
                                                         HorizontalAlignment="Center">
-                                                <Ellipse Width="16" Height="16" Fill="#33CD7F32"
+                                                <Ellipse Width="14" Height="14" Fill="#33CD7F32"
                                                          HorizontalAlignment="Center" />
-                                                <Border Height="4" Width="24" CornerRadius="2"
+                                                <Border Height="3" Width="20" CornerRadius="2"
                                                         Background="#10FFFFFF" />
-                                                <Border Height="3" Width="18" CornerRadius="1"
-                                                        Background="#1000C8FF" HorizontalAlignment="Center" />
                                             </StackPanel>
                                         </Grid>
-                                        <!-- Label -->
-                                        <TextBlock Text="Horizontal Podium" FontSize="10" FontWeight="SemiBold"
+                                        <TextBlock Text="Horizontal Podium" FontSize="9" FontWeight="SemiBold"
                                                    Foreground="{StaticResource TextPrimaryBrush}"
                                                    HorizontalAlignment="Center" Margin="0,4,0,0" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
 
-                            <!-- Gift Wall -->
-                            <Border x:ConnectionId='29' x:Name="LayoutGiftWall" Tag="GiftWall"
+                            <!-- Gift Wall (Grid) -->
+                            <Border x:ConnectionId='39' x:Name="LayoutGiftWall" Tag="GiftWall"
                                                                      
-                                    Width="170" CornerRadius="8" Padding="0"
+                                    Width="130" CornerRadius="8" Padding="0"
                                     BorderThickness="2" BorderBrush="{StaticResource DarkBg3Brush}"
                                     Background="{StaticResource CardBgBrush}">
                                 <Grid>
                                     <StackPanel Padding="10,10,10,8" Spacing="4">
-                                        <!-- mini gift grid -->
-                                        <Grid Height="56" Margin="6,0">
+                                        <Grid Height="42" Margin="4,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="*" />
@@ -268,45 +292,272 @@
                                                 <RowDefinition Height="*" />
                                                 <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
-                                            <Border Grid.Column="0" Grid.Row="0" Width="22" Height="22"
-                                                    CornerRadius="4" Background="#33FF3278" Margin="2"
+                                            <Border Grid.Column="0" Grid.Row="0" Width="18" Height="18"
+                                                    CornerRadius="4" Background="#33FF3278" Margin="1"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <TextBlock Text="🎁" FontSize="11" HorizontalAlignment="Center"
+                                                <TextBlock Text="🎁" FontSize="9" HorizontalAlignment="Center"
                                                            VerticalAlignment="Center" />
                                             </Border>
-                                            <Border Grid.Column="1" Grid.Row="0" Width="22" Height="22"
-                                                    CornerRadius="4" Background="#33FF9500" Margin="2"
+                                            <Border Grid.Column="1" Grid.Row="0" Width="18" Height="18"
+                                                    CornerRadius="4" Background="#33FF9500" Margin="1"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <TextBlock Text="🌹" FontSize="11" HorizontalAlignment="Center"
+                                                <TextBlock Text="🌹" FontSize="9" HorizontalAlignment="Center"
                                                            VerticalAlignment="Center" />
                                             </Border>
-                                            <Border Grid.Column="2" Grid.Row="0" Width="22" Height="22"
-                                                    CornerRadius="4" Background="#3300C8FF" Margin="2"
+                                            <Border Grid.Column="2" Grid.Row="0" Width="18" Height="18"
+                                                    CornerRadius="4" Background="#3300C8FF" Margin="1"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <TextBlock Text="💎" FontSize="11" HorizontalAlignment="Center"
+                                                <TextBlock Text="💎" FontSize="9" HorizontalAlignment="Center"
                                                            VerticalAlignment="Center" />
                                             </Border>
-                                            <Border Grid.Column="0" Grid.Row="1" Width="22" Height="22"
-                                                    CornerRadius="4" Background="#33B400FF" Margin="2"
+                                            <Border Grid.Column="0" Grid.Row="1" Width="18" Height="18"
+                                                    CornerRadius="4" Background="#33B400FF" Margin="1"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <TextBlock Text="🦋" FontSize="11" HorizontalAlignment="Center"
+                                                <TextBlock Text="🦋" FontSize="9" HorizontalAlignment="Center"
                                                            VerticalAlignment="Center" />
                                             </Border>
-                                            <Border Grid.Column="1" Grid.Row="1" Width="22" Height="22"
-                                                    CornerRadius="4" Background="#3300FF88" Margin="2"
+                                            <Border Grid.Column="1" Grid.Row="1" Width="18" Height="18"
+                                                    CornerRadius="4" Background="#3300FF88" Margin="1"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <TextBlock Text="🎮" FontSize="11" HorizontalAlignment="Center"
+                                                <TextBlock Text="🎮" FontSize="9" HorizontalAlignment="Center"
                                                            VerticalAlignment="Center" />
                                             </Border>
-                                            <Border Grid.Column="2" Grid.Row="1" Width="22" Height="22"
-                                                    CornerRadius="4" Background="#33FFD700" Margin="2"
+                                            <Border Grid.Column="2" Grid.Row="1" Width="18" Height="18"
+                                                    CornerRadius="4" Background="#33FFD700" Margin="1"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <TextBlock Text="🦁" FontSize="11" HorizontalAlignment="Center"
+                                                <TextBlock Text="🦁" FontSize="9" HorizontalAlignment="Center"
                                                            VerticalAlignment="Center" />
                                             </Border>
                                         </Grid>
-                                        <!-- Label -->
-                                        <TextBlock Text="Gift Wall" FontSize="10" FontWeight="SemiBold"
+                                        <TextBlock Text="Gift Grid" FontSize="9" FontWeight="SemiBold"
+                                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                                   HorizontalAlignment="Center" Margin="0,4,0,0" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!-- Gift Wall Vertical (List) -->
+                            <Border x:ConnectionId='40' x:Name="LayoutGiftWallVertical" Tag="GiftWallVertical"
+                                                                     
+                                    Width="130" CornerRadius="8" Padding="0"
+                                    BorderThickness="2" BorderBrush="{StaticResource DarkBg3Brush}"
+                                    Background="{StaticResource CardBgBrush}">
+                                <Grid>
+                                    <StackPanel Padding="10,10,10,8" Spacing="4">
+                                        <StackPanel Height="42" Spacing="3" Margin="4,0">
+                                            <!-- mini gift row 1 -->
+                                            <Grid Height="18" ColumnSpacing="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="18" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border Grid.Column="0" Width="18" Height="18" CornerRadius="4"
+                                                        Background="#33FF3278">
+                                                    <TextBlock Text="🎁" FontSize="8" HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center" />
+                                                </Border>
+                                                <Border Grid.Column="1" Height="5" CornerRadius="2"
+                                                        Background="#22FFFFFF" VerticalAlignment="Center" />
+                                                <Border Grid.Column="2" Height="10" Width="28" CornerRadius="3"
+                                                        Background="#15B400FF" />
+                                            </Grid>
+                                            <!-- mini gift row 2 -->
+                                            <Grid Height="18" ColumnSpacing="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="18" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border Grid.Column="0" Width="18" Height="18" CornerRadius="4"
+                                                        Background="#33FF9500">
+                                                    <TextBlock Text="🌹" FontSize="8" HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center" />
+                                                </Border>
+                                                <Border Grid.Column="1" Height="5" CornerRadius="2"
+                                                        Background="#15FFFFFF" VerticalAlignment="Center" />
+                                                <Border Grid.Column="2" Height="10" Width="28" CornerRadius="3"
+                                                        Background="#15B400FF" />
+                                            </Grid>
+                                        </StackPanel>
+                                        <TextBlock Text="Gift List" FontSize="9" FontWeight="SemiBold"
+                                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                                   HorizontalAlignment="Center" Margin="0,4,0,0" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Second row of layout cards -->
+                        <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,10,0,0">
+                            <!-- Likes Ranking Vertical -->
+                            <Border x:ConnectionId='33' x:Name="LayoutLikesVertical" Tag="LikesVertical"
+                                                                     
+                                    Width="130" CornerRadius="8" Padding="0"
+                                    BorderThickness="2" BorderBrush="{StaticResource DarkBg3Brush}"
+                                    Background="{StaticResource CardBgBrush}">
+                                <Grid>
+                                    <StackPanel Padding="10,10,10,8" Spacing="4">
+                                        <StackPanel Height="42" Spacing="3" Margin="4,0">
+                                            <Grid Height="18" ColumnSpacing="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="16" />
+                                                    <ColumnDefinition Width="16" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border Grid.Column="0" Width="16" Height="16" CornerRadius="8"
+                                                        Background="#33FFD700" />
+                                                <Ellipse Grid.Column="1" Width="14" Height="14" Fill="#33FFD700" />
+                                                <Border Grid.Column="2" Height="6" CornerRadius="3"
+                                                        Background="#22FFFFFF" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="3" Text="❤️" FontSize="8"
+                                                           VerticalAlignment="Center" />
+                                            </Grid>
+                                            <Grid Height="18" ColumnSpacing="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="16" />
+                                                    <ColumnDefinition Width="16" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border Grid.Column="0" Width="16" Height="16" CornerRadius="8"
+                                                        Background="#33C0C0C0" />
+                                                <Ellipse Grid.Column="1" Width="14" Height="14" Fill="#33C0C0C0" />
+                                                <Border Grid.Column="2" Height="6" CornerRadius="3"
+                                                        Background="#15FFFFFF" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="3" Text="❤️" FontSize="8"
+                                                           VerticalAlignment="Center" />
+                                            </Grid>
+                                        </StackPanel>
+                                        <TextBlock Text="Likes Vertical" FontSize="9" FontWeight="SemiBold"
+                                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                                   HorizontalAlignment="Center" Margin="0,4,0,0" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!-- Likes Ranking Horizontal -->
+                            <Border x:ConnectionId='34' x:Name="LayoutLikesHorizontal" Tag="LikesHorizontal"
+                                                                     
+                                    Width="130" CornerRadius="8" Padding="0"
+                                    BorderThickness="2" BorderBrush="{StaticResource DarkBg3Brush}"
+                                    Background="{StaticResource CardBgBrush}">
+                                <Grid>
+                                    <StackPanel Padding="10,10,10,8" Spacing="4">
+                                        <Grid Height="42" Margin="4,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0" VerticalAlignment="Bottom" Spacing="2"
+                                                        HorizontalAlignment="Center">
+                                                <Ellipse Width="16" Height="16" Fill="#33C0C0C0"
+                                                         HorizontalAlignment="Center" />
+                                                <TextBlock Text="❤️" FontSize="7" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Spacing="2"
+                                                        HorizontalAlignment="Center" Margin="0,0,0,6">
+                                                <Ellipse Width="20" Height="20" Fill="#33FFD700"
+                                                         HorizontalAlignment="Center" />
+                                                <TextBlock Text="❤️" FontSize="8" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2" VerticalAlignment="Bottom" Spacing="2"
+                                                        HorizontalAlignment="Center">
+                                                <Ellipse Width="14" Height="14" Fill="#33CD7F32"
+                                                         HorizontalAlignment="Center" />
+                                                <TextBlock Text="❤️" FontSize="7" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </Grid>
+                                        <TextBlock Text="Likes Horizontal" FontSize="9" FontWeight="SemiBold"
+                                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                                   HorizontalAlignment="Center" Margin="0,4,0,0" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!-- Gift Ranking Vertical -->
+                            <Border x:ConnectionId='35' x:Name="LayoutGiftRankVertical" Tag="GiftRankVertical"
+                                                                     
+                                    Width="130" CornerRadius="8" Padding="0"
+                                    BorderThickness="2" BorderBrush="{StaticResource DarkBg3Brush}"
+                                    Background="{StaticResource CardBgBrush}">
+                                <Grid>
+                                    <StackPanel Padding="10,10,10,8" Spacing="4">
+                                        <StackPanel Height="42" Spacing="3" Margin="4,0">
+                                            <Grid Height="18" ColumnSpacing="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="16" />
+                                                    <ColumnDefinition Width="16" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border Grid.Column="0" Width="16" Height="16" CornerRadius="8"
+                                                        Background="#33FFD700" />
+                                                <Ellipse Grid.Column="1" Width="14" Height="14" Fill="#33FFD700" />
+                                                <Border Grid.Column="2" Height="6" CornerRadius="3"
+                                                        Background="#22FFFFFF" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="3" Text="🪙" FontSize="8"
+                                                           VerticalAlignment="Center" />
+                                            </Grid>
+                                            <Grid Height="18" ColumnSpacing="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="16" />
+                                                    <ColumnDefinition Width="16" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border Grid.Column="0" Width="16" Height="16" CornerRadius="8"
+                                                        Background="#33C0C0C0" />
+                                                <Ellipse Grid.Column="1" Width="14" Height="14" Fill="#33C0C0C0" />
+                                                <Border Grid.Column="2" Height="6" CornerRadius="3"
+                                                        Background="#15FFFFFF" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="3" Text="🪙" FontSize="8"
+                                                           VerticalAlignment="Center" />
+                                            </Grid>
+                                        </StackPanel>
+                                        <TextBlock Text="Gift Rank Vertical" FontSize="9" FontWeight="SemiBold"
+                                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                                   HorizontalAlignment="Center" Margin="0,4,0,0" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!-- Gift Ranking Horizontal -->
+                            <Border x:ConnectionId='36' x:Name="LayoutGiftRankHorizontal" Tag="GiftRankHorizontal"
+                                                                     
+                                    Width="130" CornerRadius="8" Padding="0"
+                                    BorderThickness="2" BorderBrush="{StaticResource DarkBg3Brush}"
+                                    Background="{StaticResource CardBgBrush}">
+                                <Grid>
+                                    <StackPanel Padding="10,10,10,8" Spacing="4">
+                                        <Grid Height="42" Margin="4,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0" VerticalAlignment="Bottom" Spacing="2"
+                                                        HorizontalAlignment="Center">
+                                                <Ellipse Width="16" Height="16" Fill="#33C0C0C0"
+                                                         HorizontalAlignment="Center" />
+                                                <TextBlock Text="🪙" FontSize="7" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Spacing="2"
+                                                        HorizontalAlignment="Center" Margin="0,0,0,6">
+                                                <Ellipse Width="20" Height="20" Fill="#33FFD700"
+                                                         HorizontalAlignment="Center" />
+                                                <TextBlock Text="🪙" FontSize="8" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2" VerticalAlignment="Bottom" Spacing="2"
+                                                        HorizontalAlignment="Center">
+                                                <Ellipse Width="14" Height="14" Fill="#33CD7F32"
+                                                         HorizontalAlignment="Center" />
+                                                <TextBlock Text="🪙" FontSize="7" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </Grid>
+                                        <TextBlock Text="Gift Rank Horiz." FontSize="9" FontWeight="SemiBold"
                                                    Foreground="{StaticResource TextPrimaryBrush}"
                                                    HorizontalAlignment="Center" Margin="0,4,0,0" />
                                     </StackPanel>
@@ -319,7 +570,7 @@
                     <StackPanel Spacing="8">
                         <TextBlock Text="THEME" FontSize="10" FontWeight="Bold"
                                    Foreground="{StaticResource TextSecondaryBrush}" CharacterSpacing="150" />
-                        <GridView x:ConnectionId='25' x:Name="ThemePicker" SelectionMode="None"
+                        <GridView x:ConnectionId='31' x:Name="ThemePicker" SelectionMode="None"
                                   IsItemClickEnabled="True"                            >
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -339,7 +590,7 @@
                     </StackPanel>
 
                     <!-- Stats toggles -->
-                    <Grid x:ConnectionId='9' x:Name="RankingSettingsPanel" ColumnSpacing="12">
+                    <Grid x:ConnectionId='11' x:Name="RankingSettingsPanel" ColumnSpacing="12">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="80" />
                             <ColumnDefinition Width="*" />
@@ -347,22 +598,22 @@
                         <TextBlock Grid.Column="0" Text="Show" FontSize="12"
                                    Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
                         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="16">
-                            <CheckBox x:ConnectionId='22' x:Name="ShowHPCheck" Content="HP" IsChecked="True" FontSize="12"
+                            <CheckBox x:ConnectionId='28' x:Name="ShowHPCheck" Content="HP" IsChecked="True" FontSize="12"
                                       Foreground="{StaticResource TextPrimaryBrush}" />
-                            <CheckBox x:ConnectionId='23' x:Name="ShowDmgCheck" Content="DMG" IsChecked="True" FontSize="12"
+                            <CheckBox x:ConnectionId='29' x:Name="ShowDmgCheck" Content="DMG" IsChecked="True" FontSize="12"
                                       Foreground="{StaticResource TextPrimaryBrush}" />
-                            <CheckBox x:ConnectionId='24' x:Name="ShowKillsCheck" Content="KILLS" IsChecked="True" FontSize="12"
+                            <CheckBox x:ConnectionId='30' x:Name="ShowKillsCheck" Content="KILLS" IsChecked="True" FontSize="12"
                                       Foreground="{StaticResource TextPrimaryBrush}" />
                         </StackPanel>
                     </Grid>
 
                     <!-- ── GIFT WALL PICKER (visible only when GiftWall selected) ── -->
-                    <StackPanel x:ConnectionId='10' x:Name="GiftWallPanel" Spacing="8" Visibility="Collapsed">
+                    <StackPanel x:ConnectionId='12' x:Name="GiftWallPanel" Spacing="8" Visibility="Collapsed">
                         <TextBlock Text="SELECT GIFTS FOR OVERLAY" FontSize="10" FontWeight="Bold"
                                    Foreground="{StaticResource TextSecondaryBrush}" CharacterSpacing="150" />
 
                         <!-- Search box for gifts -->
-                        <AutoSuggestBox x:ConnectionId='14' x:Name="OverlayGiftSearch"
+                        <AutoSuggestBox x:ConnectionId='18' x:Name="OverlayGiftSearch"
                                         PlaceholderText="Search gifts to add..."
                                         FontSize="12"
                                                                                    
@@ -375,7 +626,7 @@
                             </AutoSuggestBox.QueryIcon>
                             <AutoSuggestBox.ItemTemplate>
                                 <DataTemplate                               >
-                                    <Grid x:ConnectionId='18' Padding="4,4" ColumnSpacing="10">
+                                    <Grid x:ConnectionId='24' Padding="4,4" ColumnSpacing="10">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="32" />
                                             <ColumnDefinition Width="*" />
@@ -383,18 +634,17 @@
                                         </Grid.ColumnDefinitions>
                                         <Border Grid.Column="0" Width="32" Height="32" CornerRadius="4"
                                                 Background="#FF1A1A2E">
-                                            <Image x:ConnectionId='21'                            Stretch="UniformToFill"
+                                            <Image x:ConnectionId='27'                                   Stretch="UniformToFill"
                                                    Width="28" Height="28" />
                                         </Border>
-                                        <TextBlock x:ConnectionId='19' Grid.Column="1"                     
+                                        <TextBlock x:ConnectionId='25' Grid.Column="1"                     
                                                    Foreground="#FFE0E0FF" FontSize="12" FontWeight="SemiBold"
                                                    VerticalAlignment="Center"
                                                    TextTrimming="CharacterEllipsis" />
                                         <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="3"
                                                     VerticalAlignment="Center">
-                                            <TextBlock x:ConnectionId='20'                           FontSize="11"
+                                            <TextBlock x:ConnectionId='26'                             FontSize="11"
                                                        Foreground="#FFFF9500" FontWeight="SemiBold" />
-                                            <TextBlock Text="🪙" FontSize="10" VerticalAlignment="Center" />
                                         </StackPanel>
                                     </Grid>
                                 </DataTemplate>
@@ -406,10 +656,10 @@
                                 BorderBrush="{StaticResource DarkBg3Brush}" BorderThickness="1"
                                 Padding="8" MinHeight="60">
                             <StackPanel>
-                                <TextBlock x:ConnectionId='15' x:Name="SelectedGiftsCountText" Text="0 gifts selected"
+                                <TextBlock x:ConnectionId='21' x:Name="SelectedGiftsCountText" Text="0 gifts selected"
                                            FontSize="10" Foreground="{StaticResource TextSecondaryBrush}"
                                            Margin="0,0,0,6" />
-                                <ItemsControl x:ConnectionId='16' x:Name="SelectedGiftsList">
+                                <ItemsControl x:ConnectionId='22' x:Name="SelectedGiftsList">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Horizontal" Spacing="4" />
@@ -418,6 +668,15 @@
                                 </ItemsControl>
                             </StackPanel>
                         </Border>
+
+                        <!-- Gift text labels -->
+                        <StackPanel x:ConnectionId='19' x:Name="GiftTextLabelsPanel" Spacing="6" Visibility="Collapsed">
+                            <TextBlock Text="GIFT TEXT LABELS (optional)" FontSize="10" FontWeight="Bold"
+                                       Foreground="{StaticResource NeonPurpleBrush}" CharacterSpacing="120" />
+                            <TextBlock Text="Add custom text to display beside each gift in the overlay"
+                                       FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" />
+                            <StackPanel x:ConnectionId='20' x:Name="GiftTextInputsList" Spacing="6" />
+                        </StackPanel>
                     </StackPanel>
 
                     <!-- Max Players & Refresh (plain TextBox) -->
@@ -431,14 +690,14 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Max Players" FontSize="12"
                                    Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
-                        <TextBox x:ConnectionId='12' x:Name="MaxPlayersBox" Grid.Column="1" Text="5" Width="60"
+                        <TextBox x:ConnectionId='16' x:Name="MaxPlayersBox" Grid.Column="1" Text="5" Width="60"
                                  Style="{StaticResource CyberpunkTextBoxStyle}" FontSize="12"
                                  MaxLength="2" InputScope="Number" TextAlignment="Center" />
                         <Border Grid.Column="2" />
                         <TextBlock Grid.Column="3" Text="Refresh" FontSize="12"
                                    Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
                         <StackPanel Grid.Column="4" Orientation="Horizontal" Spacing="6">
-                            <TextBox x:ConnectionId='13' x:Name="RefreshBox" Text="2000" Width="70"
+                            <TextBox x:ConnectionId='17' x:Name="RefreshBox" Text="2000" Width="70"
                                      Style="{StaticResource CyberpunkTextBoxStyle}" FontSize="12"
                                      MaxLength="5" InputScope="Number" TextAlignment="Center" />
                             <TextBlock Text="ms" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"
@@ -447,12 +706,12 @@
                     </Grid>
 
                     <!-- Create button -->
-                    <Button x:ConnectionId='11'                            
+                    <Button x:ConnectionId='13' x:Name="CreateSaveBtn"                            
                             Style="{StaticResource CyberpunkAccentButtonStyle}" FontSize="12" Padding="20,10"
                             HorizontalAlignment="Left" Margin="0,2,0,0">
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Glyph="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="14" />
-                            <TextBlock Text="Create Overlay" />
+                            <FontIcon x:ConnectionId='14' x:Name="CreateSaveBtnIcon" Glyph="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="14" />
+                            <TextBlock x:ConnectionId='15' x:Name="CreateSaveBtnText" Text="Create Overlay" />
                         </StackPanel>
                     </Button>
                 </StackPanel>
@@ -467,7 +726,7 @@
                         <TextBlock Text="YOUR OVERLAYS" FontSize="12" FontWeight="Bold"
                                    Foreground="{StaticResource TextPrimaryBrush}" CharacterSpacing="100"
                                    VerticalAlignment="Center" />
-                        <TextBlock x:ConnectionId='8' x:Name="OverlayCountText" Text="(0)" FontSize="12"
+                        <TextBlock x:ConnectionId='10' x:Name="OverlayCountText" Text="(0)" FontSize="12"
                                    Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
                     </StackPanel>
 
@@ -534,23 +793,42 @@
                                                        FontFamily="Consolas" Opacity="0.8"
                                                        IsTextSelectionEnabled="True"
                                                        TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Text="{Binding CloudUrl}" FontSize="10"
+                                                       Foreground="{StaticResource NeonPurpleBrush}"
+                                                       FontFamily="Consolas" Opacity="0.8"
+                                                       IsTextSelectionEnabled="True"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       Visibility="{Binding HasCloudUrl}" />
                                         </StackPanel>
 
                                         <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6"
                                                     VerticalAlignment="Center">
                                             <Button x:ConnectionId='5'                       Tag="{Binding Url}"
-                                                    ToolTipService.ToolTip="Copy source link"
+                                                    ToolTipService.ToolTip="Copy local URL"
                                                     Background="Transparent" BorderThickness="0" Padding="8">
                                                 <FontIcon Glyph="&#xE8C8;" FontFamily="Segoe MDL2 Assets"
                                                           FontSize="14" Foreground="{StaticResource NeonBlueBrush}" />
                                             </Button>
-                                            <Button x:ConnectionId='6'                              Tag="{Binding Url}"
+                                            <Button x:ConnectionId='6'                       Tag="{Binding CloudUrl}"
+                                                    ToolTipService.ToolTip="Copy cloud URL"
+                                                    Background="Transparent" BorderThickness="0" Padding="8"
+                                                    Visibility="{Binding HasCloudUrl}">
+                                                <FontIcon Glyph="&#xE753;" FontFamily="Segoe MDL2 Assets"
+                                                          FontSize="14" Foreground="{StaticResource NeonPurpleBrush}" />
+                                            </Button>
+                                            <Button x:ConnectionId='7'                              Tag="{Binding Url}"
                                                     ToolTipService.ToolTip="Preview in browser"
                                                     Background="Transparent" BorderThickness="0" Padding="8">
                                                 <FontIcon Glyph="&#xE7B3;" FontFamily="Segoe MDL2 Assets"
                                                           FontSize="14" Foreground="{StaticResource NeonGreenBrush}" />
                                             </Button>
-                                            <Button x:ConnectionId='7'                             Tag="{Binding Id}"
+                                            <Button x:ConnectionId='8'                           Tag="{Binding Id}"
+                                                    ToolTipService.ToolTip="Edit overlay"
+                                                    Background="Transparent" BorderThickness="0" Padding="8">
+                                                <FontIcon Glyph="&#xE70F;" FontFamily="Segoe MDL2 Assets"
+                                                          FontSize="14" Foreground="{StaticResource NeonPurpleBrush}" />
+                                            </Button>
+                                            <Button x:ConnectionId='9'                             Tag="{Binding Id}"
                                                     ToolTipService.ToolTip="Delete overlay"
                                                     Background="Transparent" BorderThickness="0" Padding="8">
                                                 <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets"
@@ -565,16 +843,42 @@
                 </StackPanel>
             </Border>
 
-            <!-- ═══ OBS SETUP GUIDE ═══ -->
+            <!-- ═══ SETUP GUIDE ═══ -->
             <Border Style="{StaticResource PanelBorderStyle}">
                 <StackPanel Spacing="10">
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <FontIcon Glyph="&#xE946;" FontFamily="Segoe MDL2 Assets" FontSize="18"
                                   Foreground="{StaticResource NeonPurpleBrush}" />
-                        <TextBlock Text="OBS SETUP GUIDE" FontSize="12" FontWeight="Bold"
+                        <TextBlock Text="SETUP GUIDE" FontSize="12" FontWeight="Bold"
                                    Foreground="{StaticResource TextPrimaryBrush}" CharacterSpacing="100"
                                    VerticalAlignment="Center" />
                     </StackPanel>
+
+                    <TextBlock Text="CLOUD OVERLAY (TikTok Studio / Remote OBS)" FontSize="11" FontWeight="Bold"
+                               Foreground="{StaticResource NeonPurpleBrush}" CharacterSpacing="80" />
+                    <StackPanel Spacing="6" Padding="4,0,0,0">
+                        <TextBlock FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap">
+                            <Run FontWeight="SemiBold" Foreground="{StaticResource NeonPurpleBrush}">1.</Run>
+                            <Run> Create an overlay with your preferred theme and layout</Run>
+                        </TextBlock>
+                        <TextBlock FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap">
+                            <Run FontWeight="SemiBold" Foreground="{StaticResource NeonPurpleBrush}">2.</Run>
+                            <Run> Click "Start Cloud Relay" — your data is pushed to Cloudflare automatically</Run>
+                        </TextBlock>
+                        <TextBlock FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap">
+                            <Run FontWeight="SemiBold" Foreground="{StaticResource NeonPurpleBrush}">3.</Run>
+                            <Run> Copy the</Run>
+                            <Run FontFamily="Segoe MDL2 Assets" Foreground="{StaticResource NeonPurpleBrush}">&#xE753;</Run>
+                            <Run> cloud URL and paste it into TikTok Studio or OBS as a Browser Source</Run>
+                        </TextBlock>
+                        <TextBlock FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap">
+                            <Run FontWeight="SemiBold" Foreground="{StaticResource NeonPurpleBrush}">4.</Run>
+                            <Run> No port forwarding needed — it just works!</Run>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <TextBlock Text="LOCAL OVERLAY (OBS on same PC)" FontSize="11" FontWeight="Bold"
+                               Foreground="{StaticResource NeonBlueBrush}" CharacterSpacing="80" Margin="0,8,0,0" />
                     <StackPanel Spacing="6" Padding="4,0,0,0">
                         <TextBlock FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap">
                             <Run FontWeight="SemiBold" Foreground="{StaticResource NeonBlueBrush}">1.</Run>
@@ -588,7 +892,7 @@
                             <Run FontWeight="SemiBold" Foreground="{StaticResource NeonBlueBrush}">3.</Run>
                             <Run> Click the</Run>
                             <Run FontFamily="Segoe MDL2 Assets">&#xE8C8;</Run>
-                            <Run> copy button to copy the source URL</Run>
+                            <Run> copy button to copy the local URL</Run>
                         </TextBlock>
                         <TextBlock FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap">
                             <Run FontWeight="SemiBold" Foreground="{StaticResource NeonBlueBrush}">4.</Run>
@@ -602,12 +906,13 @@
                             <Run FontWeight="SemiBold" Foreground="{StaticResource NeonGreenBrush}">800</Run>
                             <Run> for horizontal layout</Run>
                         </TextBlock>
-                        <TextBlock FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"
-                                   TextWrapping="Wrap" Margin="0,4,0,0">
-                            <Run FontWeight="SemiBold" Foreground="{StaticResource NeonPurpleBrush}">Tip:</Run>
-                            <Run> You can create multiple overlays with different themes and layouts!</Run>
-                        </TextBlock>
                     </StackPanel>
+
+                    <TextBlock FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"
+                               TextWrapping="Wrap" Margin="0,4,0,0">
+                        <Run FontWeight="SemiBold" Foreground="{StaticResource NeonPurpleBrush}">Tip:</Run>
+                        <Run> You can create multiple overlays with different themes and layouts! Each gets its own unique cloud and local URL.</Run>
+                    </TextBlock>
                 </StackPanel>
             </Border>
 
