@@ -66,15 +66,26 @@ public class OverlayConfig
     public string CloudflareBaseUrl { get; set; } = DefaultCloudflareUrl;
 
     /// <summary>
-    /// Whether to enable cloud relay - pushes data to Cloudflare Pages Functions
+    /// Whether to enable cloud relay - pushes data to Cloudflare Worker
     /// so overlays work without port forwarding.
     /// </summary>
     public bool CloudPushEnabled { get; set; } = true;
 
     /// <summary>
-    /// The default Cloudflare Pages URL for ArcanePlayConnect.
+    /// URL of the Cloudflare Worker that hosts the Durable Object relay.
+    /// The desktop app pushes data here, and overlay browsers connect via WebSocket.
+    /// </summary>
+    public string WorkerUrl { get; set; } = DefaultWorkerUrl;
+
+    /// <summary>
+    /// The default Cloudflare Pages URL for ArcanePlayConnect (static overlay pages).
     /// </summary>
     public const string DefaultCloudflareUrl = "https://arcaneplayconnect.pages.dev";
+
+    /// <summary>
+    /// The default Cloudflare Worker URL for the Durable Object relay.
+    /// </summary>
+    public const string DefaultWorkerUrl = "https://arcaneplayconnect-relay.yuisayou.workers.dev";
 
     private static string GenerateStreamerId()
     {

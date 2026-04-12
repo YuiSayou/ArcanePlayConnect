@@ -98,6 +98,7 @@ public class OverlayServerService
                   $"&max={cfg.MaxPlayers}" +
                   $"&refresh={cfg.RefreshIntervalMs}" +
                   $"&stats={Uri.EscapeDataString(stats)}" +
+                  $"&relay={Uri.EscapeDataString(cfg.WorkerUrl.TrimEnd('/'))}" +
                   giftParam;
 
         return url;

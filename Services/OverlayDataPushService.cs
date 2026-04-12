@@ -67,7 +67,7 @@ public class OverlayDataPushService : IDisposable
     /// </summary>
     public void StartPushing(OverlayConfig config)
     {
-        if (string.IsNullOrEmpty(config.CloudflareBaseUrl) || string.IsNullOrEmpty(config.StreamerId))
+        if (string.IsNullOrEmpty(config.WorkerUrl) || string.IsNullOrEmpty(config.StreamerId))
             return;
 
         var key = $"{config.StreamerId}:{config.Id}";
@@ -258,8 +258,8 @@ public class OverlayDataPushService : IDisposable
 
     private static string BuildPushUrl(OverlayConfig config)
     {
-        var baseUrl = config.CloudflareBaseUrl.TrimEnd('/');
-        return $"{baseUrl}/api/data/{Uri.EscapeDataString(config.StreamerId)}/{Uri.EscapeDataString(config.Id)}";
+        var workerUrl = config.WorkerUrl.TrimEnd('/');
+        return $"{workerUrl}/api/data/{Uri.EscapeDataString(config.StreamerId)}/{Uri.EscapeDataString(config.Id)}";
     }
 
     private string GetOrCreatePushToken(string streamerId)
