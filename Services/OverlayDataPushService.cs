@@ -13,6 +13,13 @@ namespace ArcanePlayConnect.Services;
 /// Pushes overlay data to Cloudflare Pages Functions relay endpoint.
 /// This enables cloud overlays to work without port forwarding - the app
 /// pushes data to Cloudflare, and the overlay pages read from the same origin.
+///
+/// Quota optimization:
+///   - Computes a content hash (FNV-1a) of the JSON data before pushing
+///   - Skips the HTTP POST entirely when data hasn't changed since last push
+///   - Sends the hash in X-Content-Hash header so the server can also skip KV writes
+///   - Sends a keepalive ping at a much slower rate when idle to refresh KV TTL
+///   - For likes overlays (high-frequency changes), data is further debounced
 /// </summary>
 public class OverlayDataPushService : IDisposable
 {
@@ -28,6 +35,17 @@ public class OverlayDataPushService : IDisposable
     /// from the StreamerId to prevent other users from overwriting data.
     /// </summary>
     private readonly ConcurrentDictionary<string, string> _pushTokens = new();
+
+    /// <summary>
+    /// Stores the last content hash per overlay to skip unchanged pushes client-side.
+    /// </summary>
+    private readonly ConcurrentDictionary<string, string> _lastContentHashes = new();
+
+    /// <summary>
+    /// Maximum interval between keepalive pushes when data is idle (refreshes KV TTL).
+    /// Set to 60 seconds — well within the 5-minute KV TTL.
+    /// </summary>
+    private const int KeepaliveIntervalMs = 60_000;
 
     public bool IsRunning => _cts != null && !_cts.IsCancellationRequested;
     public event Action? StatusChanged;
@@ -80,6 +98,8 @@ public class OverlayDataPushService : IDisposable
         foreach (var key in keysToRemove)
         {
             _pushTasks.TryRemove(key, out _);
+            // Clean up stored hash
+            _lastContentHashes.TryRemove(key, out _);
         }
     }
 
@@ -90,17 +110,58 @@ public class OverlayDataPushService : IDisposable
     {
         _cts?.Cancel();
         _pushTasks.Clear();
+        _lastContentHashes.Clear();
         _cts = null;
         _logger.LogInfo("[CloudRelay] All push tasks stopped.", LogCategory.System);
         StatusChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// FNV-1a 32-bit hash — must match the same algorithm in the Cloudflare function.
+    /// </summary>
+    private static string Fnv1aHash(string input)
+    {
+        uint hash = 0x811c9dc5;
+        foreach (char c in input)
+        {
+            hash ^= c;
+            hash *= 0x01000193;
+        }
+        return hash.ToString("x8");
+    }
+
+    /// <summary>
+    /// Strips the "timestamp" field from JSON before hashing so that
+    /// the hash only reflects actual data changes (not the ever-changing timestamp).
+    /// </summary>
+    private static string StripTimestampForHash(string json)
+    {
+        // Quick regex-free approach: find and remove "timestamp":123456789
+        var idx = json.IndexOf("\"timestamp\":", StringComparison.Ordinal);
+        if (idx < 0) return json;
+
+        var endIdx = json.IndexOf(',', idx);
+        if (endIdx < 0) endIdx = json.IndexOf('}', idx);
+        if (endIdx < 0) return json;
+
+        // If there's a comma after the timestamp, remove the comma too
+        var removeEnd = endIdx;
+        if (endIdx < json.Length && json[endIdx] == ',')
+            removeEnd = endIdx + 1;
+
+        return string.Concat(json.AsSpan(0, idx), json.AsSpan(removeEnd));
     }
 
     private async Task PushLoopAsync(OverlayConfig config, CancellationToken token)
     {
         var pushUrl = BuildPushUrl(config);
         var pushToken = GetOrCreatePushToken(config.StreamerId);
+        var hashKey = $"{config.StreamerId}:{config.Id}";
 
         _logger.LogInfo($"[CloudRelay] Push URL: {pushUrl}", LogCategory.System);
+
+        int consecutiveNoChange = 0;
+        long lastPushTimeMs = 0;
 
         while (!token.IsCancellationRequested)
         {
@@ -109,7 +170,32 @@ public class OverlayDataPushService : IDisposable
                 var json = BuildJsonData(config);
                 if (json != null)
                 {
-                    await PushDataAsync(pushUrl, json, pushToken, token);
+                    // Hash without timestamp so that only actual data changes trigger a push
+                    var contentHash = Fnv1aHash(StripTimestampForHash(json));
+                    _lastContentHashes.TryGetValue(hashKey, out var lastHash);
+                    var now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+                    var timeSinceLastPush = now - lastPushTimeMs;
+                    var dataChanged = lastHash == null || lastHash != contentHash;
+
+                    if (dataChanged)
+                    {
+                        // Data changed — push immediately
+                        await PushDataAsync(pushUrl, json, pushToken, contentHash, token);
+                        _lastContentHashes[hashKey] = contentHash;
+                        lastPushTimeMs = now;
+                        consecutiveNoChange = 0;
+                    }
+                    else if (timeSinceLastPush >= KeepaliveIntervalMs)
+                    {
+                        // Data unchanged but TTL needs refreshing — send keepalive push
+                        await PushDataAsync(pushUrl, json, pushToken, contentHash, token);
+                        lastPushTimeMs = now;
+                    }
+                    else
+                    {
+                        consecutiveNoChange++;
+                    }
                 }
             }
             catch (OperationCanceledException)
@@ -119,11 +205,19 @@ public class OverlayDataPushService : IDisposable
             catch (Exception ex)
             {
                 _logger.LogWarning($"[CloudRelay] Push error for '{config.Name}': {ex.Message}", LogCategory.System);
+                consecutiveNoChange = 0;
             }
 
             try
             {
-                await Task.Delay(config.RefreshIntervalMs, token);
+                // Adaptive delay: when data is idle, slow down checking
+                // but never slower than the keepalive interval
+                var baseDelay = config.RefreshIntervalMs;
+                var delay = consecutiveNoChange > 0
+                    ? Math.Min(baseDelay * (1 + consecutiveNoChange / 2), KeepaliveIntervalMs)
+                    : baseDelay;
+
+                await Task.Delay((int)delay, token);
             }
             catch (OperationCanceledException)
             {
@@ -134,13 +228,12 @@ public class OverlayDataPushService : IDisposable
 
     private bool _loggedFirstSuccess = false;
 
-    private async Task PushDataAsync(string url, string json, string pushToken, CancellationToken token)
+    private async Task PushDataAsync(string url, string json, string pushToken, string contentHash, CancellationToken token)
     {
-        // Use POST instead of PUT - Cloudflare Pages Functions route POST more
-        // reliably than PUT, and many CDN/proxy layers block or strip PUT requests.
         using var request = new HttpRequestMessage(HttpMethod.Post, url);
         request.Content = new StringContent(json, Encoding.UTF8, "application/json");
         request.Headers.TryAddWithoutValidation("X-Push-Token", pushToken);
+        request.Headers.TryAddWithoutValidation("X-Content-Hash", contentHash);
 
         using var response = await _httpClient.SendAsync(request, token);
         if (!response.IsSuccessStatusCode)
