@@ -1,17 +1,23 @@
 /**
  * ArcanePlayConnect - Overlay Core Engine
- * 
- * Provides per-streamer channel isolation, secure data fetching,
+ *
+ * Provides per-streamer channel isolation, real-time data streaming,
  * and shared DOM-diffing utilities for all overlay types.
- * 
+ *
  * Architecture:
  *   - Each streamer gets a unique channel (streamerId)
  *   - The overlay reads config from URL params: ?streamer=...&overlay=...&theme=...
- *   - Data is read from the same Cloudflare origin via Pages Functions relay:
- *     GET /api/data/{streamerId}/{overlayId}
- *   - The desktop app pushes data to the same endpoint via PUT
+ *   - PRIMARY: WebSocket connection to Durable Object for instant push updates
+ *   - FALLBACK: HTTP GET polling if WebSocket is unavailable
+ *   - The desktop app pushes data via HTTP POST to the same Durable Object
  *   - No port forwarding required!
  *   - One overlay instance per streamer - no cross-contamination
+ *
+ * Quota optimization (WebSocket + Durable Object):
+ *   - Zero KV reads/writes (Durable Object holds data in memory)
+ *   - Zero polling from overlays (WebSocket receives instant push)
+ *   - Only desktop app POST requests count as Worker invocations
+ *   - Single long-lived WebSocket connection per overlay browser tab
  */
 
 'use strict';
@@ -22,12 +28,13 @@ const ArcaneOverlay = (() => {
     function getParams() {
         const params = new URLSearchParams(window.location.search);
         return {
-            streamerId: params.get('streamer')  || '',   // unique streamer channel ID
-            overlayId:  params.get('overlay')   || '',   // overlay config ID
+            streamerId: params.get('streamer')  || '',
+            overlayId:  params.get('overlay')   || '',
             theme:      params.get('theme')     || 'cyberpunk',
             maxPlayers: parseInt(params.get('max') || '5', 10),
             refresh:    parseInt(params.get('refresh') || '2000', 10),
             stats:      (params.get('stats') || 'HP,DMG,KILLS').split(',').map(s => s.trim().toUpperCase()),
+            relay:      params.get('relay')     || '',  // Worker URL for Durable Object relay
         };
     }
 
@@ -41,31 +48,45 @@ const ArcaneOverlay = (() => {
         return typeof id === 'string' && /^[a-zA-Z0-9_-]{3,64}$/.test(id);
     }
 
-    // -- Data Endpoint Builder --
-    // Data is served from the same Cloudflare origin via Pages Functions
-    function buildDataUrl(streamerId, overlayId) {
-        return `/api/data/${encodeURIComponent(streamerId)}/${encodeURIComponent(overlayId)}`;
+    // -- Endpoint Builders --
+    // Data and WebSocket endpoints point to the separate Cloudflare Worker
+    // (Durable Object relay), not the Pages static site origin.
+    function buildDataUrl(relayUrl, streamerId, overlayId) {
+        var base = relayUrl.replace(/\/+$/, '');
+        return base + '/api/data/' + encodeURIComponent(streamerId) + '/' + encodeURIComponent(overlayId);
     }
 
-    // -- Secure Fetch with Timeout --
-    async function fetchData(url, timeoutMs = 5000) {
+    function buildWsUrl(relayUrl, streamerId, overlayId) {
+        var base = relayUrl.replace(/\/+$/, '').replace(/^http/, 'ws');
+        return base + '/api/ws/' + encodeURIComponent(streamerId) + '/' + encodeURIComponent(overlayId);
+    }
+
+    // -- HTTP Fetch (fallback) --
+    async function fetchData(url, timeoutMs, etag) {
         const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), timeoutMs);
+        const timer = setTimeout(() => controller.abort(), timeoutMs || 5000);
 
         try {
+            const headers = { 'Accept': 'application/json' };
+            if (etag) headers['If-None-Match'] = '"' + etag + '"';
+
             const response = await fetch(url, {
                 method: 'GET',
                 signal: controller.signal,
-                headers: { 'Accept': 'application/json' },
+                headers: headers,
             });
 
             clearTimeout(timer);
 
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
+            if (response.status === 304) {
+                return { notModified: true, etag: etag };
             }
 
-            return await response.json();
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+
+            const newEtag = (response.headers.get('ETag') || '').replace(/"/g, '');
+            const data = await response.json();
+            return { notModified: false, data: data, etag: newEtag || null };
         } catch (err) {
             clearTimeout(timer);
             throw err;
@@ -89,7 +110,6 @@ const ArcaneOverlay = (() => {
         if (!statusEl) return;
         if (success) {
             consecutiveErrors = 0;
-            // Check if we have actual player/gift data or just an empty response
             var playerCount = 0;
             if (data) {
                 if (Array.isArray(data.players)) playerCount = data.players.length;
@@ -98,13 +118,11 @@ const ArcaneOverlay = (() => {
             if (playerCount > 0) hasReceivedData = true;
 
             if (hasReceivedData) {
-                // We have received real data at least once - show LIVE
                 connectionState = 'connected';
                 statusEl.className = 'connection-status connected';
                 statusEl.textContent = '\u25CF LIVE';
                 setTimeout(() => { if (statusEl) statusEl.style.opacity = '0.3'; }, 3000);
             } else {
-                // API responds OK but no data pushed yet - show WAITING
                 connectionState = 'connecting';
                 statusEl.className = 'connection-status connecting';
                 statusEl.textContent = '\u25CF WAITING FOR DATA';
@@ -158,65 +176,200 @@ const ArcaneOverlay = (() => {
         return String(n);
     }
 
-    // -- Polling Engine --
-    /**
-     * Creates a polling loop that fetches data and calls the render callback.
-     * @param {Object} config - { streamerId, overlayId, refresh }
-     * @param {Function} renderFn - Called with (data) on each successful fetch
-     * @returns {Function} stop - Call to stop polling
-     */
-    function startPolling(config, renderFn) {
-        const { streamerId, overlayId, refresh } = config;
-        const dataUrl = buildDataUrl(streamerId, overlayId);
+    // =====================================================================
+    //  WebSocket-First Streaming Engine
+    //
+    //  1. Tries to connect via WebSocket to the Durable Object
+    //  2. On success: receives instant push updates, zero polling
+    //  3. On failure / unsupported: falls back to adaptive HTTP polling
+    //  4. Auto-reconnects WebSocket on disconnect with exponential backoff
+    // =====================================================================
+
+    function startStreaming(config, renderFn) {
+        const { streamerId, overlayId, refresh, relay } = config;
+
+        if (!relay) {
+            // No relay Worker URL — cannot connect. Show error.
+            showError('Missing "relay" parameter. The Worker relay URL is required for cloud overlays.');
+            return function() {};
+        }
+
+        const wsUrl = buildWsUrl(relay, streamerId, overlayId);
+        const dataUrl = buildDataUrl(relay, streamerId, overlayId);
         let running = true;
+
+        // WebSocket state
+        let ws = null;
+        let wsConnected = false;
+        let wsReconnectDelay = 1000; // start at 1s, exponential backoff
+        let wsReconnectTimer = null;
+        let wsPingTimer = null;
+
+        // Fallback polling state
+        let pollTimer = null;
+        let lastEtag = null;
+        const baseInterval = refresh || 2000;
+        const maxPollInterval = Math.max(baseInterval * 5, 10000);
+        let consecutiveNoChange = 0;
 
         createStatusIndicator();
 
-        async function poll() {
+        // -- WebSocket Connection --
+
+        function connectWebSocket() {
             if (!running) return;
 
             try {
-                const data = await fetchData(dataUrl);
-                updateConnectionStatus(true, data);
-                renderFn(data);
-            } catch (err) {
-                updateConnectionStatus(false, null);
+                ws = new WebSocket(wsUrl);
+            } catch (e) {
+                // WebSocket not supported or blocked — fall back to polling
+                startFallbackPolling();
+                return;
             }
 
-            if (running) {
-                setTimeout(poll, refresh || 2000);
-            }
+            ws.onopen = function() {
+                wsConnected = true;
+                wsReconnectDelay = 1000; // reset backoff on success
+
+                // Stop fallback polling if it was running
+                stopFallbackPolling();
+
+                // Start ping/pong keepalive every 30s to prevent idle timeout
+                clearInterval(wsPingTimer);
+                wsPingTimer = setInterval(function() {
+                    if (ws && ws.readyState === WebSocket.OPEN) {
+                        try { ws.send('ping'); } catch { /* ignore */ }
+                    }
+                }, 30000);
+
+                updateConnectionStatus(true, null);
+            };
+
+            ws.onmessage = function(event) {
+                if (!running) return;
+                var msg = event.data;
+
+                // Ignore pong responses
+                if (msg === 'pong') return;
+
+                // Parse JSON data pushed by the Durable Object
+                try {
+                    var data = JSON.parse(msg);
+                    updateConnectionStatus(true, data);
+                    renderFn(data);
+                } catch (e) {
+                    // Malformed message — ignore
+                }
+            };
+
+            ws.onclose = function() {
+                wsConnected = false;
+                clearInterval(wsPingTimer);
+                wsPingTimer = null;
+
+                if (!running) return;
+
+                updateConnectionStatus(false, null);
+
+                // Start fallback polling immediately while we reconnect
+                startFallbackPolling();
+
+                // Exponential backoff reconnect
+                clearTimeout(wsReconnectTimer);
+                wsReconnectTimer = setTimeout(function() {
+                    connectWebSocket();
+                }, wsReconnectDelay);
+                wsReconnectDelay = Math.min(wsReconnectDelay * 1.5, 15000); // cap at 15s
+            };
+
+            ws.onerror = function() {
+                // onerror is always followed by onclose, so reconnect happens there
+            };
         }
 
-        poll();
+        // -- Fallback HTTP Polling (used while WS is disconnected) --
 
-        return () => { running = false; };
+        function startFallbackPolling() {
+            if (pollTimer || !running) return;
+
+            async function poll() {
+                if (!running || wsConnected) {
+                    pollTimer = null;
+                    return;
+                }
+
+                try {
+                    var result = await fetchData(dataUrl, 5000, lastEtag);
+                    if (result.notModified) {
+                        updateConnectionStatus(true, null);
+                        consecutiveNoChange++;
+                    } else {
+                        lastEtag = result.etag;
+                        updateConnectionStatus(true, result.data);
+                        renderFn(result.data);
+                        consecutiveNoChange = 0;
+                    }
+                } catch (err) {
+                    updateConnectionStatus(false, null);
+                    consecutiveNoChange = 0;
+                }
+
+                if (running && !wsConnected) {
+                    var interval = consecutiveNoChange > 0
+                        ? Math.min(Math.round(baseInterval * (1 + 0.5 * consecutiveNoChange)), maxPollInterval)
+                        : baseInterval;
+                    pollTimer = setTimeout(poll, interval);
+                } else {
+                    pollTimer = null;
+                }
+            }
+
+            poll();
+        }
+
+        function stopFallbackPolling() {
+            clearTimeout(pollTimer);
+            pollTimer = null;
+        }
+
+        // -- Start! --
+        connectWebSocket();
+
+        // Return stop function
+        return function() {
+            running = false;
+            clearTimeout(wsReconnectTimer);
+            clearInterval(wsPingTimer);
+            stopFallbackPolling();
+            if (ws) {
+                try { ws.close(); } catch { /* ignore */ }
+                ws = null;
+            }
+        };
+    }
+
+    // Keep legacy startPolling as alias for backward compat (used by gift walls etc.)
+    function startPolling(config, renderFn) {
+        return startStreaming(config, renderFn);
     }
 
     // -- Error Page --
     function showError(message) {
-        document.body.innerHTML = `
-            <div style="display:flex;align-items:center;justify-content:center;height:100vh;
-                        font-family:'Rajdhani',sans-serif;color:#ff3278;text-align:center;padding:40px;">
-                <div>
-                    <div style="font-size:48px;margin-bottom:16px;">\u26A0\uFE0F</div>
-                    <h2 style="font-family:'Orbitron',sans-serif;font-size:20px;margin-bottom:12px;
-                               letter-spacing:3px;">CONFIGURATION ERROR</h2>
-                    <p style="color:#8888aa;font-size:14px;max-width:400px;line-height:1.6;">${escHtml(message)}</p>
-                </div>
-            </div>`;
+        document.body.innerHTML =
+            '<div style="display:flex;align-items:center;justify-content:center;height:100vh;' +
+            'font-family:\'Rajdhani\',sans-serif;color:#ff3278;text-align:center;padding:40px;">' +
+            '<div>' +
+            '<div style="font-size:48px;margin-bottom:16px;">\u26A0\uFE0F</div>' +
+            '<h2 style="font-family:\'Orbitron\',sans-serif;font-size:20px;margin-bottom:12px;' +
+            'letter-spacing:3px;">CONFIGURATION ERROR</h2>' +
+            '<p style="color:#8888aa;font-size:14px;max-width:400px;line-height:1.6;">' + escHtml(message) + '</p>' +
+            '</div></div>';
     }
 
     // -- Initialization --
-    /**
-     * Initialize an overlay. Validates params, applies theme, starts polling.
-     * @param {Function} renderFn - Called with (data) on each poll
-     * @returns {{ params, stop }} or null if config invalid
-     */
     function init(renderFn) {
         const params = getParams();
 
-        // Validate required params
         if (!params.streamerId || !isValidStreamerId(params.streamerId)) {
             showError('Missing or invalid "streamer" parameter. Must be 3-64 alphanumeric characters.');
             return null;
@@ -227,11 +380,14 @@ const ArcaneOverlay = (() => {
             return null;
         }
 
-        // Apply theme
+        if (!params.relay) {
+            showError('Missing "relay" parameter. The Worker relay URL is required for cloud overlays.');
+            return null;
+        }
+
         applyTheme(params.theme);
 
-        // Start polling - data comes from same origin via Cloudflare Pages Functions
-        const stop = startPolling(params, renderFn);
+        const stop = startStreaming(params, renderFn);
 
         return { params, stop };
     }
@@ -242,8 +398,10 @@ const ArcaneOverlay = (() => {
         getParams,
         applyTheme,
         startPolling,
+        startStreaming,
         fetchData,
         buildDataUrl,
+        buildWsUrl,
         showError,
         isValidStreamerId,
 
