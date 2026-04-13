@@ -44,10 +44,28 @@ public class OverlayDataPushService : IDisposable
 
     /// <summary>
     /// Maximum interval between keepalive pushes when data is idle.
-    /// The Durable Object stays alive as long as WebSocket clients are connected,
-    /// but we send periodic pushes to keep the data fresh and handle reconnects.
+    /// The DO stays alive via WebSocket pings from overlay clients.
+    /// Keepalives are only needed to handle fresh overlay connections
+    /// that missed the last broadcast. 120s is sufficient.
     /// </summary>
-    private const int KeepaliveIntervalMs = 30_000;
+    private const int KeepaliveIntervalMs = 120_000;
+
+    /// <summary>
+    /// Maximum adaptive delay between local data checks when data is idle.
+    /// Ramps up from RefreshIntervalMs to this ceiling to reduce CPU usage.
+    /// </summary>
+    private const int MaxIdleCheckIntervalMs = 60_000;
+
+    /// <summary>
+    /// Caches the last JSON string per overlay to avoid redundant serialization.
+    /// </summary>
+    private readonly ConcurrentDictionary<string, string> _lastJsonCache = new();
+
+    /// <summary>
+    /// Tracks whether the DO reported any connected WebSocket clients.
+    /// When no clients are connected, we can skip keepalive pushes entirely.
+    /// </summary>
+    private readonly ConcurrentDictionary<string, int> _lastClientCount = new();
 
     public bool IsRunning => _cts != null && !_cts.IsCancellationRequested;
     public event Action? StatusChanged;
@@ -101,6 +119,8 @@ public class OverlayDataPushService : IDisposable
         {
             _pushTasks.TryRemove(key, out _);
             _lastContentHashes.TryRemove(key, out _);
+            _lastJsonCache.TryRemove(key, out _);
+            _lastClientCount.TryRemove(key, out _);
         }
     }
 
@@ -112,6 +132,8 @@ public class OverlayDataPushService : IDisposable
         _cts?.Cancel();
         _pushTasks.Clear();
         _lastContentHashes.Clear();
+        _lastJsonCache.Clear();
+        _lastClientCount.Clear();
         _cts = null;
         _logger.LogInfo("[CloudRelay] All push tasks stopped.", LogCategory.System);
         StatusChanged?.Invoke();
@@ -178,16 +200,23 @@ public class OverlayDataPushService : IDisposable
 
                     if (dataChanged)
                     {
-                        // Data changed — push immediately, DO will broadcast to WebSocket clients
-                        await PushDataAsync(pushUrl, json, pushToken, contentHash, token);
+                        // Data changed — push immediately
+                        var clients = await PushDataAsync(pushUrl, json, pushToken, contentHash, token);
                         _lastContentHashes[hashKey] = contentHash;
+                        _lastJsonCache[hashKey] = json;
+                        _lastClientCount[hashKey] = clients;
                         lastPushTimeMs = now;
                         consecutiveNoChange = 0;
                     }
                     else if (timeSinceLastPush >= KeepaliveIntervalMs)
                     {
-                        // Keepalive push — DO uses hash dedup so this won't broadcast
-                        await PushDataAsync(pushUrl, json, pushToken, contentHash, token);
+                        // Keepalive — but only if DO has connected clients
+                        _lastClientCount.TryGetValue(hashKey, out var clients);
+                        if (clients > 0)
+                        {
+                            var freshClients = await PushDataAsync(pushUrl, json, pushToken, contentHash, token);
+                            _lastClientCount[hashKey] = freshClients;
+                        }
                         lastPushTimeMs = now;
                     }
                     else
@@ -208,12 +237,25 @@ public class OverlayDataPushService : IDisposable
 
             try
             {
-                var baseDelay = config.RefreshIntervalMs;
-                var delay = consecutiveNoChange > 0
-                    ? Math.Min(baseDelay * (1 + consecutiveNoChange / 2), KeepaliveIntervalMs)
-                    : baseDelay;
+                // Aggressive adaptive backoff: ramp from base → 60s when idle
+                var baseDelay = Math.Max(config.RefreshIntervalMs, 3000);
+                int delay;
+                if (consecutiveNoChange <= 0)
+                {
+                    delay = baseDelay;
+                }
+                else if (consecutiveNoChange < 5)
+                {
+                    // First 5 idle cycles: gentle ramp (3s → 6s)
+                    delay = baseDelay + (consecutiveNoChange * 1000);
+                }
+                else
+                {
+                    // After 5 idle cycles: aggressive ramp toward ceiling
+                    delay = Math.Min(baseDelay * consecutiveNoChange, MaxIdleCheckIntervalMs);
+                }
 
-                await Task.Delay((int)delay, token);
+                await Task.Delay(delay, token);
             }
             catch (OperationCanceledException)
             {
@@ -224,7 +266,11 @@ public class OverlayDataPushService : IDisposable
 
     private bool _loggedFirstSuccess = false;
 
-    private async Task PushDataAsync(string url, string json, string pushToken, string contentHash, CancellationToken token)
+    /// <summary>
+    /// Pushes data to the Worker and returns the number of connected WebSocket clients
+    /// reported by the DO (or -1 on error).
+    /// </summary>
+    private async Task<int> PushDataAsync(string url, string json, string pushToken, string contentHash, CancellationToken token)
     {
         using var request = new HttpRequestMessage(HttpMethod.Post, url);
         request.Content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -236,12 +282,31 @@ public class OverlayDataPushService : IDisposable
         {
             var body = await response.Content.ReadAsStringAsync(token);
             _logger.LogWarning($"[CloudRelay] POST {url} returned {(int)response.StatusCode} {response.StatusCode}: {body}", LogCategory.System);
+            return -1;
         }
-        else if (!_loggedFirstSuccess)
+
+        if (!_loggedFirstSuccess)
         {
             _loggedFirstSuccess = true;
             _logger.LogInfo($"[CloudRelay] Push OK — data is being relayed via Durable Object.", LogCategory.System);
         }
+
+        // Parse client count from DO response: {"ok":true,"clients":N}
+        try
+        {
+            var respBody = await response.Content.ReadAsStringAsync(token);
+            var clientsIdx = respBody.IndexOf("\"clients\":", StringComparison.Ordinal);
+            if (clientsIdx >= 0)
+            {
+                var numStart = clientsIdx + 10;
+                var numEnd = respBody.IndexOfAny(['}', ','], numStart);
+                if (numEnd > numStart && int.TryParse(respBody.AsSpan(numStart, numEnd - numStart), out var clients))
+                    return clients;
+            }
+        }
+        catch { /* ignore parse errors */ }
+
+        return -1;
     }
 
     private string? BuildJsonData(OverlayConfig config)

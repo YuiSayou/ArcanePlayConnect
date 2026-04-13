@@ -13,11 +13,13 @@
  *   - No port forwarding required!
  *   - One overlay instance per streamer - no cross-contamination
  *
- * Quota optimization (WebSocket + Durable Object):
+ * Quota optimization (WebSocket + Hibernatable Durable Object):
  *   - Zero KV reads/writes (Durable Object holds data in memory)
  *   - Zero polling from overlays (WebSocket receives instant push)
  *   - Only desktop app POST requests count as Worker invocations
  *   - Single long-lived WebSocket connection per overlay browser tab
+ *   - Hibernatable WS: DO sleeps between messages, minimal billable duration
+ *   - Client pings at 4min intervals to avoid unnecessary DO wake-ups
  */
 
 'use strict';
@@ -189,7 +191,6 @@ const ArcaneOverlay = (() => {
         const { streamerId, overlayId, refresh, relay } = config;
 
         if (!relay) {
-            // No relay Worker URL — cannot connect. Show error.
             showError('Missing "relay" parameter. The Worker relay URL is required for cloud overlays.');
             return function() {};
         }
@@ -222,7 +223,7 @@ const ArcaneOverlay = (() => {
             try {
                 ws = new WebSocket(wsUrl);
             } catch (e) {
-                // WebSocket not supported or blocked — fall back to polling
+                // WebSocket not supported or blocked - fall back to polling
                 startFallbackPolling();
                 return;
             }
@@ -234,13 +235,16 @@ const ArcaneOverlay = (() => {
                 // Stop fallback polling if it was running
                 stopFallbackPolling();
 
-                // Start ping/pong keepalive every 30s to prevent idle timeout
+                // Ping/pong keepalive every 4 minutes.
+                // With Hibernatable WebSockets, each ping wakes the DO and costs
+                // billable duration. Cloudflare keeps WS connections alive for ~10min
+                // idle, so 4min is safe while minimizing DO wake-ups.
                 clearInterval(wsPingTimer);
                 wsPingTimer = setInterval(function() {
                     if (ws && ws.readyState === WebSocket.OPEN) {
                         try { ws.send('ping'); } catch { /* ignore */ }
                     }
-                }, 30000);
+                }, 240000);
 
                 updateConnectionStatus(true, null);
             };
@@ -258,7 +262,7 @@ const ArcaneOverlay = (() => {
                     updateConnectionStatus(true, data);
                     renderFn(data);
                 } catch (e) {
-                    // Malformed message — ignore
+                    // Malformed message - ignore
                 }
             };
 
@@ -271,15 +275,14 @@ const ArcaneOverlay = (() => {
 
                 updateConnectionStatus(false, null);
 
-                // Start fallback polling immediately while we reconnect
-                startFallbackPolling();
-
-                // Exponential backoff reconnect
+                // Reconnect WebSocket with exponential backoff.
+                // No fallback polling - each HTTP poll burns a Worker + DO request.
+                // The WS reconnect is free once established.
                 clearTimeout(wsReconnectTimer);
                 wsReconnectTimer = setTimeout(function() {
                     connectWebSocket();
                 }, wsReconnectDelay);
-                wsReconnectDelay = Math.min(wsReconnectDelay * 1.5, 15000); // cap at 15s
+                wsReconnectDelay = Math.min(wsReconnectDelay * 2, 30000); // cap at 30s
             };
 
             ws.onerror = function() {
