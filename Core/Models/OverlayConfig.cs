@@ -22,7 +22,18 @@ public enum OverlayTheme
     ArcticFrost,
     DragonForge,
     SakuraBloom,
-    VoidShadow
+    VoidShadow,
+    MidnightGold,
+    ToxicWaste,
+    OceanDepth,
+    RetroWave
+}
+
+public enum OverlayStyle
+{
+    Default,
+    Compact,
+    Minimal
 }
 
 public enum OverlayStat
@@ -38,6 +49,7 @@ public class OverlayConfig
     public string Name { get; set; } = "New Overlay";
     public OverlayType Type { get; set; } = OverlayType.RankingVertical;
     public OverlayTheme Theme { get; set; } = OverlayTheme.Cyberpunk;
+    public OverlayStyle Style { get; set; } = OverlayStyle.Default;
     public bool ShowHP { get; set; } = true;
     public bool ShowDamage { get; set; } = true;
     public bool ShowKills { get; set; } = true;

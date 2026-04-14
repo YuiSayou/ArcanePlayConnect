@@ -78,6 +78,54 @@
     --title-font: 'Orbitron', sans-serif;
 }
 
+:root[data-theme="midnightgold"] {
+    --accent: #ffd700; --accent2: #c8a200; --accent3: #fff4b0;
+    --bg: rgba(8,6,18,0.94); --card: rgba(18,14,32,0.96);
+    --card-border: rgba(255,215,0,0.2); --text: #f0e8d0; --text2: #8a7a55;
+    --rank1: #ffd700; --rank2: #d4af37; --rank3: #b8860b;
+    --hp-bar: linear-gradient(90deg, #ffd700, #c8a200);
+    --hp-bar-low: linear-gradient(90deg, #ff4444, #881111);
+    --gradient: linear-gradient(135deg, #ffd700, #c8a200, #fff4b0);
+    --glow: 0 0 20px rgba(255,215,0,0.35);
+    --title-font: 'Cinzel', serif;
+}
+
+:root[data-theme="toxicwaste"] {
+    --accent: #39ff14; --accent2: #00cc00; --accent3: #ccff00;
+    --bg: rgba(4,12,4,0.94); --card: rgba(10,25,10,0.96);
+    --card-border: rgba(57,255,20,0.2); --text: #d0ffd0; --text2: #558855;
+    --rank1: #ccff00; --rank2: #39ff14; --rank3: #00cc00;
+    --hp-bar: linear-gradient(90deg, #39ff14, #ccff00);
+    --hp-bar-low: linear-gradient(90deg, #ff3300, #881100);
+    --gradient: linear-gradient(135deg, #39ff14, #00cc00, #ccff00);
+    --glow: 0 0 20px rgba(57,255,20,0.4);
+    --title-font: 'Orbitron', sans-serif;
+}
+
+:root[data-theme="oceandepth"] {
+    --accent: #00bfff; --accent2: #0066cc; --accent3: #66d9ff;
+    --bg: rgba(2,8,18,0.94); --card: rgba(6,16,35,0.96);
+    --card-border: rgba(0,191,255,0.2); --text: #c8e8ff; --text2: #5588aa;
+    --rank1: #66d9ff; --rank2: #00bfff; --rank3: #0066cc;
+    --hp-bar: linear-gradient(90deg, #00bfff, #66d9ff);
+    --hp-bar-low: linear-gradient(90deg, #ff4466, #992244);
+    --gradient: linear-gradient(135deg, #00bfff, #0066cc, #66d9ff);
+    --glow: 0 0 20px rgba(0,191,255,0.35);
+    --title-font: 'Rajdhani', sans-serif;
+}
+
+:root[data-theme="retrowave"] {
+    --accent: #ff6ec7; --accent2: #7b2dff; --accent3: #00f0ff;
+    --bg: rgba(12,2,20,0.94); --card: rgba(25,5,40,0.96);
+    --card-border: rgba(255,110,199,0.25); --text: #ffe0f8; --text2: #aa66aa;
+    --rank1: #00f0ff; --rank2: #ff6ec7; --rank3: #7b2dff;
+    --hp-bar: linear-gradient(90deg, #ff6ec7, #00f0ff);
+    --hp-bar-low: linear-gradient(90deg, #ff2244, #880022);
+    --gradient: linear-gradient(135deg, #ff6ec7, #7b2dff, #00f0ff);
+    --glow: 0 0 20px rgba(255,110,199,0.4);
+    --title-font: 'Orbitron', sans-serif;
+}
+
 /* === Base reset === */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -114,6 +162,176 @@ body {
 @keyframes popIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes popOut { from { opacity: 1; } to { opacity: 0; transform: scale(0.8); } }
 @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+/* --- Rank change pulse --- */
+@keyframes rankPulse {
+    0%   { transform: scale(1); filter: brightness(1); }
+    30%  { transform: scale(1.06); filter: brightness(1.4); }
+    100% { transform: scale(1); filter: brightness(1); }
+}
+.rank-changed { animation: rankPulse 0.5s ease; }
+
+/* --- Value change flash --- */
+@keyframes valFlash {
+    0%   { color: var(--accent3); transform: scale(1.25); }
+    100% { color: var(--accent); transform: scale(1); }
+}
+.val-changed { animation: valFlash 0.4s ease; }
+
+/* --- Shimmer effect for rank-1 cards --- */
+@keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+.player-card.rank-1 .player-name,
+.player-card.rank-1 .like-count,
+.player-card.rank-1 .coin-count {
+    background: linear-gradient(90deg, var(--rank1) 0%, var(--accent3) 50%, var(--rank1) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+/* --- Glow pulse on alive status dot --- */
+@keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 6px currentColor; }
+    50%      { box-shadow: 0 0 14px currentColor, 0 0 20px currentColor; }
+}
+.status-dot.alive { animation: glowPulse 2s ease-in-out infinite; }
+
+/* --- Entrance bounce for horizontal cards --- */
+@keyframes bounceIn {
+    0%   { opacity: 0; transform: translateY(30px) scale(0.8); }
+    60%  { opacity: 1; transform: translateY(-6px) scale(1.03); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* --- Score counter tick --- */
+@keyframes countTick {
+    0%   { transform: translateY(0); opacity: 1; }
+    50%  { transform: translateY(-3px); opacity: 0.7; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+.stat-tick { animation: countTick 0.25s ease; }
+
+/* --- HP bar critical pulse --- */
+@keyframes hpCritical {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.5; }
+}
+.hp-bar.critical { animation: hpCritical 0.8s ease-in-out infinite; }
+
+/* ============================================================
+   Compact Style Variant
+   Applied via body[data-style="compact"]
+   ============================================================ */
+body[data-style="compact"] .overlay-container { padding: 8px; }
+body[data-style="compact"] .header { margin-bottom: 10px; }
+body[data-style="compact"] .header h1 { font-size: 18px; letter-spacing: 3px; }
+body[data-style="compact"] .header-sub { font-size: 10px; letter-spacing: 2px; margin-top: 3px; }
+body[data-style="compact"] .header-line { height: 2px; margin-top: 5px; }
+
+body[data-style="compact"] .player-card {
+    padding: 6px 8px; margin-bottom: 4px;
+    gap: 8px; border-radius: 8px;
+}
+body[data-style="compact"] .rank-badge {
+    width: 28px; height: 28px; font-size: 13px;
+}
+body[data-style="compact"] .profile-pic {
+    width: 34px; height: 34px; border-width: 2px;
+}
+body[data-style="compact"] .player-name { font-size: 14px; }
+body[data-style="compact"] .creature-name { font-size: 11px; }
+body[data-style="compact"] .stat-value { font-size: 14px; }
+body[data-style="compact"] .stat-label { font-size: 9px; }
+body[data-style="compact"] .like-count { font-size: 16px; }
+body[data-style="compact"] .like-icon { font-size: 13px; }
+body[data-style="compact"] .coin-count { font-size: 16px; }
+body[data-style="compact"] .hp-bar-container { height: 3px; margin: -1px 8px 4px 74px; }
+body[data-style="compact"] .status-dot { width: 10px; height: 10px; }
+
+/* Compact horizontal cards */
+body[data-style="compact"] .players-row { gap: 8px; }
+body[data-style="compact"] .players-row .player-card {
+    width: 130px; padding: 8px 6px;
+}
+body[data-style="compact"] .players-row .profile-pic { width: 44px; height: 44px; }
+body[data-style="compact"] .players-row .rank-1 .profile-pic { width: 52px; height: 52px; }
+
+/* ============================================================
+   Minimal Style Variant
+   Applied via body[data-style="minimal"]
+   Clean glass-morphism look, no gradients, subtle borders
+   ============================================================ */
+body[data-style="minimal"] .overlay-container { padding: 12px; }
+body[data-style="minimal"] .header { margin-bottom: 12px; }
+body[data-style="minimal"] .header h1 {
+    font-size: 16px; letter-spacing: 6px; font-weight: 700;
+    background: none; -webkit-text-fill-color: var(--text);
+    filter: none; opacity: 0.7;
+}
+body[data-style="minimal"] .header-line { display: none; }
+body[data-style="minimal"] .header-sub { display: none; }
+
+body[data-style="minimal"] .player-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 10px 12px; margin-bottom: 6px;
+    gap: 10px;
+}
+body[data-style="minimal"] .player-card::before { display: none; }
+body[data-style="minimal"] .player-card.rank-1 {
+    box-shadow: none;
+    border-color: rgba(255,255,255,0.15);
+}
+body[data-style="minimal"] .player-card.rank-2,
+body[data-style="minimal"] .player-card.rank-3 {
+    border-color: rgba(255,255,255,0.08);
+}
+body[data-style="minimal"] .rank-badge {
+    background: transparent; border: none;
+    font-size: 16px; width: 30px; height: 30px;
+    color: var(--text2); font-weight: 700;
+}
+body[data-style="minimal"] .rank-1 .rank-badge,
+body[data-style="minimal"] .rank-2 .rank-badge,
+body[data-style="minimal"] .rank-3 .rank-badge {
+    background: transparent; border: none; box-shadow: none;
+    color: var(--accent);
+}
+body[data-style="minimal"] .profile-pic {
+    border: 2px solid rgba(255,255,255,0.1);
+    width: 40px; height: 40px;
+}
+body[data-style="minimal"] .rank-1 .profile-pic {
+    border-color: rgba(255,255,255,0.2); box-shadow: none;
+}
+body[data-style="minimal"] .player-name { font-size: 15px; font-weight: 600; }
+body[data-style="minimal"] .rank-1 .player-name { color: var(--text); }
+body[data-style="minimal"] .creature-name { font-size: 12px; opacity: 0.6; }
+body[data-style="minimal"] .stat-value { font-size: 15px; font-family: inherit; }
+body[data-style="minimal"] .stat-label { font-size: 8px; opacity: 0.5; }
+body[data-style="minimal"] .hp-bar-container { height: 3px; opacity: 0.6; margin: -1px 10px 6px 84px; }
+body[data-style="minimal"] .status-dot { width: 8px; height: 8px; }
+body[data-style="minimal"] .status-dot.alive { animation: none; box-shadow: none; }
+body[data-style="minimal"] .connection-status { display: none; }
+
+/* Minimal horizontal */
+body[data-style="minimal"] .players-row .player-card {
+    width: 150px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+}
+body[data-style="minimal"] .players-row .player-card.rank-1 {
+    transform: translateY(-4px);
+}
+body[data-style="minimal"] .players-row .player-card::after { display: none; }
 
 /* === Empty state === */
 .empty-state { text-align: center; padding: 50px 20px; color: var(--text2); font-size: 18px; }

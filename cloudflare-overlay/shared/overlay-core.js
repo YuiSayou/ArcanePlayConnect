@@ -33,6 +33,7 @@ const ArcaneOverlay = (() => {
             streamerId: params.get('streamer')  || '',
             overlayId:  params.get('overlay')   || '',
             theme:      params.get('theme')     || 'cyberpunk',
+            style:      params.get('style')     || 'default',
             maxPlayers: parseInt(params.get('max') || '5', 10),
             refresh:    parseInt(params.get('refresh') || '2000', 10),
             stats:      (params.get('stats') || 'HP,DMG,KILLS').split(',').map(s => s.trim().toUpperCase()),
@@ -43,6 +44,16 @@ const ArcaneOverlay = (() => {
     // -- Theme Application --
     function applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', (theme || 'cyberpunk').toLowerCase());
+    }
+
+    // -- Style Application (compact, minimal, default) --
+    function applyStyle(style) {
+        var s = (style || 'default').toLowerCase();
+        if (s !== 'default') {
+            document.body.setAttribute('data-style', s);
+        } else {
+            document.body.removeAttribute('data-style');
+        }
     }
 
     // -- Validation --
@@ -176,6 +187,40 @@ const ArcaneOverlay = (() => {
         if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
         if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
         return String(n);
+    }
+
+    // -- Value Change Animation --
+    // Triggers a CSS animation class when a stat value changes.
+    // Call with the element and new text; returns true if value changed.
+    function animateValue(el, newText) {
+        if (!el) return false;
+        var old = el.textContent;
+        if (old === newText) return false;
+        el.textContent = newText;
+        el.classList.remove('val-changed');
+        void el.offsetWidth; // force reflow to restart animation
+        el.classList.add('val-changed');
+        return true;
+    }
+
+    // -- Rank Change Animation --
+    // Triggers a pulse animation when a player's rank changes.
+    function animateRankChange(cardEl, oldRank, newRank) {
+        if (oldRank === newRank || oldRank === 0) return;
+        cardEl.classList.remove('rank-changed');
+        void cardEl.offsetWidth;
+        cardEl.classList.add('rank-changed');
+    }
+
+    // -- HP Critical Detection --
+    // Adds .critical class to HP bar when below threshold
+    function setHpCritical(barEl, hpPct) {
+        if (!barEl) return;
+        if (hpPct > 0 && hpPct < 15) {
+            barEl.classList.add('critical');
+        } else {
+            barEl.classList.remove('critical');
+        }
     }
 
     // =====================================================================
@@ -389,6 +434,7 @@ const ArcaneOverlay = (() => {
         }
 
         applyTheme(params.theme);
+        applyStyle(params.style);
 
         const stop = startStreaming(params, renderFn);
 
@@ -400,6 +446,7 @@ const ArcaneOverlay = (() => {
         init,
         getParams,
         applyTheme,
+        applyStyle,
         startPolling,
         startStreaming,
         fetchData,
@@ -415,6 +462,11 @@ const ArcaneOverlay = (() => {
         setClass,
         setRankClass,
         fmt,
+
+        // Animation helpers
+        animateValue,
+        animateRankChange,
+        setHpCritical,
     };
 
 })();

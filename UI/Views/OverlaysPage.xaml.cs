@@ -30,6 +30,7 @@ public sealed partial class OverlaysPage : Page
 
     private string _selectedLayout = "Vertical";
     private string _selectedTheme = "Cyberpunk";
+    private string _selectedStyle = "Default";
 
     /// <summary>When non-null, the form is in edit mode for the overlay with this ID.</summary>
     private string? _editingOverlayId = null;
@@ -37,12 +38,16 @@ public sealed partial class OverlaysPage : Page
     // Theme definitions for the preview picker
     private static readonly ThemePreviewInfo[] _themes =
     [
-        new("Cyberpunk",    "⚡ Cyberpunk",     "#00C8FF", "#B400FF", "#FF3278"),
-        new("NeonFire",     "🔥 Neon Fire",     "#FF6B00", "#FF0044", "#FFCC00"),
-        new("ArcticFrost",  "❄ Arctic Frost",  "#88DDFF", "#44AAFF", "#FFFFFF"),
-        new("DragonForge",  "🐉 Dragon Forge",  "#FF4400", "#884400", "#FFAA00"),
-        new("SakuraBloom",  "🌸 Sakura Bloom",  "#FF88B4", "#CC44AA", "#FFCCDD"),
-        new("VoidShadow",   "🌑 Void Shadow",   "#AA44FF", "#4400AA", "#DD88FF"),
+        new("Cyberpunk",    "\u26A1 Cyberpunk",     "#00C8FF", "#B400FF", "#FF3278"),
+        new("NeonFire",     "\U0001F525 Neon Fire",     "#FF6B00", "#FF0044", "#FFCC00"),
+        new("ArcticFrost",  "\u2744 Arctic Frost",  "#88DDFF", "#44AAFF", "#FFFFFF"),
+        new("DragonForge",  "\U0001F409 Dragon Forge",  "#FF4400", "#884400", "#FFAA00"),
+        new("SakuraBloom",  "\U0001F338 Sakura Bloom",  "#FF88B4", "#CC44AA", "#FFCCDD"),
+        new("VoidShadow",   "\U0001F311 Void Shadow",   "#AA44FF", "#4400AA", "#DD88FF"),
+        new("MidnightGold", "\U0001F31F Midnight Gold", "#FFD700", "#C8A200", "#FFF4B0"),
+        new("ToxicWaste",   "\u2622 Toxic Waste",   "#39FF14", "#00CC00", "#CCFF00"),
+        new("OceanDepth",   "\U0001F30A Ocean Depth",   "#00BFFF", "#0066CC", "#66D9FF"),
+        new("RetroWave",    "\U0001F680 Retro Wave",    "#FF6EC7", "#7B2DFF", "#00F0FF"),
     ];
 
     public OverlaysPage()
@@ -59,6 +64,7 @@ public sealed partial class OverlaysPage : Page
         UpdateEmptyState();
         UpdateLayoutSelection();
         UpdateThemeSelection();
+        UpdateStyleSelection();
 
         // Preload gift images in background
         _ = GiftImageService.PreloadAllAsync();
@@ -213,6 +219,29 @@ public sealed partial class OverlaysPage : Page
                 b.Opacity = isSelected ? 1.0 : 0.6;
             }
         }
+    }
+
+    // ── Style picker ──
+
+    private void StyleCard_Click(object sender, PointerRoutedEventArgs e)
+    {
+        if (sender is Border b && b.Tag is string tag)
+        {
+            _selectedStyle = tag;
+            UpdateStyleSelection();
+        }
+    }
+
+    private void UpdateStyleSelection()
+    {
+        var selectedBrush = Application.Current.Resources.TryGetValue("NeonBlueBrush", out var nb) && nb is Brush sb
+            ? sb : NeonBlue;
+        var unselectedBrush = Application.Current.Resources.TryGetValue("DarkBg3Brush", out var db) && db is Brush ub
+            ? ub : DarkBg3;
+
+        if (StyleDefault != null) StyleDefault.BorderBrush = _selectedStyle == "Default" ? selectedBrush : unselectedBrush;
+        if (StyleCompact != null) StyleCompact.BorderBrush = _selectedStyle == "Compact" ? selectedBrush : unselectedBrush;
+        if (StyleMinimal != null) StyleMinimal.BorderBrush = _selectedStyle == "Minimal" ? selectedBrush : unselectedBrush;
     }
 
     // ── Server Control ──
@@ -512,6 +541,7 @@ public sealed partial class OverlaysPage : Page
                     _ => OverlayType.RankingVertical
                 };
                 cfg.Theme = Enum.TryParse<OverlayTheme>(_selectedTheme, out var t) ? t : OverlayTheme.Cyberpunk;
+                cfg.Style = Enum.TryParse<OverlayStyle>(_selectedStyle, out var st) ? st : OverlayStyle.Default;
                 cfg.ShowHP = ShowHPCheck.IsChecked == true;
                 cfg.ShowDamage = ShowDmgCheck.IsChecked == true;
                 cfg.ShowKills = ShowKillsCheck.IsChecked == true;
@@ -557,6 +587,7 @@ public sealed partial class OverlaysPage : Page
                     _ => OverlayType.RankingVertical
                 },
                 Theme = Enum.TryParse<OverlayTheme>(_selectedTheme, out var t) ? t : OverlayTheme.Cyberpunk,
+                Style = Enum.TryParse<OverlayStyle>(_selectedStyle, out var st) ? st : OverlayStyle.Default,
                 ShowHP = ShowHPCheck.IsChecked == true,
                 ShowDamage = ShowDmgCheck.IsChecked == true,
                 ShowKills = ShowKillsCheck.IsChecked == true,
@@ -677,6 +708,10 @@ public sealed partial class OverlaysPage : Page
             _selectedTheme = cfg.Theme.ToString();
             UpdateThemeSelection();
 
+            // Style
+            _selectedStyle = cfg.Style.ToString();
+            UpdateStyleSelection();
+
             // Stats
             ShowHPCheck.IsChecked = cfg.ShowHP;
             ShowDmgCheck.IsChecked = cfg.ShowDamage;
@@ -712,8 +747,10 @@ public sealed partial class OverlaysPage : Page
         OverlayNameBox.Text = "My Overlay";
         _selectedLayout = "Vertical";
         _selectedTheme = "Cyberpunk";
+        _selectedStyle = "Default";
         UpdateLayoutSelection();
         UpdateThemeSelection();
+        UpdateStyleSelection();
         ShowHPCheck.IsChecked = true;
         ShowDmgCheck.IsChecked = true;
         ShowKillsCheck.IsChecked = true;
@@ -910,6 +947,10 @@ public class OverlayDisplayItem
         OverlayTheme.DragonForge => "\U0001F409 Dragon Forge",
         OverlayTheme.SakuraBloom => "\U0001F338 Sakura Bloom",
         OverlayTheme.VoidShadow => "\U0001F311 Void Shadow",
+        OverlayTheme.MidnightGold => "\U0001F31F Midnight Gold",
+        OverlayTheme.ToxicWaste => "\u2622 Toxic Waste",
+        OverlayTheme.OceanDepth => "\U0001F30A Ocean Depth",
+        OverlayTheme.RetroWave => "\U0001F680 Retro Wave",
         _ => "Unknown"
     };
 
@@ -921,6 +962,10 @@ public class OverlayDisplayItem
         OverlayTheme.DragonForge => Windows.UI.Color.FromArgb(255, 255, 68, 0),
         OverlayTheme.SakuraBloom => Windows.UI.Color.FromArgb(255, 255, 136, 180),
         OverlayTheme.VoidShadow => Windows.UI.Color.FromArgb(255, 170, 68, 255),
+        OverlayTheme.MidnightGold => Windows.UI.Color.FromArgb(255, 255, 215, 0),
+        OverlayTheme.ToxicWaste => Windows.UI.Color.FromArgb(255, 57, 255, 20),
+        OverlayTheme.OceanDepth => Windows.UI.Color.FromArgb(255, 0, 191, 255),
+        OverlayTheme.RetroWave => Windows.UI.Color.FromArgb(255, 255, 110, 199),
         _ => Windows.UI.Color.FromArgb(255, 0, 200, 255)
     });
 

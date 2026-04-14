@@ -95,6 +95,7 @@ public class OverlayServerService
         var url = $"{baseUrl}/{path}/?streamer={Uri.EscapeDataString(cfg.StreamerId)}" +
                   $"&overlay={Uri.EscapeDataString(cfg.Id)}" +
                   $"&theme={Uri.EscapeDataString(theme)}" +
+                  $"&style={Uri.EscapeDataString(cfg.Style.ToString().ToLowerInvariant())}" +
                   $"&max={cfg.MaxPlayers}" +
                   $"&refresh={cfg.RefreshIntervalMs}" +
                   $"&stats={Uri.EscapeDataString(stats)}" +
@@ -503,6 +504,50 @@ public class OverlayServerService
             --hp-bar-low: linear-gradient(90deg, #ff2266, #880033);
             --gradient: linear-gradient(135deg, #aa44ff, #4400aa, #dd88ff);
             --glow: 0 0 20px rgba(170,68,255,0.4);
+            --title-font: 'Orbitron', sans-serif;",
+
+        OverlayTheme.MidnightGold => @"
+            --accent: #ffd700; --accent2: #c8a200; --accent3: #fff4b0;
+            --bg: rgba(8,6,18,0.94); --card: rgba(18,14,32,0.96);
+            --card-border: rgba(255,215,0,0.2); --text: #f0e8d0; --text2: #8a7a55;
+            --rank1: #ffd700; --rank2: #d4af37; --rank3: #b8860b;
+            --hp-bar: linear-gradient(90deg, #ffd700, #c8a200);
+            --hp-bar-low: linear-gradient(90deg, #ff4444, #881111);
+            --gradient: linear-gradient(135deg, #ffd700, #c8a200, #fff4b0);
+            --glow: 0 0 20px rgba(255,215,0,0.35);
+            --title-font: 'Cinzel', serif;",
+
+        OverlayTheme.ToxicWaste => @"
+            --accent: #39ff14; --accent2: #00cc00; --accent3: #ccff00;
+            --bg: rgba(4,12,4,0.94); --card: rgba(10,25,10,0.96);
+            --card-border: rgba(57,255,20,0.2); --text: #d0ffd0; --text2: #558855;
+            --rank1: #ccff00; --rank2: #39ff14; --rank3: #00cc00;
+            --hp-bar: linear-gradient(90deg, #39ff14, #ccff00);
+            --hp-bar-low: linear-gradient(90deg, #ff3300, #881100);
+            --gradient: linear-gradient(135deg, #39ff14, #00cc00, #ccff00);
+            --glow: 0 0 20px rgba(57,255,20,0.4);
+            --title-font: 'Orbitron', sans-serif;",
+
+        OverlayTheme.OceanDepth => @"
+            --accent: #00bfff; --accent2: #0066cc; --accent3: #66d9ff;
+            --bg: rgba(2,8,18,0.94); --card: rgba(6,16,35,0.96);
+            --card-border: rgba(0,191,255,0.2); --text: #c8e8ff; --text2: #5588aa;
+            --rank1: #66d9ff; --rank2: #00bfff; --rank3: #0066cc;
+            --hp-bar: linear-gradient(90deg, #00bfff, #66d9ff);
+            --hp-bar-low: linear-gradient(90deg, #ff4466, #992244);
+            --gradient: linear-gradient(135deg, #00bfff, #0066cc, #66d9ff);
+            --glow: 0 0 20px rgba(0,191,255,0.35);
+            --title-font: 'Rajdhani', sans-serif;",
+
+        OverlayTheme.RetroWave => @"
+            --accent: #ff6ec7; --accent2: #7b2dff; --accent3: #00f0ff;
+            --bg: rgba(12,2,20,0.94); --card: rgba(25,5,40,0.96);
+            --card-border: rgba(255,110,199,0.25); --text: #ffe0f8; --text2: #aa66aa;
+            --rank1: #00f0ff; --rank2: #ff6ec7; --rank3: #7b2dff;
+            --hp-bar: linear-gradient(90deg, #ff6ec7, #00f0ff);
+            --hp-bar-low: linear-gradient(90deg, #ff2244, #880022);
+            --gradient: linear-gradient(135deg, #ff6ec7, #7b2dff, #00f0ff);
+            --glow: 0 0 20px rgba(255,110,199,0.4);
             --title-font: 'Orbitron', sans-serif;",
 
         _ => @"
