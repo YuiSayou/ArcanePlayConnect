@@ -1,14 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Page x:ConnectionId='1'
     x:Class="ArcanePlayConnect.UI.Views.ShellPage"
-    x:Name="Shell"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="using:ArcanePlayConnect.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{StaticResource DarkBgBrush}">
+    x:Name="Shell"
+    Background="{StaticResource DarkBgBrush}"
+    mc:Ignorable="d">
 
     <Page.Resources>
         <conv:BoolToStatusBrushConverter x:Key="BoolToStatusBrush" />
@@ -20,9 +20,12 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- ??????? LEFT NAV RAIL ??????? -->
-        <Border Grid.Column="0" Background="#FF0D0D1A"
-                BorderBrush="{StaticResource DarkBg3Brush}" BorderThickness="0,0,1,0">
+        <!--  ??????? LEFT NAV RAIL ???????  -->
+        <Border
+            Grid.Column="0"
+            Background="#FF0D0D1A"
+            BorderBrush="{StaticResource DarkBg3Brush}"
+            BorderThickness="0,0,1,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -32,146 +35,286 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <!-- App branding -->
+                <!--  App branding  -->
                 <Border Grid.Row="0" Padding="16,16,16,12">
                     <StackPanel Spacing="4">
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Glyph="&#xE945;" FontFamily="Segoe MDL2 Assets" FontSize="20"
-                                      Foreground="{StaticResource NeonBlueBrush}" />
-                            <TextBlock Text="ARCANE PLAY" FontSize="14" FontWeight="Bold"
-                                       Foreground="{StaticResource NeonBlueBrush}" CharacterSpacing="80"
-                                       VerticalAlignment="Center" />
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="20"
+                                Foreground="{StaticResource NeonBlueBrush}"
+                                Glyph="&#xE945;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                CharacterSpacing="80"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource NeonBlueBrush}"
+                                Text="ARCANE PLAY" />
                         </StackPanel>
-                        <TextBlock Text="CONNECT" FontSize="10" FontWeight="SemiBold"
-                                   Foreground="{StaticResource TextSecondaryBrush}" CharacterSpacing="200"
-                                   Margin="28,0,0,0" />
-                        <!-- Gradient line -->
-                        <Border Height="2" CornerRadius="1" Margin="0,6,0,0">
+                        <TextBlock
+                            Margin="28,0,0,0"
+                            CharacterSpacing="200"
+                            FontSize="10"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource TextSecondaryBrush}"
+                            Text="CONNECT" />
+                        <!--  Gradient line  -->
+                        <Border
+                            Height="2"
+                            Margin="0,6,0,0"
+                            CornerRadius="1">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                    <GradientStop Color="#FF00C8FF" Offset="0" />
-                                    <GradientStop Color="#FFB400FF" Offset="0.5" />
-                                    <GradientStop Color="#FFFF3278" Offset="1" />
+                                    <GradientStop Offset="0" Color="#FF00C8FF" />
+                                    <GradientStop Offset="0.5" Color="#FFB400FF" />
+                                    <GradientStop Offset="1" Color="#FFFF3278" />
                                 </LinearGradientBrush>
                             </Border.Background>
                         </Border>
                     </StackPanel>
                 </Border>
 
-                <!-- Nav items -->
-                <StackPanel Grid.Row="1" Spacing="2" Padding="8,4">
-                    <Button x:ConnectionId='8' x:Name="NavDashboard"                         Tag="Dashboard"
-                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                            Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">
+                <!--  Nav items  -->
+                <StackPanel
+                    Grid.Row="1"
+                    Padding="8,4"
+                    Spacing="2">
+                    <Button x:ConnectionId='8'
+                        x:Name="NavDashboard"
+                        Padding="12,10"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Background="Transparent"
+                        BorderThickness="0"
+                                               
+                        CornerRadius="6"
+                        Tag="Dashboard">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <FontIcon Glyph="&#xE80F;" FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                      Foreground="{StaticResource NeonBlueBrush}" />
-                            <TextBlock Text="Dashboard" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
-                                       VerticalAlignment="Center" />
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="16"
+                                Foreground="{StaticResource NeonBlueBrush}"
+                                Glyph="&#xE80F;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="13"
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                Text="Dashboard" />
                         </StackPanel>
                     </Button>
 
-                    <Button x:ConnectionId='9' x:Name="NavEventLog"                         Tag="EventLog"
-                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                            Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">
+                    <Button x:ConnectionId='9'
+                        x:Name="NavEventLog"
+                        Padding="12,10"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Background="Transparent"
+                        BorderThickness="0"
+                                               
+                        CornerRadius="6"
+                        Tag="EventLog">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <FontIcon Glyph="&#xE7BA;" FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                      Foreground="{StaticResource NeonGreenBrush}" />
-                            <TextBlock Text="Event Log" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
-                                       VerticalAlignment="Center" />
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="16"
+                                Foreground="{StaticResource NeonGreenBrush}"
+                                Glyph="&#xE7BA;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="13"
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                Text="Event Log" />
                         </StackPanel>
                     </Button>
 
-                    <Button x:ConnectionId='10' x:Name="NavTriggers"                         Tag="Triggers"
-                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                            Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">
+                    <Button x:ConnectionId='10'
+                        x:Name="NavTriggers"
+                        Padding="12,10"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Background="Transparent"
+                        BorderThickness="0"
+                                               
+                        CornerRadius="6"
+                        Tag="Triggers">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <FontIcon Glyph="&#xE8CB;" FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                      Foreground="{StaticResource NeonPurpleBrush}" />
-                            <TextBlock Text="Triggers" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
-                                       VerticalAlignment="Center" />
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="16"
+                                Foreground="{StaticResource NeonPurpleBrush}"
+                                Glyph="&#xE8CB;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="13"
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                Text="Triggers" />
                         </StackPanel>
                     </Button>
 
-                    <Button x:ConnectionId='11' x:Name="NavActions"                         Tag="Actions"
-                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                            Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">
+                    <Button x:ConnectionId='11'
+                        x:Name="NavActions"
+                        Padding="12,10"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Background="Transparent"
+                        BorderThickness="0"
+                                               
+                        CornerRadius="6"
+                        Tag="Actions">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <FontIcon Glyph="&#xE946;" FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                      Foreground="#FFFF9500" />
-                            <TextBlock Text="Actions" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
-                                       VerticalAlignment="Center" />
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="16"
+                                Foreground="#FFFF9500"
+                                Glyph="&#xE946;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="13"
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                Text="Actions" />
                         </StackPanel>
                     </Button>
 
-                    <Button x:ConnectionId='12' x:Name="NavMinecraft"                         Tag="Minecraft"
-                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                            Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">
+                    <Button x:ConnectionId='12'
+                        x:Name="NavMinecraft"
+                        Padding="12,10"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Background="Transparent"
+                        BorderThickness="0"
+                                               
+                        CornerRadius="6"
+                        Tag="Minecraft">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <FontIcon Glyph="&#xE968;" FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                      Foreground="{StaticResource NeonGreenBrush}" />
-                            <TextBlock Text="Minecraft" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
-                                       VerticalAlignment="Center" />
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="16"
+                                Foreground="{StaticResource NeonGreenBrush}"
+                                Glyph="&#xE968;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="13"
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                Text="Minecraft" />
                         </StackPanel>
                     </Button>
 
-                    <Button x:ConnectionId='13' x:Name="NavOverlays"                         Tag="Overlays"
-                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                            Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">
+                    <Button x:ConnectionId='13'
+                        x:Name="NavOverlays"
+                        Padding="12,10"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Background="Transparent"
+                        BorderThickness="0"
+                                               
+                        CornerRadius="6"
+                        Tag="Overlays">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <FontIcon Glyph="&#xE774;" FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                      Foreground="{StaticResource NeonGreenBrush}" />
-                            <TextBlock Text="OBS Overlays" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
-                                       VerticalAlignment="Center" />
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="16"
+                                Foreground="{StaticResource NeonGreenBrush}"
+                                Glyph="&#xE774;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="13"
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                Text="Overlays" />
                         </StackPanel>
                     </Button>
 
-                    <Button x:ConnectionId='14' x:Name="NavFollowers"                         Tag="Followers"
-                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                            Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">
+                    <Button x:ConnectionId='14'
+                        x:Name="NavFollowers"
+                        Padding="12,10"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Background="Transparent"
+                        BorderThickness="0"
+                                               
+                        CornerRadius="6"
+                        Tag="Followers">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <FontIcon Glyph="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                      Foreground="#FFB400FF" />
-                            <TextBlock Text="Follower Database" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
-                                       VerticalAlignment="Center" />
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="16"
+                                Foreground="#FFB400FF"
+                                Glyph="&#xE77B;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="13"
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                Text="Follower Database" />
                         </StackPanel>
                     </Button>
 
-                    <Button x:ConnectionId='15' x:Name="NavProfiles"                         Tag="Profiles"
-                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                            Background="Transparent" BorderThickness="0" Padding="12,10" CornerRadius="6">
+                    <Button x:ConnectionId='15'
+                        x:Name="NavProfiles"
+                        Padding="12,10"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Background="Transparent"
+                        BorderThickness="0"
+                                               
+                        CornerRadius="6"
+                        Tag="Profiles">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <FontIcon Glyph="&#xE748;" FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                      Foreground="{StaticResource NeonPinkBrush}" />
-                            <TextBlock Text="Profiles" FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
-                                       VerticalAlignment="Center" />
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="16"
+                                Foreground="{StaticResource NeonPinkBrush}"
+                                Glyph="&#xE748;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="13"
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                Text="Profiles" />
                         </StackPanel>
                     </Button>
                 </StackPanel>
 
-                <!-- Spacer -->
+                <!--  Spacer  -->
                 <Border Grid.Row="2" />
 
-                <!-- Status indicators -->
-                <Border Grid.Row="3" Padding="16,8" Background="#FF0A0A14"
-                        BorderBrush="{StaticResource DarkBg3Brush}" BorderThickness="0,1,0,0">
+                <!--  Status indicators  -->
+                <Border
+                    Grid.Row="3"
+                    Padding="16,8"
+                    Background="#FF0A0A14"
+                    BorderBrush="{StaticResource DarkBg3Brush}"
+                    BorderThickness="0,1,0,0">
                     <StackPanel Spacing="8">
-                        <TextBlock Text="STATUS" FontSize="9" FontWeight="Bold" CharacterSpacing="200"
-                                   Foreground="{StaticResource TextSecondaryBrush}" />
+                        <TextBlock
+                            CharacterSpacing="200"
+                            FontSize="9"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource TextSecondaryBrush}"
+                            Text="STATUS" />
                         <Grid ColumnSpacing="8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Ellipse x:ConnectionId='6' Grid.Column="0" Width="6" Height="6"
-                                                                                                                                           
-                                     VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="TikTok" FontSize="11"
-                                       Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
-                            <TextBlock x:ConnectionId='7' Grid.Column="2"                                                        
-                                       FontSize="11" FontWeight="SemiBold"
-                                       Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                            <Ellipse x:ConnectionId='6'
+                                Grid.Column="0"
+                                Width="6"
+                                Height="6"
+                                VerticalAlignment="Center"
+                                                                                                                                       />
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                FontSize="11"
+                                Foreground="{StaticResource TextSecondaryBrush}"
+                                Text="TikTok" />
+                            <TextBlock x:ConnectionId='7'
+                                Grid.Column="2"
+                                VerticalAlignment="Center"
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                                                                        />
                         </Grid>
                         <Grid ColumnSpacing="8">
                             <Grid.ColumnDefinitions>
@@ -179,35 +322,56 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Ellipse x:ConnectionId='4' Grid.Column="0" Width="6" Height="6"
-                                                                                                                                         
-                                     VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="RCON" FontSize="11"
-                                       Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
-                            <TextBlock x:ConnectionId='5' Grid.Column="2"                                                  
-                                       FontSize="11" FontWeight="SemiBold"
-                                       Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                            <Ellipse x:ConnectionId='4'
+                                Grid.Column="0"
+                                Width="6"
+                                Height="6"
+                                VerticalAlignment="Center"
+                                                                                                                                     />
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                FontSize="11"
+                                Foreground="{StaticResource TextSecondaryBrush}"
+                                Text="RCON" />
+                            <TextBlock x:ConnectionId='5'
+                                Grid.Column="2"
+                                VerticalAlignment="Center"
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                                                                  />
                         </Grid>
                     </StackPanel>
                 </Border>
 
-                <!-- Active profile -->
-                <Border Grid.Row="4" Padding="16,10" Background="#FF0A0A14"
-                        BorderBrush="{StaticResource DarkBg3Brush}" BorderThickness="0,1,0,0">
+                <!--  Active profile  -->
+                <Border
+                    Grid.Row="4"
+                    Padding="16,10"
+                    Background="#FF0A0A14"
+                    BorderBrush="{StaticResource DarkBg3Brush}"
+                    BorderThickness="0,1,0,0">
                     <StackPanel Spacing="4">
-                        <TextBlock Text="ACTIVE PROFILE" FontSize="9" FontWeight="Bold" CharacterSpacing="200"
-                                   Foreground="{StaticResource TextSecondaryBrush}" />
-                        <TextBlock x:ConnectionId='3'                                                                                         
-                                   FontSize="12" FontWeight="SemiBold"
-                                   Foreground="{StaticResource NeonPurpleBrush}"
-                                   TextTrimming="CharacterEllipsis" />
+                        <TextBlock
+                            CharacterSpacing="200"
+                            FontSize="9"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource TextSecondaryBrush}"
+                            Text="ACTIVE PROFILE" />
+                        <TextBlock x:ConnectionId='3'
+                            FontSize="12"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource NeonPurpleBrush}"
+                                                                                                                    
+                            TextTrimming="CharacterEllipsis" />
                     </StackPanel>
                 </Border>
             </Grid>
         </Border>
 
-        <!-- ??????? CONTENT FRAME ??????? -->
-        <Frame x:ConnectionId='2' Grid.Column="1" x:Name="ContentFrame" />
+        <!--  ??????? CONTENT FRAME ???????  -->
+        <Frame x:ConnectionId='2' x:Name="ContentFrame" Grid.Column="1" />
     </Grid>
 </Page>
 

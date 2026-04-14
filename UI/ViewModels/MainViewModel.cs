@@ -140,7 +140,7 @@ public partial class MainViewModel : ObservableObject
         _creatureTracker = new CreatureTrackerService(_rconService, _logger);
         _liveStatsTracker = new LiveStatsTrackerService();
         _overlayServer = new OverlayServerService(_logger, _creatureTracker, _liveStatsTracker);
-        _overlayPushService = new OverlayDataPushService(_logger, _overlayServer);
+        _overlayPushService = new OverlayDataPushService(_logger, _overlayServer, _liveStatsTracker);
         _followerService = new FollowerService(_logger);
         _shortcutService = new KeyboardShortcutService(_logger);
         _eventProcessor = new EventProcessor(_rconService, _logger, _buttonExecutor, _creatureTracker, _followerService);

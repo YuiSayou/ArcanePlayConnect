@@ -26,10 +26,16 @@ public class OverlayDataPushService : IDisposable
 {
     private readonly LoggingService _logger;
     private readonly OverlayServerService _overlayServer;
+    private readonly LiveStatsTrackerService _liveStats;
     private readonly HttpClient _httpClient;
 
     private CancellationTokenSource? _cts;
     private readonly ConcurrentDictionary<string, Task> _pushTasks = new();
+
+    /// <summary>
+    /// Tracks active overlay configs so we can push empty data on stop.
+    /// </summary>
+    private readonly ConcurrentDictionary<string, OverlayConfig> _activeConfigs = new();
 
     /// <summary>
     /// Push token for authenticating data pushes. Generated once per app instance
@@ -70,10 +76,11 @@ public class OverlayDataPushService : IDisposable
     public bool IsRunning => _cts != null && !_cts.IsCancellationRequested;
     public event Action? StatusChanged;
 
-    public OverlayDataPushService(LoggingService logger, OverlayServerService overlayServer)
+    public OverlayDataPushService(LoggingService logger, OverlayServerService overlayServer, LiveStatsTrackerService liveStats)
     {
         _logger = logger;
         _overlayServer = overlayServer;
+        _liveStats = liveStats;
         _httpClient = new HttpClient
         {
             Timeout = TimeSpan.FromSeconds(10)
@@ -94,6 +101,8 @@ public class OverlayDataPushService : IDisposable
         StopPushing(config.Id);
 
         _cts ??= new CancellationTokenSource();
+
+        _activeConfigs[key] = config;
 
         var token = _cts.Token;
         var task = Task.Run(() => PushLoopAsync(config, token), token);
@@ -121,22 +130,82 @@ public class OverlayDataPushService : IDisposable
             _lastContentHashes.TryRemove(key, out _);
             _lastJsonCache.TryRemove(key, out _);
             _lastClientCount.TryRemove(key, out _);
+            _activeConfigs.TryRemove(key, out _);
         }
     }
 
     /// <summary>
     /// Stops all push tasks.
     /// </summary>
-    public void StopAll()
+    public async Task StopAllAsync()
     {
+        // Push empty data BEFORE cancelling so HTTP requests can still complete
+        await PushEmptyToAllAsync();
+
         _cts?.Cancel();
+
+        // Reset live stats so a fresh relay session starts clean
+        _liveStats.Reset();
+
         _pushTasks.Clear();
         _lastContentHashes.Clear();
         _lastJsonCache.Clear();
         _lastClientCount.Clear();
+        _activeConfigs.Clear();
         _cts = null;
-        _logger.LogInfo("[CloudRelay] All push tasks stopped.", LogCategory.System);
+        _loggedFirstSuccess = false;
+        _logger.LogInfo("[CloudRelay] All push tasks stopped. Overlay data cleared.", LogCategory.System);
         StatusChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// Pushes empty player/gift data to every active Durable Object endpoint
+    /// so connected overlay browsers immediately render an empty state.
+    /// </summary>
+    private async Task PushEmptyToAllAsync()
+    {
+        var tasks = new System.Collections.Generic.List<Task>();
+        foreach (var kvp in _activeConfigs)
+        {
+            var config = kvp.Value;
+            tasks.Add(PushEmptyAsync(config));
+        }
+
+        try
+        {
+            await Task.WhenAll(tasks).WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning($"[CloudRelay] Error clearing remote data: {ex.Message}", LogCategory.System);
+        }
+    }
+
+    /// <summary>
+    /// Pushes an empty payload to a single overlay's Durable Object.
+    /// </summary>
+    private async Task PushEmptyAsync(OverlayConfig config)
+    {
+        try
+        {
+            var pushUrl = BuildPushUrl(config);
+            var pushToken = GetOrCreatePushToken(config.StreamerId);
+            var emptyJson = "{\"players\":[],\"gifts\":[],\"timestamp\":" + DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() + "}";
+            var contentHash = Fnv1aHash(emptyJson);
+
+            using var request = new HttpRequestMessage(HttpMethod.Post, pushUrl);
+            request.Content = new StringContent(emptyJson, Encoding.UTF8, "application/json");
+            request.Headers.TryAddWithoutValidation("X-Push-Token", pushToken);
+            request.Headers.TryAddWithoutValidation("X-Content-Hash", contentHash);
+
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(4));
+            using var response = await _httpClient.SendAsync(request, cts.Token);
+            // Ignore response — best effort
+        }
+        catch
+        {
+            // Best effort — don't block shutdown
+        }
     }
 
     /// <summary>
@@ -339,7 +408,15 @@ public class OverlayDataPushService : IDisposable
 
     public void Dispose()
     {
-        StopAll();
+        // Cancel immediately without waiting for empty push on dispose
+        _cts?.Cancel();
+        _liveStats.Reset();
+        _pushTasks.Clear();
+        _lastContentHashes.Clear();
+        _lastJsonCache.Clear();
+        _lastClientCount.Clear();
+        _activeConfigs.Clear();
+        _cts = null;
         _httpClient.Dispose();
     }
 }

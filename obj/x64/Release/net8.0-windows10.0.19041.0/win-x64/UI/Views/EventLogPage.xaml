@@ -1,14 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Page x:ConnectionId='1'
     x:Class="ArcanePlayConnect.UI.Views.EventLogPage"
-    x:Name="PageRoot"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="using:ArcanePlayConnect.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{StaticResource DarkBgBrush}">
+    x:Name="PageRoot"
+    Background="{StaticResource DarkBgBrush}"
+    mc:Ignorable="d">
 
     <Page.Resources>
         <conv:LogCategoryToBrushConverter x:Key="LogCategoryToBrush" />
@@ -24,7 +24,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- Header -->
+        <!--  Header  -->
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -32,107 +32,233 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Spacing="4">
-                <TextBlock Text="EVENT LOG" FontSize="22" FontWeight="Bold"
-                           Foreground="{StaticResource NeonGreenBrush}" CharacterSpacing="100" />
-                <TextBlock Text="Real-time event stream from TikFinity"
-                           FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" />
+                <TextBlock
+                    CharacterSpacing="100"
+                    FontSize="22"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource NeonGreenBrush}"
+                    Text="EVENT LOG" />
+                <TextBlock
+                    FontSize="13"
+                    Foreground="{StaticResource TextSecondaryBrush}"
+                    Text="Real-time event stream from TikTok" />
             </StackPanel>
-            <Button x:ConnectionId='13' Grid.Column="1"                                              
-                    Style="{StaticResource CyberpunkDangerButtonStyle}" FontSize="11" Padding="12,6"
-                    Margin="0,0,8,0" VerticalAlignment="Top"
-                    ToolTipService.ToolTip="Clear all logs">
+            <Button x:ConnectionId='13'
+                Grid.Column="1"
+                Margin="0,0,8,0"
+                Padding="12,6"
+                VerticalAlignment="Top"
+                                                             
+                FontSize="11"
+                Style="{StaticResource CyberpunkDangerButtonStyle}"
+                ToolTipService.ToolTip="Clear all logs">
                 <StackPanel Orientation="Horizontal" Spacing="6">
-                    <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="12" />
+                    <FontIcon
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="12"
+                        Glyph="&#xE74D;" />
                     <TextBlock Text="Clear" />
                 </StackPanel>
             </Button>
-            <Button x:ConnectionId='14' Grid.Column="2"                                                
-                    Style="{StaticResource CyberpunkButtonStyle}" FontSize="11" Padding="12,6"
-                    VerticalAlignment="Top">
+            <Button x:ConnectionId='14'
+                Grid.Column="2"
+                Padding="12,6"
+                VerticalAlignment="Top"
+                                                               
+                FontSize="11"
+                Style="{StaticResource CyberpunkButtonStyle}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
-                    <FontIcon Glyph="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="12" />
+                    <FontIcon
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="12"
+                        Glyph="&#xE8C8;" />
                     <TextBlock Text="Copy All" />
                 </StackPanel>
             </Button>
         </Grid>
 
-        <!-- Filters -->
-        <Border Grid.Row="2" Background="{StaticResource DarkBg2Brush}"
-                CornerRadius="6" Padding="14,8">
+        <!--  Filters  -->
+        <Border
+            Grid.Row="2"
+            Padding="14,8"
+            Background="{StaticResource DarkBg2Brush}"
+            CornerRadius="6">
             <StackPanel Orientation="Horizontal" Spacing="16">
-                <CheckBox x:ConnectionId='5'                                                            MinWidth="0" Padding="4,0,0,0">
+                <CheckBox x:ConnectionId='5'
+                    MinWidth="0"
+                    Padding="4,0,0,0"
+                                                                              >
                     <StackPanel Orientation="Horizontal" Spacing="5">
-                        <Ellipse Width="7" Height="7" VerticalAlignment="Center">
-                            <Ellipse.Fill><SolidColorBrush Color="#FF888888" /></Ellipse.Fill>
+                        <Ellipse
+                            Width="7"
+                            Height="7"
+                            VerticalAlignment="Center">
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="#FF888888" />
+                            </Ellipse.Fill>
                         </Ellipse>
-                        <TextBlock Text="System" FontSize="12" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{StaticResource TextPrimaryBrush}"
+                            Text="System" />
                     </StackPanel>
                 </CheckBox>
-                <CheckBox x:ConnectionId='6'                                                          MinWidth="0" Padding="4,0,0,0">
+                <CheckBox x:ConnectionId='6'
+                    MinWidth="0"
+                    Padding="4,0,0,0"
+                                                                            >
                     <StackPanel Orientation="Horizontal" Spacing="5">
-                        <Ellipse Width="7" Height="7" VerticalAlignment="Center">
-                            <Ellipse.Fill><SolidColorBrush Color="#FF00C8FF" /></Ellipse.Fill>
+                        <Ellipse
+                            Width="7"
+                            Height="7"
+                            VerticalAlignment="Center">
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="#FF00C8FF" />
+                            </Ellipse.Fill>
                         </Ellipse>
-                        <TextBlock Text="Chat" FontSize="12" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{StaticResource TextPrimaryBrush}"
+                            Text="Chat" />
                     </StackPanel>
                 </CheckBox>
-                <CheckBox x:ConnectionId='7'                                                            MinWidth="0" Padding="4,0,0,0">
+                <CheckBox x:ConnectionId='7'
+                    MinWidth="0"
+                    Padding="4,0,0,0"
+                                                                              >
                     <StackPanel Orientation="Horizontal" Spacing="5">
-                        <Ellipse Width="7" Height="7" VerticalAlignment="Center">
-                            <Ellipse.Fill><SolidColorBrush Color="#FFB400FF" /></Ellipse.Fill>
+                        <Ellipse
+                            Width="7"
+                            Height="7"
+                            VerticalAlignment="Center">
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="#FFB400FF" />
+                            </Ellipse.Fill>
                         </Ellipse>
-                        <TextBlock Text="Follow" FontSize="12" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{StaticResource TextPrimaryBrush}"
+                            Text="Follow" />
                     </StackPanel>
                 </CheckBox>
-                <CheckBox x:ConnectionId='8'                                                          MinWidth="0" Padding="4,0,0,0">
+                <CheckBox x:ConnectionId='8'
+                    MinWidth="0"
+                    Padding="4,0,0,0"
+                                                                            >
                     <StackPanel Orientation="Horizontal" Spacing="5">
-                        <Ellipse Width="7" Height="7" VerticalAlignment="Center">
-                            <Ellipse.Fill><SolidColorBrush Color="#FFFF3278" /></Ellipse.Fill>
+                        <Ellipse
+                            Width="7"
+                            Height="7"
+                            VerticalAlignment="Center">
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="#FFFF3278" />
+                            </Ellipse.Fill>
                         </Ellipse>
-                        <TextBlock Text="Gift" FontSize="12" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{StaticResource TextPrimaryBrush}"
+                            Text="Gift" />
                     </StackPanel>
                 </CheckBox>
-                <CheckBox x:ConnectionId='9'                                                          MinWidth="0" Padding="4,0,0,0">
+                <CheckBox x:ConnectionId='9'
+                    MinWidth="0"
+                    Padding="4,0,0,0"
+                                                                            >
                     <StackPanel Orientation="Horizontal" Spacing="5">
-                        <Ellipse Width="7" Height="7" VerticalAlignment="Center">
-                            <Ellipse.Fill><SolidColorBrush Color="#FFFF5050" /></Ellipse.Fill>
+                        <Ellipse
+                            Width="7"
+                            Height="7"
+                            VerticalAlignment="Center">
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="#FFFF5050" />
+                            </Ellipse.Fill>
                         </Ellipse>
-                        <TextBlock Text="Like" FontSize="12" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{StaticResource TextPrimaryBrush}"
+                            Text="Like" />
                     </StackPanel>
                 </CheckBox>
-                <CheckBox x:ConnectionId='10'                                                           MinWidth="0" Padding="4,0,0,0">
+                <CheckBox x:ConnectionId='10'
+                    MinWidth="0"
+                    Padding="4,0,0,0"
+                                                                             >
                     <StackPanel Orientation="Horizontal" Spacing="5">
-                        <Ellipse Width="7" Height="7" VerticalAlignment="Center">
-                            <Ellipse.Fill><SolidColorBrush Color="#FFFF9500" /></Ellipse.Fill>
+                        <Ellipse
+                            Width="7"
+                            Height="7"
+                            VerticalAlignment="Center">
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="#FFFF9500" />
+                            </Ellipse.Fill>
                         </Ellipse>
-                        <TextBlock Text="Share" FontSize="12" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{StaticResource TextPrimaryBrush}"
+                            Text="Share" />
                     </StackPanel>
                 </CheckBox>
-                <CheckBox x:ConnectionId='11'                                                               MinWidth="0" Padding="4,0,0,0">
+                <CheckBox x:ConnectionId='11'
+                    MinWidth="0"
+                    Padding="4,0,0,0"
+                                                                                 >
                     <StackPanel Orientation="Horizontal" Spacing="5">
-                        <Ellipse Width="7" Height="7" VerticalAlignment="Center">
-                            <Ellipse.Fill><SolidColorBrush Color="#FFFFD700" /></Ellipse.Fill>
+                        <Ellipse
+                            Width="7"
+                            Height="7"
+                            VerticalAlignment="Center">
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="#FFFFD700" />
+                            </Ellipse.Fill>
                         </Ellipse>
-                        <TextBlock Text="Subscribe" FontSize="12" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{StaticResource TextPrimaryBrush}"
+                            Text="Subscribe" />
                     </StackPanel>
                 </CheckBox>
-                <CheckBox x:ConnectionId='12'                                                             MinWidth="0" Padding="4,0,0,0">
+                <CheckBox x:ConnectionId='12'
+                    MinWidth="0"
+                    Padding="4,0,0,0"
+                                                                               >
                     <StackPanel Orientation="Horizontal" Spacing="5">
-                        <Ellipse Width="7" Height="7" VerticalAlignment="Center">
-                            <Ellipse.Fill><SolidColorBrush Color="#FF00FF88" /></Ellipse.Fill>
+                        <Ellipse
+                            Width="7"
+                            Height="7"
+                            VerticalAlignment="Center">
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="#FF00FF88" />
+                            </Ellipse.Fill>
                         </Ellipse>
-                        <TextBlock Text="Webhook" FontSize="12" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{StaticResource TextPrimaryBrush}"
+                            Text="Webhook" />
                     </StackPanel>
                 </CheckBox>
             </StackPanel>
         </Border>
 
-        <!-- Log list -->
-        <Border Grid.Row="4" Style="{StaticResource PanelBorderStyle}" Padding="8">
-            <ListView x:ConnectionId='2' x:Name="LogListView"
-                                                                                
-                      Background="Transparent" SelectionMode="Single" IsItemClickEnabled="False"
-                                                                                     >
+        <!--  Log list  -->
+        <Border
+            Grid.Row="4"
+            Padding="8"
+            Style="{StaticResource PanelBorderStyle}">
+            <ListView x:ConnectionId='2'
+                x:Name="LogListView"
+                Background="Transparent"
+                                                                               
+                IsItemClickEnabled="False"
+                                                                          
+                SelectionMode="Single">
                 <ListView.ItemContainerTransitions>
                     <TransitionCollection />
                 </ListView.ItemContainerTransitions>
@@ -146,29 +272,44 @@
                             </Grid.ColumnDefinitions>
                             <Grid.ContextFlyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutItem x:ConnectionId='4' Text="Copy"                           >
+                                    <MenuFlyoutItem x:ConnectionId='4'                            Text="Copy">
                                         <MenuFlyoutItem.Icon>
                                             <SymbolIcon Symbol="Copy" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
                                 </MenuFlyout>
                             </Grid.ContextFlyout>
-                            <TextBlock Grid.Column="0" Text="{Binding FormattedTime}"
-                                       Foreground="{StaticResource TextSecondaryBrush}" FontSize="10"
-                                       FontFamily="Consolas" VerticalAlignment="Center"
-                                       IsTextSelectionEnabled="True" />
-                            <Border Grid.Column="1" CornerRadius="3" Padding="5,2"
-                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    Background="{Binding Category, Converter={StaticResource LogCategoryToBrush}}"
-                                    Opacity="0.18">
-                                <TextBlock Text="{Binding Category, Converter={StaticResource LogCategoryToTag}}"
-                                           Foreground="{Binding Category, Converter={StaticResource LogCategoryToBrush}}"
-                                           FontSize="9" FontWeight="Bold" HorizontalAlignment="Center" />
+                            <TextBlock
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                FontFamily="Consolas"
+                                FontSize="10"
+                                Foreground="{StaticResource TextSecondaryBrush}"
+                                IsTextSelectionEnabled="True"
+                                Text="{Binding FormattedTime}" />
+                            <Border
+                                Grid.Column="1"
+                                Padding="5,2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="{Binding Category, Converter={StaticResource LogCategoryToBrush}}"
+                                CornerRadius="3"
+                                Opacity="0.18">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="9"
+                                    FontWeight="Bold"
+                                    Foreground="{Binding Category, Converter={StaticResource LogCategoryToBrush}}"
+                                    Text="{Binding Category, Converter={StaticResource LogCategoryToTag}}" />
                             </Border>
-                            <TextBlock Grid.Column="2" Text="{Binding Message}"
-                                       Foreground="{StaticResource TextPrimaryBrush}" FontSize="12"
-                                       TextWrapping="Wrap" VerticalAlignment="Center"
-                                       IsTextSelectionEnabled="True" />
+                            <TextBlock
+                                Grid.Column="2"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="{StaticResource TextPrimaryBrush}"
+                                IsTextSelectionEnabled="True"
+                                Text="{Binding Message}"
+                                TextWrapping="Wrap" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

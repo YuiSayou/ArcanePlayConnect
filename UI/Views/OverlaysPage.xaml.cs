@@ -845,9 +845,10 @@ public sealed partial class OverlaysPage : Page
         UpdateCloudRelayStatus();
     }
 
-    private void StopCloudRelay_Click(object sender, RoutedEventArgs e)
+    private async void StopCloudRelay_Click(object sender, RoutedEventArgs e)
     {
-        ViewModel.OverlayPushService.StopAll();
+        StopCloudRelayBtn.IsEnabled = false;
+        await ViewModel.OverlayPushService.StopAllAsync();
         UpdateCloudRelayStatus();
     }
 

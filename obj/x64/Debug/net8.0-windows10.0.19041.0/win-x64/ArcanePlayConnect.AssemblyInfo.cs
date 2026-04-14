@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ArcanePlayConnect")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c85e1f40c2d64a2be28deb546da045d3d29e1f5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+76802ca4cb130bf2b67fb7c0c6c625ae5bf1e3ec")]
 [assembly: System.Reflection.AssemblyProductAttribute("ArcanePlayConnect")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ArcanePlayConnect")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
