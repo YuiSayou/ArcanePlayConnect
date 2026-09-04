@@ -185,8 +185,4 @@ Short, grounded direction (no dates promised):
   self-hosting.
 - General alpha cleanup driven by real streaming use.
 
-## License
 
-No license has been chosen yet. Until the owner adds one, all rights are
-reserved — do not redistribute or reuse this code beyond what GitHub’s public
-visibility permits.
