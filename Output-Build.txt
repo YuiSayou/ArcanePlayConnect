@@ -1,5 +1,0 @@
-﻿Build started at 2:48 AM...
-1>------ Build started: Project: ArcanePlayConnect, Configuration: Debug x64 ------
-1>ArcanePlayConnect -> C:\Users\Isekaig0ds\source\repos\ArcanePlayConnect\ArcanePlayConnect\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\ArcanePlayConnect.dll
-========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
-========== Build completed at 2:48 AM and took 03.030 seconds ==========

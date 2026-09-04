@@ -1,0 +1,52 @@
+## Build output
+bin/
+obj/
+out/
+publish/
+*.user
+*.suo
+*.Backup.tmp
+.vs/
+Output-Build.txt
+Output-Debug.txt
+
+## NuGet
+*.nupkg
+*.snupkg
+.nuget/
+
+## MSIX / packaging artifacts
+*.msix
+*.msixbundle
+*.appx
+*.appxbundle
+*.cer
+
+## OS-generated
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+## Logs / temp / crash dumps
+*.log
+*.tmp
+*.dmp
+*.mdmp
+
+## Local databases and runtime state (stored under %LocalAppData%\ArcanePlayConnect, not the repo)
+*.db
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+
+## Secrets / local config (no such files are committed; keep it that way)
+.env
+.env.*
+appsettings.*.json
+!appsettings.json
+secrets.json
+*.key
+*.pem
+*.pfx
+*.p12
